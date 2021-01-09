@@ -1,0 +1,18 @@
+.paginator {
+    margin: 10px;
+}
+   
+   .selectPage {
+       font-weight: bold;
+       cursor: pointer;
+   }
+   .Page {
+       cursor: pointer;
+       padding: 2px;
+       border: 1px solid yellowgreen
+   }
+
+   .pageNumber.selectPage{
+       font-weight: bold;
+       border-color: black;
+   }

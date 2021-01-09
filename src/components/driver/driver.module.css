@@ -1,0 +1,14 @@
+.drivers {
+    color: #c0e1fd;
+    font-size: 16px;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.infoDriver {
+    color: white;
+}

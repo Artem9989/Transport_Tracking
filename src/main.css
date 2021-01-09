@@ -1,0 +1,28 @@
+body {
+    background-color: rgb(241, 241, 241);
+}
+
+.root {
+    width: 100%;
+    height: 100%;
+}
+#YMapsID {
+    position: relative;
+    width: 100%; 
+    height: 100vh; 
+    padding: 0; 
+    margin: 0;
+}
+
+.header {
+    padding: 20px 30px 10px 30px;
+    margin: 0px 20px 10px 20px;
+    display: block;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    text-align: center;
+        font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+    font-size: 35px;
+    line-height: 35px;
+    position: relative;
+    color: rgba(64, 185, 225, 0.8);
+}
