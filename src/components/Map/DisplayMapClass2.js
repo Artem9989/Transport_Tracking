@@ -1,63 +1,45 @@
-import * as React from 'react';
+// src/DisplayMapFC.js
+import React from "react";
+// import HPlatform, {
+//   HMap,
+//   HMapRoute,
+//   HMapMarker,
+//   HMapPolyLine,
+// } from "react-here-map";
 
-export class DisplayMapClass extends React.Component {
-  mapRef = React.createRef();
+export const DisplayMapFC = () => {
+  // Create a reference to the HTML element we want to put the map on
+  const mapRef = React.useRef(null);
 
-  state = {
-    // The map instance to use during cleanup
-    map: null
-  };
-
-  componentDidMount() {
-
+  /**
+   * Create the map instance
+   * While `useEffect` could also be used here, `useLayoutEffect` will render
+   * the map sooner
+   */
+  React.useLayoutEffect(() => {
+    // `mapRef.current` will be `undefined` when this hook first runs; edge case that
+    if (!mapRef.current) return;
     const H = window.H;
     const platform = new H.service.Platform({
-      'apikey': 'sAR34-R5unCz4RhUywXkiVOV5QTf_B0OMhyhYhUnFJ8'
+        apikey: "{sAR34-R5unCz4RhUywXkiVOV5QTf_B0OMhyhYhUnFJ8}"
+    });
+    const defaultLayers = platform.createDefaultLayers();
+    const hMap = new H.Map(mapRef.current, defaultLayers.vector.normal.map,       {
+      center: { lng: 55.9678, lat: 54.7431},
+      zoom: 14,
+      pixelRatio: window.devicePixelRatio || 1
     });
 
-    const defaultLayers = platform.createDefaultLayers();
-    // const routeArrows = new H.map.Polyline(linestring, {
-    //   style: {
-    //     lineWidth: 10,
-    //     fillColor: 'white',
-    //     strokeColor: 'rgba(255, 255, 255, 1)',
-    //     lineDash: [0, 2],
-    //     lineTailCap: 'arrow-tail',
-    //     lineHeadCap: 'arrow-head'
-    //   }
-    // });
-    // Create an instance of the map
-    const map = new H.Map(
-      this.mapRef.current,
-      defaultLayers.vector.normal.map,
-      {
-        center: { lng: 55.9678, lat: 54.7431},
-        zoom: 14,
-        pixelRatio: window.devicePixelRatio || 1
-      }
-    );
+  //  const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
 
-    // MapEvents enables the event system
-    // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
-    // This variable is unused and is present for explanatory purposes
-    const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+  //  const ui = H.ui.UI.createDefault(hMap, defaultLayers);
 
-    // Create the default UI components to allow the user to interact with them
-    // This variable is unused
-    const ui = H.ui.UI.createDefault(map, defaultLayers);
+    // This will act as a cleanup to run once this hook runs again.
+    // This includes when the component un-mounts
+    return () => {
+      hMap.dispose();
+    };
+  }, [mapRef]); // This will run this hook every time this ref is updated
 
-    this.setState({ map });
-  }
-
-  componentWillUnmount() {
-    this.state.map.dispose();
-  }
-
-
-  render() {
-    return (
-      // Set a height on the map so it will display
-      <div ref={this.mapRef} style={{ height: "100%", width: "100%"}} />
-    );
-  }
-}
+  return <div className="map" ref={mapRef} style={{ height: "100%", width: "100%"}} />;
+};

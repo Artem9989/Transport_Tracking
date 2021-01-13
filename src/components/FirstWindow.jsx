@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import Ymaps from './Ymaps'
 import Leftpanel from './Leftpanel'
 import {DisplayMapFC} from './Map/DisplayMapClass';
+import {DisplayMapClass} from './Map/DisplayMapClass';
 // import ReactDOM from "react-dom";
 import HEREMap from "react-here-map"
  //import HPlatform, { HMap, HMapPolyLine } from "react-here-map";
@@ -22,7 +23,7 @@ export default class FirstWindow extends Component {
   render() {
     return (
       <div id = "YMapsID">
-        <DisplayMapFC points={this.points}/>
+        <DisplayMapClass points={this.points}/>
         {/* < HEREMap  
                 appId = "{your app_id}" 
                 appCode = "{your app_code}" 
