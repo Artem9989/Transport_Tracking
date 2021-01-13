@@ -14,18 +14,24 @@ const instance = axios.create({
     //     'API-KEY': '8c22e4e3-27db-4208-b0f3-9e32e145fb57'
     // }
 });
+instance.interceptors.response.use(function (response) {
+    // Do something with response data
+    return response;
+  }, function (error) {
+    // // Do something with response error
+    // if (error.response && error.response.data){
+
+    //     return Promise.reject(error.response);
+    // }
+    return Promise.reject(error);
+  });
 
 export const authAPI = {
-    register(email, password, FirstName, LastName, MiddleName, Email) {
-        return instance.post(`api/account/register`, { email, password, FirstName, LastName, MiddleName, Email })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(response => {
-                alert(response.response.data.data.message);
-            });
+    register(email, login, password, firstName, lastName, middleName) {
+        return instance.post(`api/account/register`, { email,login, password, firstName, lastName, middleName })
     },
     login(email, password, rememberMe = false) {
-        return (instance.post(`api/account/login`, { email, password }));
-    }
+        
+        return (instance.post(`api/account/login`, { email, password })
+        )}
 }

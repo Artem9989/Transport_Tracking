@@ -1,6 +1,10 @@
 body {
     background-color: rgb(241, 241, 241);
 }
+.formSummaryError{
+    color: red;
+    font-size: 16px;
+}
 .checkBoxRememberME{
     display: flex;
 }

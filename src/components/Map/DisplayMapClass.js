@@ -21,7 +21,7 @@ export const DisplayMapFC = () => {
     if (!mapRef.current) return;
     const H = window.H;
     const platform = new H.service.Platform({
-        apikey: "{HERE-API-KEY}"
+        apikey: "{sAR34-R5unCz4RhUywXkiVOV5QTf_B0OMhyhYhUnFJ8}"
     });
     const defaultLayers = platform.createDefaultLayers();
     const hMap = new H.Map(mapRef.current, defaultLayers.vector.normal.map,       {

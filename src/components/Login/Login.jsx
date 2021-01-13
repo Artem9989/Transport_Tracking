@@ -8,7 +8,6 @@ import { Redirect } from 'react-router-dom';
 import LoginCSS from './Login.module.css';
 
 const LoginForm = ({handleSubmit , error, changingPage}) => {
-    console.log(error)
     return (<div id="login" className={`${LoginCSS.wrapper__login} ${LoginCSS.form}`}>
         <form onSubmit={handleSubmit}>
         <h1>Вход</h1>

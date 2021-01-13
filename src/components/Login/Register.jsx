@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Input } from '../Common/FormsControls/FormsControls'
 import { required } from '../../redux/utils/validators/Validators'
 import { connect } from 'react-redux';
-import { login } from '../../redux/Auth-reducer'
+import { register } from '../../redux/Register-reducer'
 import { Redirect } from 'react-router-dom';
 import LoginCSS from './Login.module.css';
 
@@ -94,30 +94,34 @@ const RegisterForm = ({handleSubmit , error, changingPage}) => {
     <form onSubmit={handleSubmit}>
         
     <h1> Регистрация </h1>
-        <label htmlFor="Emailsignup" className={LoginCSS.uname} data-icon="p">Ваша e-mail </label>
+        
         <div className={LoginCSS.uname}>
-            
+            <label htmlFor="Emailsignup" className={LoginCSS.uname} data-icon="p">Ваша e-mail </label>
             <Field name={"email"} placeholder={"Ваша почта (@mail)"} component={Input} validate={[required]} />
+        </div>
+        <div className={LoginCSS.uname}>
+            <label htmlFor="LoginSignup" className={LoginCSS.uname} data-icon="p">Ваша login </label>
+            <Field name={"login"} placeholder={"Ваша login"} component={Input} validate={[required]} />
         </div>
         <label htmlFor="first_namesignup" className="wrapper__register_first_name" data-icon="e">Имя</label>
         <div className={LoginCSS.youpasswd}>
-            <Field name={"first_namesignup"} placeholder={"Иван"} component={Input} validate={[required]} />
+            <Field name={"firstName"} placeholder={"Иван"} component={Input} validate={[required]} />
         </div>
         <label htmlFor="last_namesignup" className="wrapper__register_last_name" data-icon="e">Фамилия</label>
         <div className={LoginCSS.youpasswd}>
-            <Field name={"last_namesignup"} placeholder={"Иванов"}  component={Input} validate={[required]} />
+            <Field name={"lastName"} placeholder={"Иванов"}  component={Input} validate={[required]} />
         </div>
         <label htmlFor="middle_namesignup" className="wrapper__register_middle_name" data-icon="e">Отчество</label>
         <div className={LoginCSS.youpasswd}>
-            <Field name={"middle_namesignup"} placeholder={"Иванович"} component={Input} validate={[required]} />
+            <Field name={"middleName"} placeholder={"Иванович"} component={Input} validate={[required]} />
         </div>
         <label htmlFor="password" className={LoginCSS.youpasswd} data-icon="p"> Ваш пароль </label>
         <div className={LoginCSS.youpasswd}>
-            <Field name={"pass_onesignup"} placeholder={"Введите пароль"} type={"password"} component={Input} validate={[required]} />
+            <Field name={"password_oneSignup"} placeholder={"Введите пароль"} type={"password"} component={Input} validate={[required]} />
         </div>
         <label htmlFor="password" className={LoginCSS.youpasswd} data-icon="p"> Подтвердите ваш пароль </label>
         <div className={LoginCSS.youpasswd}>
-            <Field name={"Passwordsignup_confirm"} placeholder={"Повторите пароль"} type={"password"} component={Input} validate={[required]} />
+            <Field name={"password_twoSignup"} placeholder={"Повторите пароль"} type={"password"} component={Input} validate={[required]} />
         </div>
         <div>
             <Field name={"rememberMe"} type={"checkbox"} component={Input} /> Запомнить меня
@@ -155,12 +159,19 @@ const RegisterForm = ({handleSubmit , error, changingPage}) => {
 const RegisterReduxFrom = reduxForm({ form: 'register' })(RegisterForm);
 
 const Register = (props) => {
-    if (props.isAuth) {
-        return <Redirect to={"/login"} />
+    if (props.registeredSuccess) {
+        return <Redirect to={"/authentication"} />
     }
-
+    
     const onSubmit = (formData) => {
-        props.login(formData.email, formData.password, formData.rememberMe)
+        if(formData.password_oneSignup === formData.password_twoSignup){
+            props.register(formData.email, formData.login,
+                             formData.firstName, formData.lastName,
+                             formData.middleName, formData.password_oneSignup)
+        }
+        else {
+            alert("Пароли не совпадают")
+        }
     }
 
  
@@ -171,8 +182,7 @@ const Register = (props) => {
     </div>
 }
 const mapStateToProps = (state) => ({
-    isAuth: state.auth.isAuth,
-    login: state.auth.login,
+    registeredSuccess: state.registerPage.registeredSuccess,
 
 })
-export default connect(mapStateToProps, { login })(Register);
+export default connect(mapStateToProps, { register })(Register);
