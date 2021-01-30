@@ -1,20 +1,8 @@
 import React, {memo,useEffect, useState} from 'react';
+import Users from './AllUsers.jsx'
 
-import Paginator from '../Common/Paginator/Paginator';
-
-
-const AdminPanel = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers, ...props}) => {
-
-    
-    useEffect(() => {
-        document.getElementById('side-open').onclick = function () {
-            document.getElementById('side-open').hidden = true;
-        }
-        document.getElementById('side-button-2').onclick = function () {
-            document.getElementById('side-open').hidden = false;
-        }
-    }, []);
-
+const AdminPanel = ({currentPage,onPageChanged, totalItemsCount, pageSize, users, ...props}) => {
+    debugger
     return <>
         <input type="checkbox" id="side-checkbox" />
         <div className="side-panel">
@@ -22,10 +10,13 @@ const AdminPanel = ({currentPage,onPageChanged, totalItemsCount, pageSize, drive
             <div className="side-title">Меню:</div>
             <p>Водители:</p>
             <div>
+
+             
             {/* <Paginator currentPage = {currentPage} onPageChanged={onPageChanged} totalItemsCount ={totalItemsCount} pageSize={pageSize}/> */}
       
             {
-                // drivers.map(d => <User  />)
+                users.map(u => <Users  user={u}/>)
+              
             }
             </div>
         </div>

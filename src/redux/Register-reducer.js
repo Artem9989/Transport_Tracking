@@ -43,13 +43,6 @@ const registerReducer = (state = initialState, action) => {
 export const RegistrationUserData = ( login, email, password, firstName, lastName, middleName) => ({ type: REGISTRATION_USER_DATA, payload: { login, email, password, firstName, lastName, middleName } })
 export const RegisteredSuccessfully = (registeredSuccess) => ({type: REGISTERED_SUCCESSFULLY, registeredSuccess:registeredSuccess})
 
-// export const getAuthUserData = () => async (dispatch) => {
-//     let response = await authAPI.me()
-//     if (response.data.resultCode === 0) {
-//         let { id, login, email } = response.data.data;
-//         dispatch(SetAuthUserData(id, login, email, true));
-//     }
-// };
 
 
 export const register = (login, email, password, firstName, lastName, middleName) => async (dispatch) => {
@@ -61,8 +54,7 @@ export const register = (login, email, password, firstName, lastName, middleName
             dispatch(RegisteredSuccessfully(false))
            let regmessage = response.data.data.message
            dispatch(stopSubmit("register", { _error: regmessage }));
-        // dispatch(register( login, email, password, firstName, lastName, middleName))
-        // alert("ok")
+
     }
     catch (error){
         let message = error.response.data.data.message

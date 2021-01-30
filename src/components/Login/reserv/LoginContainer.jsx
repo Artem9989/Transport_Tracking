@@ -2,10 +2,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { login } from '../../redux/Auth-reducer'
-
 import LoginForm from './Login'
-import { compose } from 'redux';
-import {withAuthRedirect } from '../../HOC/withAuthRedirect'
+
 
 const LoginReduxFrom = reduxForm({ form: 'login' })(LoginForm);
 const Login = (props) => {

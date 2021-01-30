@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import DriverCSS from './driver.module.css'
-import DropDown from './dropdown'
+
 import { Collapse } from 'antd'
 
 const { Panel } = Collapse;
 
 const Driver = ({ driver, index, FollowingInProgress }) => {
-    // let numberCar = props.numberCar.map( p=> <Driver numberCar={p.numberCar} name={p.name}/>);
-    // Clicked === false ? getInfo() : setClicked(false)
+
 
     return (        
     <Collapse>

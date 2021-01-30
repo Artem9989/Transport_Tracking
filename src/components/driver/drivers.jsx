@@ -18,17 +18,7 @@ const Drivers = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers,
         }
     }, []);
 
-    // const [Clicked, setClicked] = useState(false)
-    // const countdownElement = document.querySelector('.hidden'); // получаем див каунт довн
-    //  const getInfo = () => {
-    //     setClicked(!Clicked);
-    //     if (Clicked === false){
-            
-    //     }
-    //     else{
-    //         countdownElement.innerHTML = `<div id="driver-data-add" className='driver-data-add hidden' > `
-    //     }
-    // }
+
     return <>
         <input type="checkbox" id="side-checkbox" />
         <div className="side-panel">
@@ -36,8 +26,7 @@ const Drivers = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers,
             <div className="side-title">Меню:</div>
             <p>Водители:</p>
             <div>
-            {/* <Paginator currentPage = {currentPage} onPageChanged={onPageChanged} totalItemsCount ={totalItemsCount} pageSize={pageSize}/> */}
-         {/* // <Driver driver={drivers} /> */}
+  
 
                   {  drivers.map((driver,index) => <Driver driver={driver} index={index}/>)}
        

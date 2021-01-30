@@ -3,7 +3,7 @@ import './main.css';
 import FirstWindow from './components/FirstWindow';
 import DriversContainer from './components/driver/driverContainer';
 import AuthenticationWindow from './components/AuthenticationWindow';
-import AdminPanel from './components/AdminPanel/AdminPanel'
+import AllUsersContainer from './components/AdminPanel/AllUsersContainer'
 import { Switch, BrowserRouter as Router, Redirect, withRouter, Route } from 'react-router-dom';
 import NotFound from './components/NotFound'
 import { createBrowserHistory } from 'history';
@@ -34,7 +34,7 @@ const App = (props) => {
 					 */}
 					 <Route path='/main' component={FirstWindow}/>
 					<Route path='/admin' component={AdminAuthContainer} />
-					<Route path='/adminPanel' component={AdminPanel} />
+					<Route path='/adminPanel' component={AllUsersContainer} />
 					
 					<Route path='/login' component={AuthenticationWindow}/>
 					<Route path="*" component={NotFound} />

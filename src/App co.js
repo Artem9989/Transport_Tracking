@@ -4,7 +4,7 @@ import LoginContainer from './components/AuthenticationWindow'
 import { PersonalAreaPage } from './modules/PersonalArea/containers/PersonalAreaPage'
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
 import { useSelector, shallowEqual} from 'react-redux';
-import { isLoginSuccess, isLoginLoader } from './redux/Auth-reducer'
+import { loginSuccess, isLoginLoader } from './redux/Auth-reducer'
 import './main.css';
 import { connect,Provider } from 'react-redux';
 import { compose } from 'redux';

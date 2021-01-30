@@ -1,16 +1,13 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Input } from '../Common/FormsControls/FormsControls'
 import { required } from '../../redux/utils/validators/Validators'
 import { connect } from 'react-redux';
 import { login } from '../../redux/Auth-reducer'
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import LoginCSS from './Login.module.css';
-import FirstWindow from '../FirstWindow'
-import AuthenticationWindow from '../AuthenticationWindow';
-import { withAuthRedirect } from '../HOC/withAuthRedirect'
-import { compose } from 'redux';
+
 
 const LoginForm = ({handleSubmit , error, changingPage}) => {
     
@@ -49,22 +46,6 @@ const LoginReduxFrom = reduxForm({ form: 'login' })(LoginForm);
 
 const Login = (props) => {
 
-     
-    // if (!token) {
-    //      <Route path="/login" component={AuthenticationWindow}/>
-    // }
-    // else {
-    //      <Route path="/main" component={FirstWindow} />
-    // }
-    // let redirect = props.isAuth
-    // if (redirect){
-    //     return <Redirect to={'/main'} />
-    // }
-    // else {
-    //     if ( !token )
-    //     { <Redirect to={'/login'} />}
-    // }
-    // debugger
     
 
     const onSubmit = (formData) => {
@@ -73,8 +54,6 @@ const Login = (props) => {
         
     }
 
-    // if (token === null || token === 'false') { return <Redirect to={'/login'} />}
-    
     let token = localStorage.getItem('isAuthToken')
     if(token === 'true') {
          console.log(props.changingPage) 
@@ -90,7 +69,6 @@ const Login = (props) => {
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth,
     login: state.auth.login,
-    // loginSuccess: state.auth.loginSuccess
 
 })
 export default connect(mapStateToProps, { login })(Login);

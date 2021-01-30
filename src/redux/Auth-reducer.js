@@ -1,6 +1,5 @@
  import { stopSubmit } from 'redux-form';
 import { authAPI } from '../api/api';
-import {  BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 
 let SET_USER_DATA = 'network/auth/SET_USER_DATA';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -33,6 +32,8 @@ const authReducer = (state = initialState, action) => {
             }
         case LOGOUT:
             localStorage.removeItem('accessToken')
+            localStorage.removeItem('isAuthToken')
+            
             return {
                 ...state,
                 currentUser: {},
@@ -48,9 +49,9 @@ export const SetAuthUserData = ( password, email, isAuth) => ({ type: SET_USER_D
 export const LoginSuccessUserData = (loginSuccess) => ({type: LOGIN_SUCCESS, loginSuccess:loginSuccess})
 export const logout = () => ({type: LOGOUT})
 
-// export const getAuthUserData = () =>  (dispatch) => {
+export const getAuthUserData = () =>  (dispatch) => {
         
-// };
+};
 
 // export const register = (email, password, rememberMe) => async (dispatch) => {
 
@@ -61,13 +62,13 @@ export const logout = () => ({type: LOGOUT})
 //         dispatch(SetAuthUserData( password, email, true));
 //     }
 // }
-export const getAuthUserData = () => async (dispatch) => {
-    let response = await authAPI.login()
-    if (response.data.resultCode === 0) {
-        let {  login, email } = response.data.data;
-        dispatch(SetAuthUserData( login, email, true));
-    }
-};
+// export const getAuthUserData = () => async (dispatch) => {
+//     let response = await authAPI.login()
+//     if (response.data.resultCode === 0) {
+//         let {  login, email } = response.data.data;
+//         dispatch(SetAuthUserData( login, email, true));
+//     }
+// };
 
 export const login = (email, password, rememberMe) => async (dispatch) => {
     dispatch(LoginSuccessUserData(true));

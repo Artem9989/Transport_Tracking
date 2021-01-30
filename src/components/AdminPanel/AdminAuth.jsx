@@ -59,6 +59,7 @@ const AdminAuth = (props) => {
 const mapStateToProps = (state) => ({
     isAuth: state.adminAuth.isAuth,
     adminAuth: state.adminAuth.adminAuth,
+   
 
 })
 export default connect(mapStateToProps, { adminAuth })(AdminAuth);

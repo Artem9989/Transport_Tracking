@@ -4,21 +4,17 @@ import AdminAuth from './AdminAuth';
 import adminPanel from './AdminPanel';
 
 const AuthenticationAdminWindow = (props) => {
-    const [isLogin, setIsLogin] = useState(true)
-
-    const changingPage = () => {
-        setIsLogin(!isLogin)
-    }
+debugger
     
     return <>
         <section>
         <div id="container_registration" >
             <div id="wrapper" className={LoginCSS.wrapper}>
-                    {
-                        isLogin ?
-                            <AdminAuth changingPage={changingPage}/> :
-                            <adminPanel changingPage={changingPage}/>
-                    }
+                    
+
+                            <AdminAuth users = {props.users}/> 
+                            
+                    
                     
                 </div>
 

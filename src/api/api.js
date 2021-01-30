@@ -34,7 +34,7 @@ export const driversAPI = {
     getDrivers(currentPage = 1, pageSize = 25) {
         let token = localStorage.getItem('accessToken')
 
-        return (instance.get(`api/account/getusers`, {
+        return (instance.get(`/api/driver/getalldrivers`, {
             headers: {'Authorization':'Bearer ' + token}
         
         })
@@ -43,3 +43,16 @@ export const driversAPI = {
         )}
 }
 
+export const usersAPI = {
+
+    getUsers(currentPage = 1, pageSize = 25) {
+        let token = localStorage.getItem('accessToken')
+
+        return (instance.get(`/api/account/getusers`, {
+            headers: {'Authorization':'Bearer ' + token}
+        
+        })
+
+        
+        )}
+}
