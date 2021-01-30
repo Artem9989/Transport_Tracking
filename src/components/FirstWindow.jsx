@@ -7,15 +7,18 @@ import {DisplayMapClass} from './Map/DisplayMapClass';
 // import ReactDOM from "react-dom";
 import HEREMap from "react-here-map"
 import { logout } from '../redux/Auth-reducer';
-
+import {  BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
+import { withAuthRedirect } from './HOC/withAuthRedirect'
+import { connect } from 'react-redux';
  //import HPlatform, { HMap, HMapPolyLine } from "react-here-map";
 
 const FirstWindow = () => {
   const dispatch = useDispatch();
 
   const out = () => {
-
+   
     dispatch(logout())
+    window.location.reload();
   }
 
   // points = [
@@ -43,4 +46,4 @@ const FirstWindow = () => {
   }
 
 
-export default FirstWindow;
+export default connect(withAuthRedirect)(FirstWindow);
