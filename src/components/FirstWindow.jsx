@@ -1,16 +1,23 @@
 import React, { Component } from 'react'
 // import Ymaps from './Ymaps'
-import Leftpanel from './Leftpanel'
+import { useDispatch} from 'react-redux'
+import DriversContainer from './driver/driverContainer'
 import {DisplayMapFC} from './Map/DisplayMapClass';
 import {DisplayMapClass} from './Map/DisplayMapClass';
 // import ReactDOM from "react-dom";
 import HEREMap from "react-here-map"
+import { logout } from '../redux/Auth-reducer';
+
  //import HPlatform, { HMap, HMapPolyLine } from "react-here-map";
 
-export default class FirstWindow extends Component {
-  // componentDidUpdate (){
-  //   <Ymaps/>
-  // }
+const FirstWindow = () => {
+  const dispatch = useDispatch();
+
+  const out = () => {
+
+    dispatch(logout())
+  }
+
   // points = [
   //   { lat: 52.5309825, lng: 13.3845921 },
   //   { lat: 52.5311923, lng: 13.3853495 },
@@ -20,18 +27,20 @@ export default class FirstWindow extends Component {
   //   { lat: 52.5320399, lng: 13.3925807 },
   //   { lat: 52.5321472, lng: 13.3935785 },
   // ];
-  render() {
     return (
       <div id = "YMapsID">
-        <DisplayMapClass points={this.points}/>
+        <DisplayMapClass />
         {/* < HEREMap  
                 appId = "{your app_id}" 
                 appCode = "{your app_code}" 
                 center = { center} 
                 zoom = { 14 } 
             />  */}
-      <Leftpanel />
+      <DriversContainer />
+      <button id='Exit' className="Exit" onClick={out}> Выход </button>
       </div>
     )
   }
-}
+
+
+export default FirstWindow;

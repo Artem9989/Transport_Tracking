@@ -1,4 +1,5 @@
-import { getAuthUserData } from './Auth-reducer';
+import { getAuthUserData } from './AuthAdmin-reducer';
+ 
 
 let INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
 

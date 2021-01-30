@@ -1,4 +1,5 @@
 import * as axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 const instance = axios.create({
     baseURL: 'http://www.webapiroads.somee.com/',
@@ -7,22 +8,15 @@ const instance = axios.create({
         'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        "replacecredentials": "same-origin"
+        "replacecredentials": "same-origin",
+        
     }
-    // headers: {
-    //     //'API-KEY': '8c22e4e3-27db-4208-b0f3-9e32e145fb57'
-    //     'API-KEY': '8c22e4e3-27db-4208-b0f3-9e32e145fb57'
-    // }
+
 });
 instance.interceptors.response.use(function (response) {
-    // Do something with response data
+    // if( localStorage.getItem('accessToken'))
     return response;
   }, function (error) {
-    // // Do something with response error
-    // if (error.response && error.response.data){
-
-    //     return Promise.reject(error.response);
-    // }
     return Promise.reject(error);
   });
 
@@ -31,7 +25,21 @@ export const authAPI = {
         return instance.post(`api/account/register`, { email,login, password, firstName, lastName, middleName })
     },
     login(email, password, rememberMe = false) {
-        
-        return (instance.post(`api/account/login`, { email, password })
+        return (instance.post(`api/account/login`, { email, password })    
         )}
 }
+
+export const driversAPI = {
+
+    getDrivers(currentPage = 1, pageSize = 25) {
+        let token = localStorage.getItem('accessToken')
+
+        return (instance.get(`api/account/getusers`, {
+            headers: {'Authorization':'Bearer ' + token}
+        
+        })
+
+        
+        )}
+}
+

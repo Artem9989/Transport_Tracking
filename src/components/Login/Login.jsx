@@ -1,13 +1,19 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Input } from '../Common/FormsControls/FormsControls'
 import { required } from '../../redux/utils/validators/Validators'
 import { connect } from 'react-redux';
 import { login } from '../../redux/Auth-reducer'
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import LoginCSS from './Login.module.css';
+import FirstWindow from '../FirstWindow'
+import AuthenticationWindow from '../AuthenticationWindow';
+import { withAuthRedirect } from '../HOC/withAuthRedirect'
+import { compose } from 'redux';
 
 const LoginForm = ({handleSubmit , error, changingPage}) => {
+    
     return (<div id="login" className={`${LoginCSS.wrapper__login} ${LoginCSS.form}`}>
         <form onSubmit={handleSubmit}>
         <h1>Вход</h1>
@@ -28,7 +34,7 @@ const LoginForm = ({handleSubmit , error, changingPage}) => {
                 {error}
             </div>}
             <div className={`${LoginCSS.wrapper__login_button} ${LoginCSS.button}`}>
-                <button className={`${LoginCSS.button} ${LoginCSS.input}`}>Зайти </button>
+                <button id="1" className={`${LoginCSS.button} ${LoginCSS.input}` } >Зайти </button>
             </div>
         </form>
                    <p className={LoginCSS.wrapper__login_change}>
@@ -42,16 +48,40 @@ const LoginForm = ({handleSubmit , error, changingPage}) => {
 const LoginReduxFrom = reduxForm({ form: 'login' })(LoginForm);
 
 const Login = (props) => {
-    if (props.isAuth) {
-        return <Redirect to={"/main"} />
-    }
+
+     
+    // if (!token) {
+    //      <Route path="/login" component={AuthenticationWindow}/>
+    // }
+    // else {
+    //      <Route path="/main" component={FirstWindow} />
+    // }
+    // let redirect = props.isAuth
+    // if (redirect){
+    //     return <Redirect to={'/main'} />
+    // }
+    // else {
+    //     if ( !token )
+    //     { <Redirect to={'/login'} />}
+    // }
+    // debugger
+    
 
     const onSubmit = (formData) => {
+        
         props.login(formData.email, formData.password, formData.rememberMe)
+        
     }
 
- 
+    // if (token === null || token === 'false') { return <Redirect to={'/login'} />}
+    
+    let token = localStorage.getItem('isAuthToken')
+    if(token === 'true') {
+         console.log(props.changingPage) 
+        return  <Redirect to={'/main'} />
+    }
 
+    console.log() 
     return <div>
         <h1>Логин</h1>
         <LoginReduxFrom onSubmit={onSubmit} changingPage={props.changingPage}/>
@@ -60,6 +90,7 @@ const Login = (props) => {
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth,
     login: state.auth.login,
+    // loginSuccess: state.auth.loginSuccess
 
 })
 export default connect(mapStateToProps, { login })(Login);

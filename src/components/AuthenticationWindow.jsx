@@ -2,14 +2,17 @@ import React, { memo, useState } from 'react'
 import AuthCSS from './Login/Login.module.css'
 import Login from './Login/Login';
 import Register from './Login/Register';
-
+import { Redirect, Route } from 'react-router-dom';
+import { withAuthRedirect } from './HOC/withAuthRedirect'
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 const AuthenticationWaindow = (props) => {
     const [isLogin, setIsLogin] = useState(true)
 
     const changingPage = () => {
         setIsLogin(!isLogin)
     }
-    
+
     return <>
         <section>
             <div id="container_registration">
@@ -30,3 +33,5 @@ const AuthenticationWaindow = (props) => {
 
 
 export default memo(AuthenticationWaindow)
+// export default compose(withAuthRedirect)(AuthenticationWaindow);
+// export default compose(connect(),withAuthRedirect)(AuthenticationWaindow);

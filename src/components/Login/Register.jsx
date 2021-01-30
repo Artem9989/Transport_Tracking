@@ -90,7 +90,9 @@ import LoginCSS from './Login.module.css';
 
 
 const RegisterForm = ({handleSubmit , error, changingPage}) => {
+
     return (<div id="register" className={`${LoginCSS.wrapper__register} ${LoginCSS.form}`}>
+
     <form onSubmit={handleSubmit}>
         
     <h1> Регистрация </h1>
@@ -159,9 +161,9 @@ const RegisterForm = ({handleSubmit , error, changingPage}) => {
 const RegisterReduxFrom = reduxForm({ form: 'register' })(RegisterForm);
 
 const Register = (props) => {
-    if (props.registeredSuccess) {
-        return <Redirect to={"/authentication"} />
-    }
+    // if (props.registeredSuccess) {
+    //     return <Redirect to={"/authentication"} />
+    // }
     
     const onSubmit = (formData) => {
         if(formData.password_oneSignup === formData.password_twoSignup){

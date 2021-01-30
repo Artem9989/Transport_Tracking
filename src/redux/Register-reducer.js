@@ -4,6 +4,7 @@ import { authAPI } from '../api/api';
 const REGISTRATION_USER_DATA = 'network/auth/REGISTRATION_USER_DATA';
 const REGISTERED_SUCCESSFULLY = 'REGISTERED_SUCCESSFULLY';
 
+
 let initialState = {
     id: null,
     email: null,
@@ -14,6 +15,7 @@ let initialState = {
     lastName: null,
     middleName: null,
     registeredSuccess: false,
+
  
      // Если капчи нет, то не обязательна
     //  isFetching: false,
@@ -31,6 +33,7 @@ const registerReducer = (state = initialState, action) => {
                 ...state, 
                 registeredSuccess: action.registeredSuccess
             }
+
         default:
             return state;
     }
@@ -39,6 +42,7 @@ const registerReducer = (state = initialState, action) => {
 
 export const RegistrationUserData = ( login, email, password, firstName, lastName, middleName) => ({ type: REGISTRATION_USER_DATA, payload: { login, email, password, firstName, lastName, middleName } })
 export const RegisteredSuccessfully = (registeredSuccess) => ({type: REGISTERED_SUCCESSFULLY, registeredSuccess:registeredSuccess})
+
 // export const getAuthUserData = () => async (dispatch) => {
 //     let response = await authAPI.me()
 //     if (response.data.resultCode === 0) {
@@ -51,13 +55,16 @@ export const RegisteredSuccessfully = (registeredSuccess) => ({type: REGISTERED_
 export const register = (login, email, password, firstName, lastName, middleName) => async (dispatch) => {
     try {
         let response = await authAPI.register( login, email, password, firstName, lastName, middleName)
-        dispatch(RegisteredSuccessfully(true))
-        dispatch(RegisteredSuccessfully(false))
+        
+   
+            dispatch(RegisteredSuccessfully(true))
+            dispatch(RegisteredSuccessfully(false))
+           let regmessage = response.data.data.message
+           dispatch(stopSubmit("register", { _error: regmessage }));
         // dispatch(register( login, email, password, firstName, lastName, middleName))
         // alert("ok")
     }
     catch (error){
-
         let message = error.response.data.data.message
          dispatch(stopSubmit("register", { _error: message }));
     }

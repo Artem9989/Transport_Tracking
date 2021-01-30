@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { login } from '../../redux/Auth-reducer'
-import { Redirect } from 'react-router-dom';
+
 import LoginForm from './Login'
 import { compose } from 'redux';
 import {withAuthRedirect } from '../../HOC/withAuthRedirect'
@@ -16,9 +16,9 @@ const Login = (props) => {
         props.login(formData.email, formData.password, formData.rememberMe)
     }
 
-    if (props.isAuth) {
-        return <Redirect to={"/main"} />
-    }
+    // if (props.isAuth) {
+    //     return <Redirect to={"/main"} />
+    // }
     
     return <div>
         <h1>Логин</h1>

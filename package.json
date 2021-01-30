@@ -6,8 +6,10 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "antd": "^4.11.2",
     "axios": "^0.21.0",
     "babel-loader": "8.1.0",
+    "classnames": "^2.2.6",
     "dependency": "^0.0.1",
     "pure-react-carousel": "^1.27.3",
     "react": "^16.13.1",
@@ -15,11 +17,12 @@
     "react-here-map": "^4.0.0-0",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "^4.0.1",
     "react-yandex-maps": "^4.4.0",
     "redux": "^4.0.5",
     "redux-form": "^8.3.7",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

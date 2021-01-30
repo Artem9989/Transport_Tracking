@@ -13,9 +13,28 @@
     height: 100vh;
     box-shadow: 10px 0 20px rgba(0,0,0,0.4);
     color: #FFF;
-    padding: 40px 20px;
+    padding: 25px 15px;
     opacity: 0.95;
+    overflow-x: auto;
+    min-width: 280px;
+    padding-bottom: 40px;
 }
+.side-panel::-webkit-scrollbar {
+    width: 10px;
+    opacity: 0.95;
+  }
+  
+  .side-panel::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: #f9f9fd;
+    border-radius: 3px;
+  }
+  
+  .side-panel::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: linear-gradient(180deg, #18aaaa, #005bea);
+  }
+
 .side-title {
     font-size: 20px;
     padding-bottom: 10px;
@@ -97,20 +116,7 @@
     border-radius: 5px 5px 5px 5px;
 }
 
-.side-panel {
-    position: fixed;
-    z-index: 999;
-    top: 0;
-    left: -360px;
-    background: #5c7183;
-    transition: all 0.5s;   
-    width: calc(12% + 4rem);
-    height: 100vh;
-    box-shadow: 10px 0 20px rgba(0,0,0,0.4);
-    color: #FFF;
-    padding: 40px 20px;
-    opacity: 0.95;
-}
+
 .Exit {
     margin: 0px;
     text-decoration: none;
@@ -126,5 +132,12 @@
     background: #7890a4;
     cursor: pointer; 
     border: 2px solid #57768f;
-    top: 80%;
+    top: 10px;
+    transition: all .2s linear
+}
+
+.Exit:hover {
+    color: bisque;
+    background-color: cadetblue;
+    transition: all .2s linear
 }

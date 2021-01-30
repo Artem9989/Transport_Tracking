@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+
 export class DisplayMapClass extends React.Component {
   mapRef = React.createRef();
 
@@ -49,9 +50,9 @@ export class DisplayMapClass extends React.Component {
     this.setState({ map });
   }
 
-  componentWillUnmount() {
-    this.state.map.dispose();
-  }
+  // componentWillUnmount() {
+  //   this.state.map.dispose();
+  // }
 
 
   render() {
