@@ -1,26 +1,60 @@
-import React, {memo,useEffect, useState} from 'react';
+import React, {memo,useDispatch, useState} from 'react';
 import './Leftpanel.css'
 import Driver from './driver'
 import driverContainer from './driverContainer';
 import Paginator from '../Common/Paginator/Paginator';
 import DriverCSS from './driver.module.css'
-
+import { Drawer, Button, Radio, Space } from 'antd';
+import { logout } from '../../redux/Auth-reducer';
 
 const Drivers = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers, ...props}) => {
 
-    
-    useEffect(() => {
-        document.getElementById('side-open').onclick = function () {
-            document.getElementById('side-open').hidden = true;
-        }
-        document.getElementById('side-button-2').onclick = function () {
-            document.getElementById('side-open').hidden = false;
-        }
-    }, []);
 
 
+    const [Visible, setVisible] = useState(false)
+ 
+    const changingPage = () => {
+        setVisible(!Visible)
+    }
+
+ 
     return <>
-        <input type="checkbox" id="side-checkbox" />
+      
+
+        <Space>
+          <Button 
+          style={{fontSize: '20px', 
+          padding: '8px 15px',
+          width:'100px',
+           margin:'0px',
+           fontWeight: 'bold',
+            height: '5vh',
+            textTransform: 'uppercase',
+            fontFamily: `'Roboto Condensed', Тahoma, sans-serif`
+             }} type="primary" onClick={setVisible}>
+            Меню
+          </Button>
+        </Space>
+        <Drawer
+        width={360}
+          title="Водители:"
+          placement={'left'}
+        //   closable={true}
+          onClose={changingPage}
+          visible={Visible}
+          key={'left'}
+          getContainer={false}
+          zIndex={10}
+        >
+             <p>
+                {  drivers.map((driver,index) => <Driver driver={driver} index={index}/>)}
+        </p>
+        </Drawer>
+
+
+
+  
+        {/* <input type="checkbox" id="side-checkbox" />
         <div className="side-panel">
             <label id='side-button-2' className="side-button-2" htmlFor="side-checkbox">+</label>
             <div className="side-title">Меню:</div>
@@ -38,7 +72,7 @@ const Drivers = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers,
                 <div id='side-open' className="side-b side-open">Меню</div>
             </label>
 
-        </div>
+        </div> */}
         
     </>
 

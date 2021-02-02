@@ -179,7 +179,6 @@ const Register = (props) => {
  
 
     return <div>
-        <h1>Логин</h1>
         <RegisterReduxFrom onSubmit={onSubmit} changingPage={props.changingPage}/>
     </div>
 }

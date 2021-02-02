@@ -1,0 +1,36 @@
+
+.Exit {
+    margin: 0px;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 20px;
+    padding: 8px 15px;
+    width: 150px;
+    color: #FFF;
+    font-weight: bold;
+    text-transform: uppercase; 
+    font-family: 'Roboto Condensed', Тahoma, sans-serif;
+    background: #1890ff;
+    cursor: pointer; 
+    border: 2px solid #8856ce;
+    transition: all .2s linear;
+}
+
+.Exit:hover {
+    color: bisque;
+    background-color: #adc6ff;
+    transition: all .2s linear
+}
+.header{
+    height: 5vh;
+    display: flex;
+    justify-content: space-between;
+    background-color: #9254de;
+    margin: 0;
+    padding: 0;
+    font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+}
+.logo {
+    width: 60px;
+    z-index: 50;
+}

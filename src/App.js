@@ -1,11 +1,10 @@
 import React from 'react';
-import './main.css';
 import FirstWindow from './components/FirstWindow';
 import DriversContainer from './components/driver/driverContainer';
 import AuthenticationWindow from './components/AuthenticationWindow';
 import AllUsersContainer from './components/AdminPanel/AllUsersContainer'
 import { Switch, BrowserRouter as Router, Redirect, withRouter, Route } from 'react-router-dom';
-import NotFound from './components/NotFound'
+import NotFound from './components/NotFound/NotFound'
 import { createBrowserHistory } from 'history';
 import { connect,Provider } from 'react-redux';
 import { compose } from 'redux';
@@ -13,7 +12,9 @@ import store from './redux/redux-store.js'
 import { initializeApp } from './redux/App-reducer';
 import Preloader from './components/Common/Preloader/Preloader';
 import AdminAuthContainer from './components/AdminPanel/AdminAuthContainer';
-
+import './Styles/main.css'
+import './Styles/App.css'
+import 'antd/dist/antd.css';
 
 export const history = createBrowserHistory();
 

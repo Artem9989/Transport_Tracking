@@ -116,28 +116,3 @@
     border-radius: 5px 5px 5px 5px;
 }
 
-
-.Exit {
-    margin: 0px;
-    text-decoration: none;
-    position: relative;
-    font-size: 20px;
-    line-height: 20px;
-    padding: 8px 15px;
-    width: 100%;
-    color: #FFF;
-    font-weight: bold;
-    text-transform: uppercase; 
-    font-family: 'Roboto Condensed', Тahoma, sans-serif;
-    background: #7890a4;
-    cursor: pointer; 
-    border: 2px solid #57768f;
-    top: 10px;
-    transition: all .2s linear
-}
-
-.Exit:hover {
-    color: bisque;
-    background-color: cadetblue;
-    transition: all .2s linear
-}

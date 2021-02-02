@@ -62,7 +62,7 @@ const Login = (props) => {
 
     console.log() 
     return <div>
-        <h1>Логин</h1>
+ 
         <LoginReduxFrom onSubmit={onSubmit} changingPage={props.changingPage}/>
     </div>
 }

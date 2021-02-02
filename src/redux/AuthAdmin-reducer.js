@@ -66,6 +66,7 @@ export const adminAuth = (email, password, rememberMe) => async (dispatch) => {
     let emailAndPassword= {email,password}
     try {
         let response = await authAPI.login(emailAndPassword.email, emailAndPassword.password, rememberMe)
+        debugger
     // if (response.data.status === "OK") {
          dispatch(getAuthUserData())
        // let { password, email } = response.data.data;
@@ -81,7 +82,6 @@ export const adminAuth = (email, password, rememberMe) => async (dispatch) => {
 export const requestUsers = (currentPage,pageSize) => {
     return async (dispatch) => {
     // dispatch(ToggleIsFetching(true));
-    debugger
    let data = await usersAPI.getUsers(currentPage, pageSize)
             let items = data.data
           dispatch(setUsers(items));

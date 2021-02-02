@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 // import Ymaps from './Ymaps'
 import { useDispatch} from 'react-redux'
 import DriversContainer from './driver/driverContainer'
@@ -11,8 +11,13 @@ import {  BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { withAuthRedirect } from './HOC/withAuthRedirect'
 import { connect } from 'react-redux';
  //import HPlatform, { HMap, HMapPolyLine } from "react-here-map";
+ import './FirstWindow.css';
+
 
 const FirstWindow = () => {
+
+
+
   const dispatch = useDispatch();
 
   const out = () => {
@@ -20,6 +25,7 @@ const FirstWindow = () => {
     dispatch(logout())
     window.location.reload();
   }
+
 
   // points = [
   //   { lat: 52.5309825, lng: 13.3845921 },
@@ -30,18 +36,32 @@ const FirstWindow = () => {
   //   { lat: 52.5320399, lng: 13.3925807 },
   //   { lat: 52.5321472, lng: 13.3935785 },
   // ];
-    return (
-      <div id = "YMapsID">
-        <DisplayMapClass />
+
+    return (<> 
+      <div className='header'>
+        <img src='https://www.clipartmax.com/png/middle/44-444084_mark-of-el-by-jamesng8-mark-of-el-by-jamesng8-logo-superman.png' alt="" className="logo"/>
+        
+        <DriversContainer /> 
+        <button id='Exit' className="Exit" onClick={out}> Выход </button>
+   
+         </div>
+
+         <div id = "YMapsID"><DisplayMapClass /> </div>
+      
+        
+        
+
         {/* < HEREMap  
                 appId = "{your app_id}" 
                 appCode = "{your app_code}" 
                 center = { center} 
                 zoom = { 14 } 
             />  */}
-      <DriversContainer />
-      <button id='Exit' className="Exit" onClick={out}> Выход </button>
-      </div>
+      
+
+
+      
+      </>
     )
   }
 

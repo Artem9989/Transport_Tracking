@@ -8,9 +8,10 @@ import { compose } from 'redux';
 import { getDrivers, getPageSize, getTotalDriversCount, getCurrentPage, getIsFetching, getFollowingInProgress, getIsAuth } from '../../redux/Driver-selector';
 import { Redirect } from 'react-router-dom';
 import Map from '../FirstWindow'
+import { logout } from '../../redux/Auth-reducer';
 
 class DriversContainer extends React.Component {
-
+   
     componentDidMount() {
          
         this.props.requestDrivers(this.props.currentPage, this.props.pageSize);
@@ -76,6 +77,7 @@ const mapStateToProps = (state) => {
         isFetching: getIsFetching(state),
         FollowingInProgress: getFollowingInProgress(state),
         isAuth: getIsAuth(state),
+        
     }
 }
 
@@ -87,6 +89,7 @@ export default compose(connect(mapStateToProps,
         // Follow,
         // UnFollow,
         // setUsers,
+        logout,
         SetCurrentPage,
         // SetTotalUsersCount,
         // ToggleIsFetching,

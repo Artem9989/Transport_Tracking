@@ -4,7 +4,6 @@ import AdminAuth from './AdminAuth';
 import adminPanel from './AdminPanel';
 
 const AuthenticationAdminWindow = (props) => {
-debugger
     
     return <>
         <section>

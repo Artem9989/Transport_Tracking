@@ -9,9 +9,9 @@ const Driver = ({ driver, index, FollowingInProgress }) => {
 
 
     return (        
-    <Collapse>
+    <Collapse >
 
-        <Panel showArrow={false} header={                    <div id="hider" className="driver-data"  >
+        <Panel  showArrow={false} header={                    <div id="hider" className="driver-data"  >
         <div id="drivers" className={DriverCSS.drivers}>
             <img className={DriverCSS.avatar} src='https://f1.upet.com/h_5JB36T9mqa_q.jpg' alt='Фото не загрузилось' />
             <p> № машины: <span className={DriverCSS.infoDriver}> {driver.id} </span> </p>

@@ -1,5 +1,5 @@
 .drivers {
-    color: #c0e1fd;
+    color: #57abf5;
     font-size: 16px;
     display: flex;
     cursor: pointer;
@@ -17,18 +17,17 @@
 }
 
 .infoDriver {
-    color: white;
     margin: 10px;
 }
 
 .driver-data:last-child{
     margin-bottom: 30px;
 }
-.drivers:hover{
+/* .drivers:hover{
     background-color: #697e91;
     border-radius: 100px;
 
-}
+} */
 .drivers_data{
     display: flex;
     color: #c0e1fd;

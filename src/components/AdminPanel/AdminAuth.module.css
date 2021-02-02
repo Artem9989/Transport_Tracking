@@ -10,7 +10,8 @@ body {
     display: flex;
 }
 
-.wrapper__register, 
+
+
 .wrapper__login {
     position: absolute;
     top: 50%;
@@ -21,13 +22,8 @@ body {
     box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
     border-radius: 10px;
 }
-.wrapper__register {	
-    z-index: 21;
-    opacity: 1;
-}
-.wrapper__login {
-    z-index: 22;
-}
+
+
 
 .wrapper {
     min-height: 560px;
@@ -82,11 +78,7 @@ input {
     box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.9) inset;
 }
 
-.button_registration{
-    z-index: 9999;
-
-}
-
+/* 
 .button input{
     width: 35%;
     cursor: pointer;    
@@ -120,10 +112,10 @@ input {
 .wrapper__register{ 
     z-index: 21;
     opacity: 1;
-}
+} */
 
 
-#toregister:target ~ #wrapper #register,
+/* #toregister:target ~ #wrapper #register,
 #tologin:target ~ #wrapper #login{
     z-index: 22;
     animation-name: fadeInLeft;
@@ -135,8 +127,8 @@ input {
     animation-duration: 0.5s;
     animation-timing-function: ease;
     animation-fill-mode: both;
-}
-@keyframes fadeInLeft {
+} */
+/* @keyframes fadeInLeft {
     0% {
         opacity: 0;
         transform: translateX(-20px);
@@ -163,6 +155,6 @@ input {
         opacity: 0;
         transform: translateX(-20px);
     }
-}
+} */
 
 

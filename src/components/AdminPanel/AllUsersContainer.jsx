@@ -48,7 +48,6 @@ class AllUsersContainer extends React.Component {
     }
 
     render() {
-        debugger
         return <>
             { this.props.isFetching ? <Preloader /> : null}
             <AdminPanel totalItemsCount={this.props.totalItemsCount}
