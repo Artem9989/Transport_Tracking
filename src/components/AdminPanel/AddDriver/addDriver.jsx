@@ -7,7 +7,7 @@ import 'antd/lib/button/style/index.css';
 import {  Form, Input, Button,  Modal, Space,  Select} from 'antd';
 
 
-const addDriverComponent = ({ totalItemsCount,roles, setVisible, users, visible}, ...props) => {
+const AddDriverComponent = ({ totalItemsCount,roles, setVisible, users, visible}, ...props) => {
     // const { totalItemsCount,roles, setVisible, users, visible} = props
   // const dispatch = useDispatch();
 
@@ -65,71 +65,70 @@ const handleOk = (id,vehicleType,vehicleNumber) => {
   
 
   
-     return      <h1> Sos</h1>;
-          // <Modal
-  //   title= {modalText}
-  //   visible={visible}
-  //   footer={null}
-  //   confirmLoading={confirmLoading}
-  //   onCancel={handleCancel}
-  // >
+    return              <Modal
+    title= {modalText}
+    visible={visible}
+    footer={null}
+    confirmLoading={confirmLoading}
+    onCancel={handleCancel}
+  >
      
    
-  //    <Form form={form} name="horizontal_login" layout="inline" >
-  //   <Form.Item
-  //   style={{ width: '100%', marginTop: 10, marginBottom: 20}}
-  //     name="vehicleNumber"
-  //     label="Номер машины"
+     <Form form={form} name="horizontal_login" layout="inline" >
+    <Form.Item
+    style={{ width: '100%', marginTop: 10, marginBottom: 20}}
+      name="vehicleNumber"
+      label="Номер машины"
       
-  //     rules={[
-  //       {
-  //         required: true,
-  //         message: 'Пожалуйста, введите номер машины',
-  //       },
-  //     ]}
-  //   >
-  //     <Input prefix={<CarOutlined  className="site-form-item-icon" />} placeholder="Номер машины (х102хх102)" />
-  //   </Form.Item>
-  //   <Form.Item
-  //    style={{ width: '100%', marginTop: 10, marginBottom: 20}}
-  //     name="vehicleType"
-  //     label="Тип автомобиля "
-  //     rules={[
-  //       {
-  //         required: true,
-  //         message: 'Пожалуйста, введите тип машины',
-  //       },
-  //     ]}
-  //   >
-  //     <Input prefix={<CarOutlined  className="site-form-item-icon" />} placeholder="Тип машины (Грузовик)" />
-  //   </Form.Item>
-  //   <Form.Item shouldUpdate={true} style={{ marginLeft: 200, marginTop: 20 }} >
-  //     {() => (
-  //       <Button
-  //         type="primary"
-  //         htmlType="submit"
-  //         loading={enterLoading} 
+      rules={[
+        {
+          required: true,
+          message: 'Пожалуйста, введите номер машины',
+        },
+      ]}
+    >
+      <Input prefix={<CarOutlined  className="site-form-item-icon" />} placeholder="Номер машины (х102хх102)" />
+    </Form.Item>
+    <Form.Item
+     style={{ width: '100%', marginTop: 10, marginBottom: 20}}
+      name="vehicleType"
+      label="Тип автомобиля "
+      rules={[
+        {
+          required: true,
+          message: 'Пожалуйста, введите тип машины',
+        },
+      ]}
+    >
+      <Input prefix={<CarOutlined  className="site-form-item-icon" />} placeholder="Тип машины (Грузовик)" />
+    </Form.Item>
+    <Form.Item shouldUpdate={true} style={{ marginLeft: 200, marginTop: 20 }} >
+      {() => (
+        <Button
+          type="primary"
+          htmlType="submit"
+          loading={enterLoading} 
       
-  //         onClick={() => handleOk()}
+          onClick={() => handleOk()}
           
-  //         disabled={
-  //           !form.isFieldsTouched(true) ||
-  //           !!form.getFieldsError().filter(({ errors }) => errors.length).length
-  //         }
-  //       >
-  //         Готово
-  //       </Button>
-  //     )}
-  //   </Form.Item>
-  // </Form>
+          disabled={
+            !form.isFieldsTouched(true) ||
+            !!form.getFieldsError().filter(({ errors }) => errors.length).length
+          }
+        >
+          Готово
+        </Button>
+      )}
+    </Form.Item>
+  </Form>
 
-  //     </Modal>
+      </Modal>
 
           
 }
 
 // export default connect(withAuthRedirect)(AdminPanel);
 
-export default memo(addDriverComponent)
+export default AddDriverComponent
 // export default reduxForm({form: 'addDriver'})(addDriverComponent)
 // export default connect(withAuthRedirect)(AdminPanel);

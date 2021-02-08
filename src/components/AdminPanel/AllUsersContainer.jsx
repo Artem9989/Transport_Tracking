@@ -6,7 +6,7 @@ import Preloader from '../Common/Preloader/Preloader';
 import { withAuthRedirect } from '../HOC/withAuthRedirect'
 import { compose } from 'redux';
 // import { getDrivers, getPageSize, getTotalDriversCount, getCurrentPage, getIsFetching, getFollowingInProgress, getIsAuth } from '../../redux/Driver-selector';
-// import { addDrivers } from '../../redux/Driver-reducer';
+import { addDrivers } from '../../redux/Driver-reducer';
 
 class AllUsersContainer extends React.Component {
   
@@ -61,7 +61,7 @@ class AllUsersContainer extends React.Component {
                 users={this.props.users}
                 roles={this.props.roles}
                 FollowingInProgress={this.props.FollowingInProgress}
-                // addDrivers={this.props.addDrivers}
+                addDrivers={this.props.addDrivers}
             />
         </>
     }
@@ -73,7 +73,7 @@ class AllUsersContainer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         users: state.adminAuth.users,
-        // addDrivers: addDrivers(state),
+        addDrivers: addDrivers(state),
         roles: state.adminAuth.roles
         
     }
@@ -84,7 +84,7 @@ const mapStateToProps = (state) => {
 
 export default compose(connect(mapStateToProps,
     {
-        // addDrivers,
+        addDrivers,
         requestAllRoles,
         requestUsers
     }))(AllUsersContainer);
