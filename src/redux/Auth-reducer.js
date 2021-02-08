@@ -78,7 +78,6 @@ export const login = (email, password, rememberMe) => async (dispatch) => {
         localStorage.setItem('accessToken', response.data.data.accessToken)     
     // if (response.data.status === "OK") {
    
-    debugger
          dispatch(getAuthUserData())
        // let { password, email } = response.data.data;
        if (localStorage.getItem('accessToken') === "null"){

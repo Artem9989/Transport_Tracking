@@ -1,10 +1,11 @@
 import { stopSubmit } from 'redux-form';
-import { authAPI,usersAPI } from '../api/api';
+import { authAPI,usersAPI,rolesAPI } from '../api/api';
 
-let SET_USER_DATA = 'network/auth/SET_USER_DATA';
+const SET_USER_DATA = 'network/auth/SET_USER_DATA';
 const ADMIN_AUTH_SUCCESS = 'ADMIN_AUTH_SUCCESS';
 const LOGOUT = "LOGOUT";
 const SET_USERS = 'SET_USERS';
+const SET_ALL_ROLES = 'SET_ALL_ROLES';
 
 let initialState = {
     currentUser: [],
@@ -17,6 +18,7 @@ let initialState = {
     isAuth: false,
     adminAuthSuccess: false,
     users: [],
+    roles: [],
     // captchaUrl: null, // Если капчи нет, то не обязательна
     //  isFetching: false,
 }
@@ -38,8 +40,14 @@ const adminAuthReducer = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
+        case SET_ALL_ROLES:
+            return{
+                ...state,
+                roles: action.roles
+            }
         case LOGOUT:
             localStorage.removeItem('token')
+            localStorage.removeItem('isAuthAdminToken')
             return {
                 ...state,
                 currentUser: {},
@@ -55,24 +63,36 @@ export const SetAuthUserData = ( password, email, isAuth) => ({ type: SET_USER_D
 export const AdminAuthSuccessUserData = (adminAuthSuccess) => ({type: ADMIN_AUTH_SUCCESS, adminAuthSuccess:adminAuthSuccess})
 export const logout = () => ({type: LOGOUT})
 export const setUsers = (users) => ({ type: SET_USERS, users });
+export const setAllRoles = (roles) => ({ type: SET_ALL_ROLES, roles });
 
 export const getAuthUserData = () =>  (dispatch) => {
         
 };
 
 
-export const adminAuth = (email, password, rememberMe) => async (dispatch) => {
+export const adminAuth = (email, password) => async (dispatch) => {
     dispatch(AdminAuthSuccessUserData());
     let emailAndPassword= {email,password}
     try {
-        let response = await authAPI.login(emailAndPassword.email, emailAndPassword.password, rememberMe)
-        debugger
-    // if (response.data.status === "OK") {
-         dispatch(getAuthUserData())
-       // let { password, email } = response.data.data;
-        dispatch(SetAuthUserData( password, email, true));
-       
-        localStorage.setItem('accessToken', response.data.data.accessToken)        
+        let response = await authAPI.login(emailAndPassword.email, emailAndPassword.password)
+
+        localStorage.setItem('accessToken', response.data.data.accessToken)  
+        dispatch(getAuthUserData())
+
+        if (localStorage.getItem('accessToken') === "null"){
+          
+            let message = response.data.data.message;
+            localStorage.setItem('isAuthAdminToken', false)
+            dispatch(stopSubmit("adminAuth", { _error: message }));
+            
+           }
+        else {
+            localStorage.setItem('isAuthAdminToken', true)
+            dispatch(SetAuthUserData( password, email, true));
+            
+            window.location.reload();
+        }
+                     
     } catch(error){  
         let message = error.response.data.data.message;
         dispatch(stopSubmit("adminAuth", { _error: message }));
@@ -93,4 +113,19 @@ export const requestUsers = (currentPage,pageSize) => {
             // dispatch(SetTotalDriversCount(data.totalCount));
 }
 }
+export const requestAllRoles = () => {
+    return async (dispatch) => {
+    // dispatch(ToggleIsFetching(true));
+let data = await rolesAPI.getAllRoles()
+        let items = data.data
+        dispatch(setAllRoles(items));
+        //   dispatch(login());
+        
+        
+            // dispatch( ToggleIsFetching(false));
+            // dispatch(setDrivers(response.id));
+            // dispatch(SetTotalDriversCount(data.totalCount));
+}
+}
+
 export default adminAuthReducer;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { SetCurrentPage, ToggleFollowingProgress, requestDrivers } from '../../redux/Driver-reducer';
+import { SetCurrentPage, requestDrivers } from '../../redux/Driver-reducer';
 import Drivers from './drivers';
 import Preloader from '../Common/Preloader/Preloader';
 import { withAuthRedirect } from '../HOC/withAuthRedirect'
@@ -47,6 +47,8 @@ class DriversContainer extends React.Component {
 
     componentDidUpdate (prevProps, prevState, snapshot){
             this.refreshProfile()
+
+        
     }
 
     render() {
@@ -93,7 +95,7 @@ export default compose(connect(mapStateToProps,
         SetCurrentPage,
         // SetTotalUsersCount,
         // ToggleIsFetching,
-        ToggleFollowingProgress,
+        // ToggleFollowingProgress,
         requestDrivers
     }), withAuthRedirect)(DriversContainer);
 

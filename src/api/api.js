@@ -31,15 +31,41 @@ export const authAPI = {
 
 export const driversAPI = {
 
-    getDrivers(currentPage = 1, pageSize = 25) {
+    getDrivers() {
         let token = localStorage.getItem('accessToken')
 
         return (instance.get(`/api/driver/getalldrivers`, {
             headers: {'Authorization':'Bearer ' + token}
         
         })
+        )},
+    addDrivers(id,vehicleNumber,vehicleType) {
+        let token = localStorage.getItem('accessToken')
 
+        return (instance.post(`/api/driver/adddriver`, {id,vehicleNumber,vehicleType }, {
+            headers: {'Authorization':'Bearer ' + token}
         
+        })        
+        )}
+
+}
+
+export const rolesAPI = {
+    getAllRoles(){
+        let token = localStorage.getItem('accessToken')
+        return (instance.get(`/api/roles/getallroles`,{
+            headers: {'Authorization':'Bearer ' + token
+        }
+        
+        })
+        )},
+    getRole(id){
+        let token = localStorage.getItem('accessToken')
+        return (instance.post(`/api/roles/getallroles`,{id},{
+            headers: {'Authorization':'Bearer ' + token
+        }
+        
+        })
         )}
 }
 
@@ -56,3 +82,5 @@ export const usersAPI = {
         
         )}
 }
+
+

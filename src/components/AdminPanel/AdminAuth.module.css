@@ -10,20 +10,24 @@ body {
     display: flex;
 }
 
-
+.header_container{
+    display: flex;
+    justify-content: space-between;
+}
 
 .wrapper__login {
     position: absolute;
-    top: 50%;
-    width: 88%;	
-    padding: 18px 6% 60px 6%;
+    top: 50%;	
+    padding: 18px 6% 36px 6%;
     background: rgb(247, 247, 247);
     border: 1px solid rgba(147, 184, 189,0.8);
     box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
     border-radius: 10px;
 }
 
-
+.wrapper__login_button{
+    margin-top: 15px;
+}
 
 .wrapper {
     min-height: 560px;

@@ -60,7 +60,6 @@ const Login = (props) => {
         return  <Redirect to={'/main'} />
     }
 
-    console.log() 
     return <div>
  
         <LoginReduxFrom onSubmit={onSubmit} changingPage={props.changingPage}/>

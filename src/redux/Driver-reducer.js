@@ -5,8 +5,9 @@ import {updateObjectInArray } from './utils/validators/objects-helpers'
 let SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 let SET_DRIVERS = 'SET_DRIVERS';
 let SET_TOTAL_DRIVERS_COUNT = 'SET_TOTAL_DRIVERS_COUNT';
-let TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING"
-let TOGGLE_IS_FOLLOWING_PROGRESS = "TOGGLE_IS_FOLLOWING_PROGRESS"
+let SET_ADD_DRIVERS = 'SET_ADD_DRIVERS';
+// let TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING"
+// let TOGGLE_IS_FOLLOWING_PROGRESS = "TOGGLE_IS_FOLLOWING_PROGRESS"
 
 let initialState = {
     drivers: [],
@@ -15,6 +16,11 @@ let initialState = {
     currentPage: 1,
     isFetching: false,
     FollowingInProgress: [],
+    newDriver: [{
+        id: null,
+        vehicleNumber: null,
+        vehicleType: null
+    }]
 }
 
 const driversReducer = (state = initialState, action) => {
@@ -28,16 +34,19 @@ const driversReducer = (state = initialState, action) => {
         case SET_TOTAL_DRIVERS_COUNT: {
             return { ...state, totalDriversCount: action.count }
         }
-        case TOGGLE_IS_FETCHING: {
-            return { ...state, isFetching: action.isFetching }
+        case SET_ADD_DRIVERS: {
+            return {...state, newDriver: action.newDriver}
         }
-        case TOGGLE_IS_FOLLOWING_PROGRESS:
-            return {
-                ...state,
-                FollowingInProgress: action.isFetching
-                    ? [...state.FollowingInProgress, action.userId]
-                    : state.FollowingInProgress.filter(id => id !== action.userId)
-            }
+        // case TOGGLE_IS_FETCHING: {
+        //     return { ...state, isFetching: action.isFetching }
+        // }
+        // case TOGGLE_IS_FOLLOWING_PROGRESS:
+        //     return {
+        //         ...state,
+        //         FollowingInProgress: action.isFetching
+        //             ? [...state.FollowingInProgress, action.userId]
+        //             : state.FollowingInProgress.filter(id => id !== action.userId)
+        //     }
 
         default:
             return state;
@@ -48,8 +57,9 @@ const driversReducer = (state = initialState, action) => {
 export const SetCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage })
 export const SetTotalDriversCount = (totalDriversCount) => ({ type: SET_TOTAL_DRIVERS_COUNT, count: totalDriversCount })
 export const setDrivers = (drivers) => ({ type: SET_DRIVERS, drivers });
-export const ToggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching })
-export const ToggleFollowingProgress = (isFetching, userId) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId })
+export const SetAddDrivers = (id,vehicleNumber,vehicleType) => ({ type: SET_ADD_DRIVERS, newDriver:{ id,vehicleNumber,vehicleType} });
+// export const ToggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching })
+// export const ToggleFollowingProgress = (isFetching, userId) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId })
 
 
 // export const getUserData = () =>  (dispatch) => {
@@ -86,6 +96,16 @@ export const requestDrivers = (currentPage,pageSize) => {
             // dispatch(SetTotalDriversCount(data.totalCount));
 }
 }
+
+export const addDrivers = (id,vehicleNumber,vehicleType) => {
+    return async (dispatch) => {
+   let data = await driversAPI.addDrivers(id,vehicleNumber,vehicleType)
+
+          dispatch(SetAddDrivers(id,vehicleNumber,vehicleType));
+
+}
+}
+
 
 // const followUnFollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
 //     dispatch(ToggleFollowingProgress(true, userId));

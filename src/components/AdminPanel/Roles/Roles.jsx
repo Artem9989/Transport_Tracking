@@ -9,20 +9,10 @@ import { connect } from 'react-redux';
 import { withAuthRedirect } from '../HOC/withAuthRedirect'
 import { Redirect } from 'react-router-dom';
 
-const AdminPanel = ({currentPage,onPageChanged,addDrivers , totalItemsCount, pageSize, users, roles, ...props}) => {
+const AdminPanel = ({currentPage,onPageChanged, totalItemsCount, pageSize, users, ...props}) => {
     const dispatch = useDispatch();
 
-    const out = () => {    
-        dispatch(logout());
-        window.location.reload();
-      }
 
-   
-
-    let token = localStorage.getItem('isAuthAdminToken')
-    if(token === null) {
-        return  <Redirect to={'/admin'} />
-    }
 
   
     return <>
@@ -30,7 +20,6 @@ const AdminPanel = ({currentPage,onPageChanged,addDrivers , totalItemsCount, pag
      <div className={AdminPanelCSS.container}>
          <div className={AdminPanelCSS.header_container}>
             <h3>Список зарегистрированных пользователей:</h3>
-            <button id='Exit' className="Exit" onClick={out}> Выйти </button>
         </div>
 
              
@@ -40,7 +29,7 @@ const AdminPanel = ({currentPage,onPageChanged,addDrivers , totalItemsCount, pag
                 users.map(u => <Users  user={u}/>)
               
             } */}
-            <Users  users={users} roles={roles} addDrivers={addDrivers}/>
+            <Users  users={users}/>
             
         </div>
 

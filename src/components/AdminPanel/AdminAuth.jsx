@@ -20,10 +20,7 @@ const AdminForm = ({ handleSubmit, error, changingPage }) => {
                             <label htmlFor="Emailsignup" className={LoginCSS.uname} data-icon="p">Ваш пароль </label>
                             <Field name={"password"} placeholder={"Пароль"} type={"password"} component={Input} validate={[required]} />
                         </div>
-                        <div className={LoginCSS.checkBoxRememberME}>
 
-                            <Field name={"rememberMe"} type={"checkbox"} labelField="text" component={Input} value="RememberMer" /> Запомнить меня
-        </div>
 
                         {error && <div className={LoginCSS.formSummaryError}>
                             {error}
@@ -42,9 +39,13 @@ const AdminForm = ({ handleSubmit, error, changingPage }) => {
 const AdminAuthReduxFrom = reduxForm({ form: 'adminAuth' })(AdminForm);
 
 const AdminAuth = (props) => {
-    if (props.isAuth) {
-        return <Redirect to={"/adminPanel"} />
+    let token = localStorage.getItem('isAuthAdminToken')
+    if(token === 'true') {
+        return  <Redirect to={'/adminPanel'} />
     }
+
+    
+
 
     const onSubmit = (formData) => {
         props.adminAuth(formData.email, formData.password, formData.rememberMe)
