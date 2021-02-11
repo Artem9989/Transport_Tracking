@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import DriverCSS from './driver.module.css'
 
 import { Collapse } from 'antd'

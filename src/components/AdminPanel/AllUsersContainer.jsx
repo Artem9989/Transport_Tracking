@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {  requestUsers, requestAllRoles} from '../../redux/AuthAdmin-reducer';
 import AdminPanel from './AdminPanel';
 import Preloader from '../Common/Preloader/Preloader';
-import { withAuthRedirect } from '../HOC/withAuthRedirect'
+// import { withAuthRedirect } from '../HOC/withAuthRedirect'
 import { compose } from 'redux';
 // import { getDrivers, getPageSize, getTotalDriversCount, getCurrentPage, getIsFetching, getFollowingInProgress, getIsAuth } from '../../redux/Driver-selector';
 import { addDrivers } from '../../redux/Driver-reducer';
@@ -51,7 +51,7 @@ class AllUsersContainer extends React.Component {
 
     render() {
         return <>
-            { this.props.isFetching ? <Preloader /> : null}
+            { this.props.loader ? <Preloader /> : null}
             <AdminPanel totalItemsCount={this.props.totalItemsCount}
                 pageSize={this.props.pageSize}
                 currentPage={this.props.currentPage}
@@ -74,7 +74,8 @@ const mapStateToProps = (state) => {
     return {
         users: state.adminAuth.users,
         addDrivers: addDrivers(state),
-        roles: state.adminAuth.roles
+        roles: state.adminAuth.roles,
+        loader: state.adminAuth.loader
         
     }
 }

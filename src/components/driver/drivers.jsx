@@ -1,11 +1,11 @@
-import React, {memo,useDispatch, useState} from 'react';
+import React, {memo, useState} from 'react';
 import './Leftpanel.css'
 import Driver from './driver'
-import driverContainer from './driverContainer';
-import Paginator from '../Common/Paginator/Paginator';
-import DriverCSS from './driver.module.css'
-import { Drawer, Button, Radio, Space } from 'antd';
-import { logout } from '../../redux/Auth-reducer';
+// import driverContainer from './driverContainer';
+// import Paginator from '../Common/Paginator/Paginator';
+// import DriverCSS from './driver.module.css'
+import { Drawer, Button,  Space } from 'antd';
+// import { logout } from '../../redux/Auth-reducer';
 
 const Drivers = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers, ...props}) => {
 

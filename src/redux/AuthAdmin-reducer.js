@@ -4,8 +4,10 @@ import { authAPI,usersAPI,rolesAPI } from '../api/api';
 const SET_USER_DATA = 'network/auth/SET_USER_DATA';
 const ADMIN_AUTH_SUCCESS = 'ADMIN_AUTH_SUCCESS';
 const LOGOUT = "LOGOUT";
-const SET_USERS = 'SET_USERS';
+const GET_USERS_SUCCESS = 'SET_USERS';
 const SET_ALL_ROLES = 'SET_ALL_ROLES';
+const GET_USERS_ERROR = 'GET_USERS_ERROR';
+const GET_USERS_REQUEST = 'GET_USERS_REQUEST';
 
 let initialState = {
     currentUser: [],
@@ -19,8 +21,7 @@ let initialState = {
     adminAuthSuccess: false,
     users: [],
     roles: [],
-    // captchaUrl: null, // Если капчи нет, то не обязательна
-    //  isFetching: false,
+    loader: false,
 }
 
 const adminAuthReducer = (state = initialState, action) => {
@@ -30,10 +31,21 @@ const adminAuthReducer = (state = initialState, action) => {
                 ...state,
                 adminAuthSuccess: action.adminAuthSuccess
             }
-        case SET_USERS:
+        case GET_USERS_SUCCESS:
             return{
                 ...state,
+                loader:false,
                 users: action.users
+            }
+        case GET_USERS_ERROR:
+            return{
+                ...state,
+                loader: false
+            }
+        case GET_USERS_REQUEST:
+            return{
+                ...state,
+                loader:true
             }
         case SET_USER_DATA:
             return {
@@ -62,8 +74,12 @@ const adminAuthReducer = (state = initialState, action) => {
 export const SetAuthUserData = ( password, email, isAuth) => ({ type: SET_USER_DATA, payload: { password, email, isAuth } })
 export const AdminAuthSuccessUserData = (adminAuthSuccess) => ({type: ADMIN_AUTH_SUCCESS, adminAuthSuccess:adminAuthSuccess})
 export const logout = () => ({type: LOGOUT})
-export const setUsers = (users) => ({ type: SET_USERS, users });
-export const setAllRoles = (roles) => ({ type: SET_ALL_ROLES, roles });
+export const getAllRoles = (roles) => ({ type: SET_ALL_ROLES, roles });
+
+export const getUsersRequest = () => ({ type: GET_USERS_REQUEST });
+export const getUsersSuccess = (users) => ({ type: GET_USERS_SUCCESS, users });
+export const getUsersError = () => ({ type: GET_USERS_ERROR });
+
 
 export const getAuthUserData = () =>  (dispatch) => {
         
@@ -101,16 +117,22 @@ export const adminAuth = (email, password) => async (dispatch) => {
 
 export const requestUsers = (currentPage,pageSize) => {
     return async (dispatch) => {
-    // dispatch(ToggleIsFetching(true));
+    dispatch(getUsersRequest());
+    try{
    let data = await usersAPI.getUsers(currentPage, pageSize)
             let items = data.data
-          dispatch(setUsers(items));
-        //   dispatch(login());
+            dispatch(getUsersSuccess(items))
+    }
+    catch (_error){
+        if (_error.response.status = 403)
+        {
+        alert('Войдите через админа')
+        }
+        console.log(_error)
         
-          
-            // dispatch( ToggleIsFetching(false));
-            // dispatch(setDrivers(response.id));
-            // dispatch(SetTotalDriversCount(data.totalCount));
+        dispatch(getUsersError())
+    }
+    
 }
 }
 export const requestAllRoles = () => {
@@ -118,7 +140,7 @@ export const requestAllRoles = () => {
     // dispatch(ToggleIsFetching(true));
 let data = await rolesAPI.getAllRoles()
         let items = data.data
-        dispatch(setAllRoles(items));
+        dispatch(getAllRoles(items));
         //   dispatch(login());
         
         

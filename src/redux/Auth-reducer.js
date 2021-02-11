@@ -13,7 +13,7 @@ let initialState = {
     isAuth: false,
     loginSuccess: false,
     // captchaUrl: null, // Если капчи нет, то не обязательна
-    //  isFetching: false,
+     loader: false,
 }
 
 const authReducer = (state = initialState, action) => {

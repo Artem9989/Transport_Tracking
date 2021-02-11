@@ -4,7 +4,7 @@ import { Input } from '../Common/FormsControls/FormsControls'
 import { required } from '../../redux/utils/validators/Validators'
 import { connect } from 'react-redux';
 import { register } from '../../redux/Register-reducer'
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import LoginCSS from './Login.module.css';
 
 // const Register = (props) => {

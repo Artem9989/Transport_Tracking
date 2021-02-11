@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { login } from '../../redux/Auth-reducer'
 import { Redirect } from 'react-router-dom';
 import LoginCSS from './Login.module.css';
-
+// import PropTypes from 'prop-types';
 
 const LoginForm = ({handleSubmit , error, changingPage}) => {
     
@@ -43,6 +43,9 @@ const LoginForm = ({handleSubmit , error, changingPage}) => {
 }
 
 const LoginReduxFrom = reduxForm({ form: 'login' })(LoginForm);
+// Login.propTypes = {
+//     changingPage: PropTypes.func,
+// }
 
 const Login = (props) => {
 

@@ -1,5 +1,5 @@
-import { driversAPI , authAPI } from '../api/api';
-import {updateObjectInArray } from './utils/validators/objects-helpers'
+import { driversAPI  } from '../api/api';
+// import {updateObjectInArray } from './utils/validators/objects-helpers'
 
 
 let SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
@@ -56,10 +56,8 @@ const driversReducer = (state = initialState, action) => {
 
 export const SetCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage })
 export const SetTotalDriversCount = (totalDriversCount) => ({ type: SET_TOTAL_DRIVERS_COUNT, count: totalDriversCount })
-export const setDrivers = (drivers) => ({ type: SET_DRIVERS, drivers });
+export const getDriversSuccess = (drivers) => ({ type: SET_DRIVERS, drivers });
 export const SetAddDrivers = (id,vehicleNumber,vehicleType) => ({ type: SET_ADD_DRIVERS, newDriver:{ id,vehicleNumber,vehicleType} });
-// export const ToggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching })
-// export const ToggleFollowingProgress = (isFetching, userId) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId })
 
 
 // export const getUserData = () =>  (dispatch) => {
@@ -85,23 +83,29 @@ export const SetAddDrivers = (id,vehicleNumber,vehicleType) => ({ type: SET_ADD_
 export const requestDrivers = (currentPage,pageSize) => {
     return async (dispatch) => {
     // dispatch(ToggleIsFetching(true));
+    try {
    let data = await driversAPI.getDrivers(currentPage, pageSize)
             let items = data.data
-          dispatch(setDrivers(items));
-        //   dispatch(login());
+          dispatch(getDriversSuccess(items));
+    }
+    catch (_error) {
+        // dispatch(getDriversError())
+        console.log(_error)
         
-          
-            // dispatch( ToggleIsFetching(false));
-            // dispatch(setDrivers(response.id));
-            // dispatch(SetTotalDriversCount(data.totalCount));
+    }
 }
 }
 
 export const addDrivers = (id,vehicleNumber,vehicleType) => {
     return async (dispatch) => {
    let data = await driversAPI.addDrivers(id,vehicleNumber,vehicleType)
-
+        try{
           dispatch(SetAddDrivers(id,vehicleNumber,vehicleType));
+        }
+        catch(_error){
+            console.log(_error)
+            console.log(data)
+        }
 
 }
 }

@@ -1,7 +1,6 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import LoginCSS from './AdminAuth.module.css';
 import AdminAuth from './AdminAuth';
-import adminPanel from './AdminPanel';
 
 const AuthenticationAdminWindow = (props) => {
     

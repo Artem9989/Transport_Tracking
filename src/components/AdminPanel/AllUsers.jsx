@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 // import './AdminAuth.module.css'
-import {  UserOutlined, CarOutlined } from '@ant-design/icons';
+import {  UserOutlined } from '@ant-design/icons';
 import 'antd/lib/button/style/index.css';
-import {
-  Form, Input, Button, Checkbox, Modal
-  , Table, Tag, Space, Avatar, Image, Select
-} from 'antd';
+import { Table,  Space, Avatar,  Select} from 'antd';
 import AddDriverComponent from './AddDriver/addDriver.jsx'
 const { Column, ColumnGroup } = Table;
 
 const { Option } = Select;
 
-const User = ({ users, roles }) => {
+const User = ({ users, roles, addDrivers }) => {
 
-  console.log(roles);
+  console.log(users);
   // const Roles = [{ nameRole: 'admin', nameRoleRu: 'Админ', idRole: '90f84438-6762-4394-887a-c3196f7e5877' },
   // { nameRole: 'guest', nameRoleRu: 'Гость', idRole: '18a0659d-df47-4c49-b727-0264b81e83e0' },
   // { nameRole: 'driver', nameRoleRu: 'Водитель', idRole: 'e0528690-e98f-480b-ab63-e0d9b81b2b11' },
@@ -22,33 +19,40 @@ const User = ({ users, roles }) => {
 
   // ];
 
+  // титульник модального окна
+const [modalText, setModalText] = useState(`Введите номер и тип машины для пользователя с ID `)
+//отображение модального окна
 const [visible, setVisible] = useState(false);
 //  let state = { visible: false };
-
-
+//получение ид пользователя модального окна
+const [driverId, setdriverId] = useState(null);
   function onChange(value) {
     // Role.nameRoleRu, record.id,Role.idRole
     if (value[2] === roles[2].id) {
+      setdriverId(value[1])
+      
+      console.log(value)
+      // console.log(`Test1`+driverId)
       setVisible(true);
-
+      
     }
     console.log(`selected , ${value[2] === roles[2].id}`);
   }
 
   function onBlur() {
-    console.log('blur');
+    // console.log(`blur `);
   }
 
-  function onFocus() {
-    console.log('focus');
+  function onFocus(record) {
+    // console.log(`focus: `);
   }
 
   function onSearch(val) {
-    console.log('search:', val);
+    // console.log('search:', val);
   }
 
-  console.log(users)
-
+  // console.log(users)
+ 
   // let numberCar = props.numberCar.map( p=> <Driver numberCar={p.numberCar} name={p.name}/>);
   // Clicked === false ? getInfo() : setClicked(false)
   return (<>
@@ -59,7 +63,7 @@ const [visible, setVisible] = useState(false);
         key="action"
         render={(text, record) => (
           <Space size="small">
-            {record.id}
+            {record.id }
           </Space>
         )}
       />
@@ -122,6 +126,7 @@ const [visible, setVisible] = useState(false);
                 record.roleId === Role.id ? Role.name : null
               )}
               optionFilterProp="children"
+              
               onChange={onChange}
               onFocus={onFocus}
               onBlur={onBlur}
@@ -131,16 +136,16 @@ const [visible, setVisible] = useState(false);
               }
             >
               {roles.map((Role, index) =>
-
+                
                 <Option value={[Role.name, record.id, Role.id]}>{Role.name}</Option>
-
+                
               )}
             </Select>
           </Space>
         )}
       />
     </Table>
-                <AddDriverComponent users={users} setVisible={setVisible}
+                <AddDriverComponent setModalText={setModalText} modalText={modalText} driverId={driverId} addDrivers={addDrivers} users={users} setVisible={setVisible}
                   roles={roles} visible={visible} />
   </>
   );

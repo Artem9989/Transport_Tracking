@@ -1,9 +1,8 @@
 import React from 'react';
 import FirstWindow from './components/FirstWindow';
-import DriversContainer from './components/driver/driverContainer';
 import AuthenticationWindow from './components/AuthenticationWindow';
 import AllUsersContainer from './components/AdminPanel/AllUsersContainer'
-import { Switch, BrowserRouter as Router, Redirect, withRouter, Route } from 'react-router-dom';
+import { Switch, BrowserRouter as Router,  withRouter, Route, Redirect } from 'react-router-dom';
 import NotFound from './components/NotFound/NotFound'
 import { createBrowserHistory } from 'history';
 import { connect,Provider } from 'react-redux';
@@ -33,12 +32,12 @@ const App = (props) => {
 					{/* {token &&   <Route path='/main' component={FirstWindow}/>}
           			{!token && <Route path='/login' component={AuthenticationWindow}/> }
 					 */}
-					 <Route path='/main' component={FirstWindow}/>
-					<Route path='/admin' component={AdminAuthContainer} />
-					<Route path='/adminPanel' component={AllUsersContainer} />
+					 <Route exact path='/main' component={FirstWindow}/>
+					<Route exact path='/admin' component={AdminAuthContainer} />
+					<Route exact path='/adminPanel' component={AllUsersContainer} />
 					
-					<Route path='/login' component={AuthenticationWindow}/>
-					<Route path="*" component={NotFound} />
+					<Route exact path='/login' component={AuthenticationWindow}/>
+					<Redirect from="*" to='/login' component={NotFound} />
 				</Switch>
 				
 		</>

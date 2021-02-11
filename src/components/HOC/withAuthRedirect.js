@@ -11,7 +11,7 @@ export const  withAuthRedirect = (Component) => {
         render () {
     let token = localStorage.getItem('isAuthToken')
 
-    if (token == "false" || token === null) return <Redirect to = '/login'></Redirect>
+    if (token === "false" || token === null) return <Redirect to = '/login'></Redirect>
    return <Component {...this.props} />
         }
 }

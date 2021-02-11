@@ -6,8 +6,8 @@ import Preloader from '../Common/Preloader/Preloader';
 import { withAuthRedirect } from '../HOC/withAuthRedirect'
 import { compose } from 'redux';
 import { getDrivers, getPageSize, getTotalDriversCount, getCurrentPage, getIsFetching, getFollowingInProgress, getIsAuth } from '../../redux/Driver-selector';
-import { Redirect } from 'react-router-dom';
-import Map from '../FirstWindow'
+// import { Redirect } from 'react-router-dom';
+// import Map from '../FirstWindow'
 import { logout } from '../../redux/Auth-reducer';
 
 class DriversContainer extends React.Component {

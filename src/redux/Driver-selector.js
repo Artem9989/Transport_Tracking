@@ -1,4 +1,4 @@
-import { createSelector } from "reselect";
+// import { createSelector } from "reselect";
 
 export const getDrivers = (state) => {
     return state.DriversPage.drivers;
