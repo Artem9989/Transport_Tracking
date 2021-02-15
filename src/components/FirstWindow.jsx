@@ -2,8 +2,8 @@ import React from 'react'
 // import Ymaps from './Ymaps'
 import { useDispatch} from 'react-redux'
 import DriversContainer from './driver/driverContainer'
-// import {DisplayMapFC} from './Map/DisplayMapClass';
-import {DisplayMapClass} from './Map/DisplayMapClass';
+import DisplayMapFC from './Map/DisplayMapClass';
+// import {DisplayMapClass} from './Map/DisplayMapClass';
 // import ReactDOM from "react-dom";
 // import HEREMap from "react-here-map"
 import { logout } from '../redux/Auth-reducer';
@@ -46,7 +46,7 @@ const FirstWindow = () => {
    
          </div>
 
-         <div id = "YMapsID"><DisplayMapClass /> </div>
+         <div id = "YMapsID"><DisplayMapFC /> </div>
       
         
         

@@ -1,45 +1,54 @@
 // src/DisplayMapFC.js
-import React from "react";
-import HPlatform, {
-  HMap,
-  HMapRoute,
-  HMapMarker,
-  HMapPolyLine,
-} from "react-here-map";
+// import React from "react";
+// import ReactDOM from "react-dom";
+import HPlatform, { HMap, HMapPlaces } from "react-here-map";
 
-export const DisplayMapFC = () => {
-  // Create a reference to the HTML element we want to put the map on
-  const mapRef = React.useRef(null);
+// export const DisplayMapFC = () => {
+//   const appCode = "hn8nc_2Y3gsr7XMtPw4XwB3Gv4TbmmaQeD1xNOgCSGU";
+//   const apikey = "hn8nc_2Y3gsr7XMtPw4XwB3Gv4TbmmaQeD1xNOgCSGU";
+//   const appId = "qUAK1IjzS6IHv9SnnvMo";
+//   const points = [
+//   { lat: 52.5309825, lng: 13.3845921 },
+//   { lat: 52.5311923, lng: 13.3853495 },
+//   { lat: 52.5313532, lng: 13.3861756 },
+//   { lat: 52.5315142, lng: 13.3872163 },
+//   { lat: 52.5316215, lng: 13.3885574 },
+//   { lat: 52.5320399, lng: 13.3925807 },
+//   { lat: 52.5321472, lng: 13.3935785 },
+// ];
+// // const platform = new H.service.Platform({
+// //   apikey: "{HERE-API-KEY}"
+// // });
+//   return    <HPlatform
+//     app_id={appCode}
+//     app_code={appId}
+//     apikey={apikey}
+//     useCIT
+//     useHTTPS
+//     includePlaces
+//     interactive
+//   >
+//     <HMapPlaces library="search" />
+//   </HPlatform>
+// }
 
-  /**
-   * Create the map instance
-   * While `useEffect` could also be used here, `useLayoutEffect` will render
-   * the map sooner
-   */
-  React.useLayoutEffect(() => {
-    // `mapRef.current` will be `undefined` when this hook first runs; edge case that
-    if (!mapRef.current) return;
-    const H = window.H;
-    const platform = new H.service.Platform({
-        apikey: "{sAR34-R5unCz4RhUywXkiVOV5QTf_B0OMhyhYhUnFJ8}"
-    });
-    const defaultLayers = platform.createDefaultLayers();
-    const hMap = new H.Map(mapRef.current, defaultLayers.vector.normal.map,       {
-      center: { lng: 55.9678, lat: 54.7431},
-      zoom: 14,
-      pixelRatio: window.devicePixelRatio || 1
-    });
+import React, { Component } from 'react';
 
-  //  const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(hMap));
-
-  //  const ui = H.ui.UI.createDefault(hMap, defaultLayers);
-
-    // This will act as a cleanup to run once this hook runs again.
-    // This includes when the component un-mounts
-    return () => {
-      hMap.dispose();
-    };
-  }, [mapRef]); // This will run this hook every time this ref is updated
-
-  return <div className="map" ref={mapRef} style={{ height: "100%", width: "100%"}} />;
-};
+export default class DisplayMapFC extends Component {
+    render() {
+        return (
+            <HPlatform 
+            app_id="{qUAK1IjzS6IHv9SnnvMo}"
+            app_code="{hn8nc_2Y3gsr7XMtPw4XwB3Gv4TbmmaQeD1xNOgCSGU}"
+            apikey='{hn8nc_2Y3gsr7XMtPw4XwB3Gv4TbmmaQeD1xNOgCSGU}'
+                useCIT
+    useHTTPS
+    includePlaces
+    interactive
+            
+         >
+            <HMapPlaces library="search" />
+              </HPlatform>
+        )
+    }
+}

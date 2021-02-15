@@ -1,0 +1,12 @@
+{
+  "name": "transport_tracking",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Artem9989/Transport_Tracking",
+  "author": "Артем <64080746+Artem9989@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
