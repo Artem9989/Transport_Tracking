@@ -2,7 +2,7 @@
 // import React from "react";
 // import ReactDOM from "react-dom";
 import HPlatform, { HMap, HMapPlaces } from "react-here-map";
-
+import React, { Component } from 'react';
 // export const DisplayMapFC = () => {
 //   const appCode = "hn8nc_2Y3gsr7XMtPw4XwB3Gv4TbmmaQeD1xNOgCSGU";
 //   const apikey = "hn8nc_2Y3gsr7XMtPw4XwB3Gv4TbmmaQeD1xNOgCSGU";
@@ -32,9 +32,10 @@ import HPlatform, { HMap, HMapPlaces } from "react-here-map";
 //   </HPlatform>
 // }
 
-import React, { Component } from 'react';
+
 
 export default class DisplayMapFC extends Component {
+
     render() {
         return (
             <HPlatform 
