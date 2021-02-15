@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Input } from '../Common/FormsControls/FormsControls'
-import { required } from '../../redux/utils/validators/Validators'
+import { required,minLengthCreator } from '../../redux/utils/validators/Validators'
 import { connect } from 'react-redux';
 import { register } from '../../redux/Register-reducer'
 // import { Redirect } from 'react-router-dom';
@@ -119,11 +119,11 @@ const RegisterForm = ({handleSubmit , error, changingPage}) => {
         </div>
         <label htmlFor="password" className={LoginCSS.youpasswd} data-icon="p"> Ваш пароль </label>
         <div className={LoginCSS.youpasswd}>
-            <Field name={"password_oneSignup"} placeholder={"Введите пароль"} type={"password"} component={Input} validate={[required]} />
+            <Field name={"password_oneSignup"} placeholder={"Введите пароль"} type={"password"} component={Input} validate={[required,minLengthCreator(8)]} />
         </div>
         <label htmlFor="password" className={LoginCSS.youpasswd} data-icon="p"> Подтвердите ваш пароль </label>
         <div className={LoginCSS.youpasswd}>
-            <Field name={"password_twoSignup"} placeholder={"Повторите пароль"} type={"password"} component={Input} validate={[required]} />
+            <Field name={"password_twoSignup"} placeholder={"Повторите пароль"} type={"password"} component={Input} validate={[required,minLengthCreator(8)]} />
         </div>
         <div>
             <Field name={"rememberMe"} type={"checkbox"} component={Input} /> Запомнить меня

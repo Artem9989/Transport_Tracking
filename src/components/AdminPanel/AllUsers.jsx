@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useState, } from 'react';
 // import './AdminAuth.module.css'
 import {  UserOutlined } from '@ant-design/icons';
 import 'antd/lib/button/style/index.css';
@@ -8,9 +8,11 @@ const { Column, ColumnGroup } = Table;
 
 const { Option } = Select;
 
-const User = ({ users, roles, addDrivers }) => {
+const User = ({ users, roles, addDrivers, onSearch }) => {
 
-  console.log(users);
+  
+
+  // console.log(users);
   // const Roles = [{ nameRole: 'admin', nameRoleRu: 'Админ', idRole: '90f84438-6762-4394-887a-c3196f7e5877' },
   // { nameRole: 'guest', nameRoleRu: 'Гость', idRole: '18a0659d-df47-4c49-b727-0264b81e83e0' },
   // { nameRole: 'driver', nameRoleRu: 'Водитель', idRole: 'e0528690-e98f-480b-ab63-e0d9b81b2b11' },
@@ -31,12 +33,12 @@ const [driverId, setdriverId] = useState(null);
     if (value[2] === roles[2].id) {
       setdriverId(value[1])
       
-      console.log(value)
+      // console.log(value)
       // console.log(`Test1`+driverId)
       setVisible(true);
       
     }
-    console.log(`selected , ${value[2] === roles[2].id}`);
+    // console.log(`selected , ${value[2] === roles[2].id}`);
   }
 
   function onBlur() {

@@ -8,7 +8,7 @@ import { Form, Input, Button, Modal } from 'antd';
 
 
 const AddDriverComponent = (props) => {
-  const { totalItemsCount, roles,modalText,setModalText, setVisible, addDrivers, driverId, users, visible } = props
+  const { modalText,setModalText, setVisible, addDrivers, driverId,  visible } = props
   // const dispatch = useDispatch();
 
   // console.log(addDrivers);
@@ -40,11 +40,11 @@ const AddDriverComponent = (props) => {
 
   //  let state = { visible: false };
 
-  console.log(modalText)
+  // console.log(modalText)
   const [enterLoading, setenterLoading] = useState(false)
   const handleOk = (value) => {
     addDrivers(driverId, value.vehicleNumber, value.vehicleType )
-    console.log(driverId)
+    // console.log(driverId)
     setenterLoading(true)
     // console.log(e);
     setVisible(false);

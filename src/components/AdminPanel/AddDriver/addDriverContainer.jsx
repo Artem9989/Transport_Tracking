@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addDrivers } from '../../../redux/Driver-reducer';
-import Preloader from '../../Common/Preloader/Preloader';
-import { withAuthRedirect } from '../../HOC/withAuthRedirect'
 import { compose } from 'redux';
-import addDriver from './addDriver.jsx';
-import { Table, Tag, Space } from 'antd';
+import { Table } from 'antd';
 const { Column, ColumnGroup } = Table;
 
 
@@ -51,7 +48,6 @@ class addDriverContainer extends React.Component {
     // }
 
     render() {
-        debugger
         return  <addDriver id={this.props.id}/> 
     }
 }
