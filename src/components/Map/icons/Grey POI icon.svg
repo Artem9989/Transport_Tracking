@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Green POI icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Green-POI-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-22-Copy-12">
+            <rect id="Rectangle-Copy-6" fill="#673A93" x="0" y="0" width="16" height="16" rx="1"></rect>
+            <g id="Icons-24-/-Solid-/-Places-/-emergency_hospital_" transform="translate(2.000000, 2.000000)">
+                <rect id="Rectangle" x="-2.50000003e-08" y="-2.50000003e-08" width="12.0000001" height="12.0000001"></rect>
+                <path d="M11,1.99999998 L11,2.99999998 L5.99999998,1.99999998 L0.999999979,2.99999998 L0.999999979,1.99999998 L5.99999998,0.999999979 L11,1.99999998 Z M6.99999999,6.49999999 L6.99999999,3.99999999 L4.99999999,3.99999999 L4.99999999,6.49999999 L2.49999999,6.49999999 L2.49999999,8.49999999 L4.99999999,8.49999999 L4.99999999,11 L6.99999999,11 L6.99999999,8.49999999 L9.49999999,8.49999999 L9.49999999,6.49999999 L6.99999999,6.49999999 Z" id="---↳-🌈-Color" fill="#FFFFFF" fill-rule="evenodd"></path>
+            </g>
+        </g>
+    </g>
+</svg>

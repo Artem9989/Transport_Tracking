@@ -1,0 +1,41 @@
+.service-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 21px;
+}
+
+@media (max-width: 750px) {
+  .service-label {
+    display: none;
+  }
+}
+
+
+
+.service-label-item {
+    background: #fff;
+    margin-right: 6px;
+    padding-left: 4px;
+    padding-right: 4px;
+    color: #00afaa;
+}
+a:link {
+    color: #00afaa !important;
+}
+  
+  /* visited link */
+a:visited {
+    color: #00afaa!important;
+}
+  
+  /* mouse over link */
+a:active {
+    color: #00afaa!important;
+}
+  
+  /* selected link */
+a:hover {
+    color: #00afaa!important;
+}

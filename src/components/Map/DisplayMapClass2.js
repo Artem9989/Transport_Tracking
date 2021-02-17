@@ -14,7 +14,8 @@ export class DisplayMapClass extends React.Component {
     const H = window.H;
     const platform = new H.service.Platform({
       'apikey': 'sAR34-R5unCz4RhUywXkiVOV5QTf_B0OMhyhYhUnFJ8'
-    });
+    })
+
 
     const defaultLayers = platform.createDefaultLayers();
     // const routeArrows = new H.map.Polyline(linestring, {

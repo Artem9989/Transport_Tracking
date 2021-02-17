@@ -4,7 +4,7 @@ import Driver from './driver'
 // import driverContainer from './driverContainer';
 // import Paginator from '../Common/Paginator/Paginator';
 // import DriverCSS from './driver.module.css'
-import { Drawer, Button,  Space } from 'antd';
+
 // import { logout } from '../../redux/Auth-reducer';
 
 const Drivers = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers, ...props}) => {
@@ -21,7 +21,7 @@ const Drivers = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers,
     return <>
       
 
-        <Space>
+        {/* <Space>
           <Button 
           style={{fontSize: '20px', 
           padding: '8px 15px',
@@ -45,11 +45,12 @@ const Drivers = ({currentPage,onPageChanged, totalItemsCount, pageSize, drivers,
           key={'left'}
           getContainer={false}
           zIndex={10}
-        >
-             <p>
-                {  drivers.map((driver,index) => <Driver driver={driver} index={index}/>)}
-        </p>
-        </Drawer>
+        > */}
+             {/* <p> */}
+             
+              {  drivers.map((driver,index) => <Driver driver={driver} index={index}/>)}
+        {/* </p> */}
+        {/* </Drawer> */}
 
 
 

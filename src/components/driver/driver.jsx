@@ -9,7 +9,7 @@ const Driver = ({ driver, index, FollowingInProgress }) => {
 
 
     return (        
-    <Collapse >
+    <Collapse  >
 
         <Panel  showArrow={false} header={                    <div id="hider" className="driver-data"  >
         <div id="drivers" className={DriverCSS.drivers}>
