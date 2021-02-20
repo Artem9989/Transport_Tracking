@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { HomeViewControl } from './HomeViewControl'
+import { HomeViewControl } from './HomeViewControl/index'
 import { InfoControl } from './InfoControl'
-import { ServicesLabelControl } from './ServicesLabel'
+import { ServicesLabelControl } from './ServicesLabel/index'
 import './app.css';
 // Helpers
 import { high_care_theme } from './theme/high_care_theme'
@@ -91,9 +91,9 @@ export default class Map extends Component {
     // M.ScaleBar = new H.ui.ScaleBar({alignment: "bottom-center"})
     // M.UI.addControl('scalebar', M.ScaleBar)
 
-    // M.ServicesLabelControl = new ServicesLabelControl({
-    //   position:'right-bottom'
-    // })
+    M.ServicesLabelControl = new ServicesLabelControl({
+      position:'right-bottom'
+    })
 
     M.UI.addControl('service-label', M.ServicesLabelControl)
 
@@ -211,7 +211,13 @@ export default class Map extends Component {
   }
 
   componentWillUnmount() {
-      this.state.map.dispose()
+    try {
+    this.state.map.dispose()
+    }
+    catch{
+
+    }
+
   }
 
 

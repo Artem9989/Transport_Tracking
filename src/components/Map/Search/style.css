@@ -1,8 +1,7 @@
 .search-container {
-    width: 400px;
-    height: 50px;
+    height: 64px;
     position: absolute;
-    top: 10px;
+    top: 0px;
     right: 10px;
 }
 
@@ -26,3 +25,5 @@
       display: none;
     }
   }
+
+  

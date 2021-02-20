@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 
+
 // Components
 import Map from './Map'
-import { Search  } from './Search/index'
+
 import { ModalWindowMemo  } from './Modal/Modal'
 
 // Requests library
@@ -331,7 +332,7 @@ export default class DisplayMapClassContainer extends Component {
           calculateIsoline={this.calculateIsoline}
           />
         
-        <Search />
+        
 </>
 
     )

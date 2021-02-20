@@ -13,7 +13,7 @@ import { withAuthRedirect } from './HOC/withAuthRedirect'
 import { connect } from 'react-redux';
  //import HPlatform, { HMap, HMapPolyLine } from "react-here-map";
  import './FirstWindow.css';
-
+ import  Search   from './Map/Search/Search'
  import { Layout, Menu, Breadcrumb } from 'antd';
  import {
    DesktopOutlined,
@@ -97,6 +97,7 @@ const [SiderVisible, setSider] = useState(false)
        
               onClick: () => {setSider(!SiderVisible)},
             })}
+            <Search />
           </Header>
           <Content >
 
