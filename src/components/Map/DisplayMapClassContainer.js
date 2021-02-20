@@ -324,7 +324,7 @@ export default class DisplayMapClassContainer extends Component {
           apikey={apikey}
           options={options}
           analytics={analytics}
-          toggleModal={this.toggleModal}
+          toggleModal={this.props.toggleModal}
           clearIsoline={this.clearIsoline}
           calculateRoute={this.calculateRoute}
           clearWaypoints={this.clearWaypoints}

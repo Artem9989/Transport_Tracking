@@ -17,7 +17,6 @@ export class HomeViewControl extends window.H.ui.Control {
         `
 
         el.addEventListener ('click', this.setHomeView.bind(this), false)
-        
         super.renderInternal(el, doc)
     }
     

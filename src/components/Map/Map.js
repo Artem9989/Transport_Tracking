@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { HomeViewControl } from './HomeViewControl/index'
-import { InfoControl } from './InfoControl'
-import { ServicesLabelControl } from './ServicesLabel/index'
+import { InfoControl } from './InfoControl/index'
+// import { ServicesLabelControl } from './ServicesLabel/index'
 import './app.css';
 // Helpers
 import { high_care_theme } from './theme/high_care_theme'
@@ -35,7 +35,6 @@ export default class Map extends Component {
 
     
   async componentDidMount () {
-
     let { toggleModal } = this.props
 
     const H = window.H
@@ -64,7 +63,7 @@ export default class Map extends Component {
       ServicesLabelControl: {},
       Hospitals: null,
     }
-
+  
     // Initialize paltform
     M.Platform = new H.service.Platform({ apikey: this.props.apikey })
     M.DefaultLayers = M.Platform.createDefaultLayers()
@@ -88,14 +87,14 @@ export default class Map extends Component {
 
 
     // Distance Measurement control
-    // M.ScaleBar = new H.ui.ScaleBar({alignment: "bottom-center"})
-    // M.UI.addControl('scalebar', M.ScaleBar)
+    M.ScaleBar = new H.ui.ScaleBar({alignment: "bottom-center"})
+    M.UI.addControl('scalebar', M.ScaleBar)
 
-    M.ServicesLabelControl = new ServicesLabelControl({
-      position:'right-bottom'
-    })
+    // M.ServicesLabelControl = new ServicesLabelControl({
+    //   position:'right-bottom'
+    // })
 
-    M.UI.addControl('service-label', M.ServicesLabelControl)
+    // M.UI.addControl('service-label', M.ServicesLabelControl)
 
 
     // Zoom Control
@@ -104,13 +103,17 @@ export default class Map extends Component {
 
     // Home Control
     M.HomeViewControl = new HomeViewControl({
+       
       map: M.Map,
       position:'right-middle',
       center: {
-        lat: 54.00684227163969, lng: 56.00684227163969
+        lat: 54.70684227163969, lng: 56.00684227163969
       },
       zoom:10
     })
+    console.log(M.Map)
+    window.map = M.Map
+    this.setState({ ...M, H: H })
     M.UI.addControl('home-control', M.HomeViewControl)
 
 
@@ -154,25 +157,15 @@ export default class Map extends Component {
 
     // M.UI.addControl('mapsettings', M.MapSettingsControl)
 
-    let bounds = new H.geo.Rect(55.92458580482951, 2.197265625, 45.27488643704891, 17.402343749999996)
+    // let bounds = new H.geo.Rect()
     
-    M.Map.getViewModel().addEventListener('sync', function() {
-      let center = M.Map.getCenter()
-  
-      if (!bounds.containsPoint(center)) {
-        if (center.lat > bounds.getTop()) {
-          center.lat = bounds.getTop();
-        } else if (center.lat < bounds.getBottom()) {
-          center.lat = bounds.getBottom();
-        }
-        if (center.lng < bounds.getLeft()) {
-          center.lng = bounds.getLeft();
-        } else if (center.lng > bounds.getRight()) {
-          center.lng = bounds.getRight();
-        }
-        M.Map.setCenter(center)
-      }
-    })
+    // M.Map.getViewModel().addEventListener('sync', function() {
+    //   let center = M.Map.getCenter()
+
+    //   if (!bounds.containsPoint(center)) {
+    //     M.Map.setCenter(center)
+    //   }
+    // })
 
     // Resize map on window size change
     window.addEventListener('resize', function() {
@@ -205,9 +198,7 @@ export default class Map extends Component {
 
     reader.parse()
     M.Map.addLayer(reader.getLayer())
-
-    window.map = M.Map
-    this.setState({ ...M, H: H })
+    
   }
 
   componentWillUnmount() {
@@ -394,7 +385,7 @@ export default class Map extends Component {
           }
         }
 
-        Map.removeObjects(Map.getObjects())
+        // Map.removeObjects(Map.getObjects())
 
         if( options.isoline.geometry.length !== 0) {
           

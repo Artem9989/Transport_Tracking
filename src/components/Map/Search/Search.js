@@ -10,12 +10,13 @@ const { Option } = AutoComplete;
 const Search = (props) => {
 
 const [suggestions, setSuggestions] = useState([]);
-const [selectSuggestions, setselectSuggestions] = useState(0);
+// const [searchText, setSearchText] = useState("");
 
 
 const handleSearch =  (value) => {
   if (value.trim() !== '' ){    
     searchLocation(value)
+
   }
 };
 
@@ -41,14 +42,15 @@ const handleSearch =  (value) => {
         let geocoderUrl = baseUrl + `?locationid=${location}&apikey=${config.apikey}`
         
         const res = await axios.get(geocoderUrl)
-      debugger
-          let lat = res.data.Response.View[0].Result[0].Location.DisplayPosition.Latitude
-          let lng = res.data.Response.View[0].Result[0].Location.DisplayPosition.Longitude
+          let lat = res.data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
+          let lng = res.data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
           console.log(window)
-          window.M.Map.setCenter({lat: lat,lng: lng})
-          window.M.Map.setZoom(17)
-    
-          this.setState({searchText: "", geocoderResults: [], suggestions:[]})
+          window.map.setCenter({lat: lat,lng: lng});
+          window.map.setZoom(16);
+          // setSearchText('');
+          
+          setSuggestions([]);
+          // window.setState({ geocoderResults: []})
           //  setselectSuggestionsFunc(value);
   
       }
