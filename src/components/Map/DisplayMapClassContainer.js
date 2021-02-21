@@ -22,7 +22,6 @@ export default class DisplayMapClassContainer extends Component {
       analytics: {
         mode: "analytics",
         active_layer: "low_care",
-        hospitals: null,
         statistics: null,
         dropdown: {
           low_care: true,
@@ -70,75 +69,9 @@ export default class DisplayMapClassContainer extends Component {
 
   componentDidMount () {
     
-    // Getting spatial layers from Data Hub by SpaceId
-    this.__getSpaceFeatures(config.spaces.german_hospitals)
-
-    // Update each hour
-    setInterval(() => {
-      this.__getSpaceFeatures(config.spaces.german_hospitals)
-    }, 300000)
-
-  }
-
-  
-
-  
-  async __getSpaceFeatures (spaceId) {
-    let data_url = `https://xyz.api.here.com/hub/spaces/${spaceId}/iterate?access_token=${config.token}`
-    
-    let res = await axios.get(data_url)
-
-    // debugger
-    let low_available = res.data.features.filter(item => item.properties.low_care === 'Available').length
-    let high_available = res.data.features.filter(item => item.properties.high_care === 'Available').length
-    let ecmo_available = res.data.features.filter(item => item.properties.ecmo === 'Available').length
-
-    let low_limited = res.data.features.filter(item => item.properties.low_care === 'Limited').length
-    let high_limited = res.data.features.filter(item => item.properties.high_care === 'Limited').length
-    let ecmo_limited = res.data.features.filter(item => item.properties.ecmo === 'Limited').length
-
-    let low_not = res.data.features.filter(item => item.properties.low_care === 'Not available').length
-    let high_not = res.data.features.filter(item => item.properties.high_care === 'Not available').length
-    let ecmo_not = res.data.features.filter(item => item.properties.ecmo === 'Not available').length
-
-    let low_nodata = res.data.features.filter(item => item.properties.low_care !== 'Not available' && item.properties.low_care !== 'Available' && item.properties.low_care !== 'Limited').length
-    let high_nodata = res.data.features.filter(item => item.properties.high_care !== 'Not available' && item.properties.high_care !== 'Available' && item.properties.high_care !== 'Limited').length
-    let ecmo_nodata = res.data.features.filter(item => item.properties.ecmo !== 'Not available' && item.properties.ecmo !== 'Available' && item.properties.ecmo !== 'Limited').length
     
 
-    this.setState({
-      analytics: {
-        ...this.state.analytics, 
-        hospitals: res.data, 
-        statistics: {
-          low_care: {
-            available: low_available,
-            limited: low_limited,
-            not: low_not,
-            nodata: low_nodata
-          },
-          high_care: {
-            available: high_available,
-            limited: high_limited,
-            not: high_not,
-            nodata: high_nodata
-          },
-          ecmo: {
-            available: ecmo_available,
-            limited: ecmo_limited,
-            not: ecmo_not,
-            nodata: ecmo_nodata
-          },
-        }
-      }
-    })    
   }
-
-
-
-
-
-
 
   calculateIsoline (coords) {
     let { isoline } = this.state.options
@@ -176,6 +109,7 @@ export default class DisplayMapClassContainer extends Component {
 
   clearIsoline () {
     this.setState((state, props) => ({
+      
       options: {
         ...state.options,
         isoline: {

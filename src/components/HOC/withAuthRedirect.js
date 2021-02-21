@@ -10,8 +10,9 @@ export const  withAuthRedirect = (Component) => {
     class RedirectComponent extends React.Component {
         render () {
     let token = localStorage.getItem('isAuthToken')
+    let tokenId = localStorage.getItem('accessToken')
 
-    if (token === "false" || token === null) return <Redirect to = '/login'></Redirect>
+    if (token === "false" || token === null || tokenId == null || tokenId === 'null' || tokenId == 'null') return <Redirect from='*' to = '/login'></Redirect>
    return <Component {...this.props} />
         }
 }

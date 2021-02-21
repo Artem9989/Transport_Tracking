@@ -46,7 +46,7 @@ const handleSearch =  (value) => {
           let lng = res.data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
           console.log(window)
           window.map.setCenter({lat: lat,lng: lng});
-          window.map.setZoom(16);
+          window.map.setZoom(12);
           // setSearchText('');
           
           setSuggestions([]);

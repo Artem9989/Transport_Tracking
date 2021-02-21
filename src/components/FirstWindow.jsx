@@ -7,6 +7,7 @@ import DisplayMapClassContainer from './Map/DisplayMapClassContainer';
 // import {DisplayMapClass} from './Map/DisplayMapClass';
 // import ReactDOM from "react-dom";
 // import HEREMap from "react-here-map"
+import { Redirect } from 'react-router-dom';
 import { logout } from '../redux/Auth-reducer';
 // import {  BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { withAuthRedirect } from './HOC/withAuthRedirect'
@@ -34,9 +35,10 @@ const [SiderVisible, setSider] = useState(false)
   const dispatch = useDispatch();
 
   const out = () => {
-   
+    
     dispatch(logout())
     window.location.reload();
+    return <Redirect from='*' to='/login' />
   }
 
     
@@ -70,7 +72,7 @@ const [SiderVisible, setSider] = useState(false)
         >
           <div className="logo" ><img src='../../favicon.ico' alt="" className="logo"/> </div>
           <Menu trigger={null} theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1" icon={<PieChartOutlined />}>
+            <Menu.Item key="1" onClick={() => setShowModal(true)} icon={<PieChartOutlined />}>
              Памятка
             </Menu.Item>
             {/* <Menu.Item key="2" icon={<DesktopOutlined />}> */}
@@ -86,8 +88,10 @@ const [SiderVisible, setSider] = useState(false)
             <Menu.Item key="9" icon={<FileOutlined />}>
               Files
             </Menu.Item>
-            <button id='memo' className="Exit" onClick={toggleModal}> Памятка </button>
-            <button id='Exit' className="Exit" onClick={out}> Выход </button>
+            <Menu.Item key="10" onClick={out} icon={<FileOutlined />}>
+              Выход
+            </Menu.Item>
+
           </Menu>
         </Sider>
         <Layout className="site-layout">
@@ -101,8 +105,8 @@ const [SiderVisible, setSider] = useState(false)
           </Header>
           <Content >
 
-            <div id="YMapsID"><DisplayMapClassContainer toggleModal={toggleModal}
-              ShowModal={ShowModal}/></div>
+            <DisplayMapClassContainer toggleModal={toggleModal}
+              ShowModal={ShowModal}/>
           </Content>
         </Layout>
       </Layout>

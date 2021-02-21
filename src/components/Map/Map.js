@@ -28,7 +28,6 @@ export default class Map extends Component {
 
     this.createClusterLayer = this.createClusterLayer.bind(this)
 
-    this.hospitalsClusterLayer = null
     this.clusteredDataProvider = null
     this.activeLayer = null
   }
@@ -51,7 +50,7 @@ export default class Map extends Component {
         center: { lat:54.00684227163969, lng: 56.00684227163969  },
         zoom: 6,
         pixelRatio: window.pixelRatio || 1,
-        // engineType: H.map.render.p2d
+        engineType: H.map.render.p2d
       },
       HomeViewControl: {},
       InfoControl: {},
@@ -61,7 +60,7 @@ export default class Map extends Component {
       ZoomRectangle: {},
       ScaleBar: {},
       ServicesLabelControl: {},
-      Hospitals: null,
+
     }
   
     // Initialize paltform
@@ -111,7 +110,6 @@ export default class Map extends Component {
       },
       zoom:10
     })
-    console.log(M.Map)
     window.map = M.Map
     this.setState({ ...M, H: H })
     M.UI.addControl('home-control', M.HomeViewControl)
@@ -131,32 +129,43 @@ export default class Map extends Component {
 
 
     // Map default layers customization 
-    // M.MapSettingsControl = new H.ui.MapSettingsControl({
-    //   baseLayers: [{
-    //     label: 'Reduced map',
-    //     layer: M.TileLayer
-    //   },
-    //   {
-    //     label: 'Normal day',
-    //     layer: M.DefaultLayers.raster.normal.map
-    //   },
-    //   {
-    //     label: 'Satellite',
-    //     layer: M.DefaultLayers.raster.satellite.map
-    //   }, 
-    //   {
-    //     label: 'Normal night',
-    //     layer: M.DefaultLayers.raster.normal.basenight
-    //   }, 
-    //   {
-    //     label: 'Base night',
-    //     layer: M.DefaultLayers.raster.normal.xbasenight
-    //   }],
-    //   alignment: "right-bottom"
-    // })
-
-    // M.UI.addControl('mapsettings', M.MapSettingsControl)
-
+    M.MapSettingsControl = new H.ui.MapSettingsControl({
+      baseLayers: [{
+        label: 'Reduced map',
+        layer: M.TileLayer
+      },
+      {
+        label: 'Normal day',
+        layer: M.DefaultLayers.raster.normal.map
+      },
+      {
+        label: 'Satellite',
+        layer: M.DefaultLayers.raster.satellite.map
+      }, 
+      {
+        label: 'Normal night',
+        layer: M.DefaultLayers.raster.normal.basenight
+      }, 
+      {
+        label: 'Base night',
+        layer: M.DefaultLayers.raster.normal.xbasenight
+      },
+      // {
+      //   label: 'Traffic',
+      //   layer: M.DefaultLayers.vector.normal.traffic
+      // },
+      // {
+      //   label: 'Traffic Incidents',
+      //   layer: M.DefaultLayers.vector.normal.trafficincidents
+      // },
+    ],
+      alignment: "right-bottom"
+    })
+    M.Map.addLayer(M.DefaultLayers.vector.normal.traffic);
+    M.Map.addLayer(M.DefaultLayers.vector.normal.trafficincidents);
+    M.UI.addControl('mapsettings', M.MapSettingsControl)
+    
+    //регулирования мест посещения
     // let bounds = new H.geo.Rect()
     
     // M.Map.getViewModel().addEventListener('sync', function() {
@@ -181,24 +190,25 @@ export default class Map extends Component {
       }
     })
 
-    let reader = new H.data.geojson.Reader(overlay,
-          {
+    // let reader = new H.data.geojson.Reader(overlay,
+    //       {
    
-          style: mapObject => {
-            mapObject.getObjects().forEach(feature => {
-              feature.setStyle({
-                fillColor: 'rgba(0,0,0,.1)',
-                strokeColor: 'rgba(0,0,0,.1)',
-                lineWidth: 0
-              });
-            })
+    //       style: mapObject => {
+    //         mapObject.getObjects().forEach(feature => {
+    //           feature.setStyle({
+    //             fillColor: 'rgba(0,0,0,.1)',
+    //             strokeColor: 'rgba(0,0,0,.1)',
+    //             lineWidth: 0
+    //           });
+    //         })
             
-          }
-    })
+    //       }
+    // // })
 
-    reader.parse()
-    M.Map.addLayer(reader.getLayer())
-    
+    // reader.parse()
+    // M.Map.addLayer(reader.getLayer())
+    console.log(M)
+
   }
 
   componentWillUnmount() {
@@ -252,6 +262,7 @@ export default class Map extends Component {
         new H.util.ContextItem({
           label: 'Clear Isoline',
           callback: () => {
+           
             clearIsoline()
           }
         }),
@@ -335,57 +346,9 @@ export default class Map extends Component {
       
       if (Map != null) {
         
-        if (analytics.hospitals != null) {
-        
-          if (this.hospitalsClusterLayer === null) {
-            switch(analytics.active_layer) {
-              case "low_care":
-                this.activeLayer = "low_care"
-                this.hospitalsClusterLayer = this.createClusterLayer(analytics.hospitals.features, low_care_theme)
-                break
-              
-              case "high_care":
-                this.activeLayer = "high_care"
-                this.hospitalsClusterLayer = this.createClusterLayer(analytics.hospitals.features, high_care_theme)
-                break
-              
-              case "ecmo":
-                this.activeLayer = "ecmo"
-                this.hospitalsClusterLayer = this.createClusterLayer(analytics.hospitals.features, ecmo_theme)
-                break        
-            }
+      
 
-            Map.addLayer(this.hospitalsClusterLayer, 2)
-          
-          } else {
-            const that = this
-
-            switch (analytics.active_layer) {
-              case "low_care":
-                if (that.activeLayer !== "low_care") {
-                  that.activeLayer = "low_care"
-                  that.clusteredDataProvider.setTheme(low_care_theme(Map, UI))
-                }
-                break
-
-              case "high_care":
-                if (that.activeLayer !== "high_care"){
-                  that.activeLayer = "high_care"
-                  that.clusteredDataProvider.setTheme(high_care_theme(Map, UI))
-                }
-                break
-              
-              case "ecmo":
-                if (that.activeLayer !== "ecmo"){
-                  that.activeLayer = "ecmo"
-                  that.clusteredDataProvider.setTheme(ecmo_theme(Map, UI))
-                }
-                break
-            }
-          }
-        }
-
-        // Map.removeObjects(Map.getObjects())
+        Map.removeObjects(Map.getObjects())
 
         if( options.isoline.geometry.length !== 0) {
           
@@ -408,7 +371,7 @@ export default class Map extends Component {
             linestring, 
             { 
               style: { 
-                lineWidth: 2,
+                lineWidth: 1,
                 fillColor: 'rgba(103, 58, 147, 0.3)',
                 strokeColor: '#673A93',
                 lineDash: [0, 2],
