@@ -44,7 +44,6 @@ const handleSearch =  (value) => {
         const res = await axios.get(geocoderUrl)
           let lat = res.data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
           let lng = res.data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
-          console.log(window)
           window.map.setCenter({lat: lat,lng: lng});
           window.map.setZoom(12);
           // setSearchText('');
@@ -70,7 +69,6 @@ const handleSearch =  (value) => {
         <AutoComplete
         placeholder="Поиск по местоположению"
         dropdownMatchSelectWidth={272}
-        dropdownMatchSelectHeight={500}
         style={{
             width: 320,
         }}

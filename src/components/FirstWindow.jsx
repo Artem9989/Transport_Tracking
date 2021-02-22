@@ -11,7 +11,7 @@ import { Redirect } from 'react-router-dom';
 import { logout } from '../redux/Auth-reducer';
 // import {  BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { withAuthRedirect } from './HOC/withAuthRedirect'
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
  //import HPlatform, { HMap, HMapPolyLine } from "react-here-map";
  import './FirstWindow.css';
  import  Search   from './Map/Search/Search'
@@ -38,7 +38,7 @@ const [SiderVisible, setSider] = useState(false)
     
     dispatch(logout())
     window.location.reload();
-    return <Redirect from='*' to='/login' />
+
   }
 
     
@@ -53,6 +53,8 @@ const [SiderVisible, setSider] = useState(false)
   // ];
   //show Modal memo
   const [ShowModal, setShowModal] = useState(false)
+  const [transportType, setTransportType] = useState('truck')
+  // const [ShowModal, setShowModal] = useState(false)
   const toggleModal = () => {
     setShowModal(!ShowModal);
   }
@@ -82,8 +84,8 @@ const [SiderVisible, setSider] = useState(false)
               <DriversContainer />
             </SubMenu>
             <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
+              <Menu.Item key="6" onClick={() => setTransportType('truck')}>Грузовые</Menu.Item>
+              <Menu.Item key="8" onClick={() => setTransportType('car')}>Автомобили</Menu.Item>
             </SubMenu>
             <Menu.Item key="9" icon={<FileOutlined />}>
               Files
@@ -106,7 +108,7 @@ const [SiderVisible, setSider] = useState(false)
           <Content >
 
             <DisplayMapClassContainer toggleModal={toggleModal}
-              ShowModal={ShowModal}/>
+              ShowModal={ShowModal} transportType={transportType}/>
           </Content>
         </Layout>
       </Layout>
@@ -143,4 +145,4 @@ const [SiderVisible, setSider] = useState(false)
   }
 
 
-export default connect(withAuthRedirect)(FirstWindow);
+export default withAuthRedirect(FirstWindow);

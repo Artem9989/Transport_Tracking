@@ -125,7 +125,7 @@ const RegisterForm = ({handleSubmit , error, changingPage}) => {
         <div className={LoginCSS.youpasswd}>
             <Field name={"password_twoSignup"} placeholder={"Повторите пароль"} type={"password"} component={Input} validate={[required,minLengthCreator(8)]} />
         </div>
-        <div>
+        <div className={LoginCSS.rememberMe}>
             <Field name={"rememberMe"} type={"checkbox"} component={Input} /> Запомнить меня
     </div>
         {error && <div className={LoginCSS.formSummaryError}>
@@ -138,14 +138,7 @@ const RegisterForm = ({handleSubmit , error, changingPage}) => {
         </div>
 
     </form>     
-    <p>
-                <label htmlFor="roledsignup" className="wrapper__register_role" data-icon="p"> Выберите роль </label>
-                <select size="4" multiple name="Role[]">
-                <option disabled> Выберите роль</option>
-                    <option value="Role_One">Водитель </option>
-                    <option value="Role_Two">Менеджер</option>
-                    </select>
-            </p>
+
             {/* <p className="wrapper__register_button button">
                 <input id="btnRegister" type="submit" value="Регистрация" onClick={onSubmit} />
             </p> */}

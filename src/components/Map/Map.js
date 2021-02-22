@@ -44,13 +44,17 @@ export default class Map extends Component {
       Map: {},
       TileService: {},
       TileLayer: {},
+      TileSer: {},
+      TileLay: {},
       Behavior: {},
       UI: {},
       Settings: {
         center: { lat:54.00684227163969, lng: 56.00684227163969  },
         zoom: 6,
         pixelRatio: window.pixelRatio || 1,
-        engineType: H.map.render.p2d
+        engineType: H.map.render.p2d,
+        Localization: 'ru-RU',
+        languages: 'RUS'
       },
       HomeViewControl: {},
       InfoControl: {},
@@ -59,36 +63,53 @@ export default class Map extends Component {
       DistanceMeasurement: {},
       ZoomRectangle: {},
       ScaleBar: {},
-      ServicesLabelControl: {},
-
+      config: { 
+        locale: 'ru-RU',
+        lg: 'RUS',
+        lg2: 'RUS',
+        priew: 'RUS',
+        pois: 'true',
+      },
+    
     }
   
     // Initialize paltform
-    M.Platform = new H.service.Platform({ apikey: this.props.apikey })
-    M.DefaultLayers = M.Platform.createDefaultLayers()
-      
+    M.Platform = new H.service.Platform({ apikey: this.props.apikey})
+    
+    M.DefaultLayers = M.Platform.createDefaultLayers(M.config)
+    
+
     // Customize type of basemap
     
     M.TileService = M.Platform.getMapTileService({type: 'base'})
     
-    M.TileLayer = M.TileService.createTileLayer('maptile', 'reduced.day', 256, 'png8', {})
+    M.TileLayer = M.TileService.createTileLayer('maptile', 'reduced.day', 256, 'png8', M.config)
+    //Two map
+    M.TileSer = M.Platform.getMapTileService({type: 'base'})
+    M.TileLay = M.TileService.createTileLayer('basetile', 'normal.night.grey', 256, 'png8', M.config)
     
     M.TileLayer.setMin(6)
 
     M.Map = new H.Map( this.mapRef.current, M.TileLayer, M.Settings )
+   
     
+    // M.options = new H.ui.UI.options( {locale: M.options.locale})
+    M.UI = new H.ui.UI(M.Map, {locale: M.config.locale})
     // Behavior
     M.Behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(M.Map))
     M.Behavior.disable(H.mapevents.Behavior.Feature.FRACTIONAL_ZOOM)
     
     //  User Interface
-    M.UI = new H.ui.UI(M.Map)
-
-
+    // M.UI = new H.ui.UI(M.Map)
+    // M.Localization = new H.ui.i18n.Localization('ru-RU')
+    // M.UI = new H.ui.UI(M.Map,M.DefaultLayers, M.Localization, 'ru-RU')
+    // console.log(M.Localization)
+    // M.UI = new H.ui.UI.createDefault(M.Map, M.DefaultLayers, 'ru-RU');
+    // console.log(H.ui)
     // Distance Measurement control
     M.ScaleBar = new H.ui.ScaleBar({alignment: "bottom-center"})
     M.UI.addControl('scalebar', M.ScaleBar)
-
+  
     // M.ServicesLabelControl = new ServicesLabelControl({
     //   position:'right-bottom'
     // })
@@ -99,7 +120,7 @@ export default class Map extends Component {
     // Zoom Control
     M.ZoomControl = new H.ui.ZoomControl({fractionalZoom: false, alignment: "right-middle"})
     M.UI.addControl('zoom', M.ZoomControl)
-
+    // console.log(H.service.metaInfo.service.Info)
     // Home Control
     M.HomeViewControl = new HomeViewControl({
        
@@ -126,45 +147,58 @@ export default class Map extends Component {
     })
     M.UI.addControl('info-control', M.InfoControl)
 
-
+    // console.log(H.ui.i18n);
+    // H.ui.i18n.Localization = new H.ui.i18n.Localization('ru-RU',Object);
 
     // Map default layers customization 
     M.MapSettingsControl = new H.ui.MapSettingsControl({
       baseLayers: [{
-        label: 'Reduced map',
-        layer: M.TileLayer
+        label: 'Базовая карта',
+        layer: M.TileLayer,
       },
       {
-        label: 'Normal day',
+        label: 'Обычная (день)',
         layer: M.DefaultLayers.raster.normal.map
       },
       {
-        label: 'Satellite',
-        layer: M.DefaultLayers.raster.satellite.map
+        label: 'Спутник',
+        layer: M.DefaultLayers.raster.satellite.map,
       }, 
       {
-        label: 'Normal night',
+        label: 'Ночная (без надписей)',
         layer: M.DefaultLayers.raster.normal.basenight
       }, 
       {
-        label: 'Base night',
-        layer: M.DefaultLayers.raster.normal.xbasenight
+        label: 'День (без надписей)',
+        layer: M.DefaultLayers.raster.normal.base
       },
-      // {
-      //   label: 'Traffic',
-      //   layer: M.DefaultLayers.vector.normal.traffic
-      // },
-      // {
-      //   label: 'Traffic Incidents',
-      //   layer: M.DefaultLayers.vector.normal.trafficincidents
-      // },
+      {
+        label: 'Ночь (без надписей)',
+        layer: M.TileLay
+      },
+      {
+        label: 'Движение грузовиков',
+        layer: M.DefaultLayers.vector.normal.truck
+      },
+     
+      
     ],
-      alignment: "right-bottom"
+    layers: [
+    {
+        label: 'Загруженность',
+        layer: M.DefaultLayers.vector.normal.traffic
+      },
+      {
+        label: 'Происшествия',
+        layer: M.DefaultLayers.vector.normal.trafficincidents
+      },
+    ],
+      alignment: "right-bottom",
+      configObj: M.config
     })
-    M.Map.addLayer(M.DefaultLayers.vector.normal.traffic);
-    M.Map.addLayer(M.DefaultLayers.vector.normal.trafficincidents);
+
     M.UI.addControl('mapsettings', M.MapSettingsControl)
-    
+
     //регулирования мест посещения
     // let bounds = new H.geo.Rect()
     
@@ -189,36 +223,36 @@ export default class Map extends Component {
         
       }
     })
-
+    
     // let reader = new H.data.geojson.Reader(overlay,
     //       {
    
     //       style: mapObject => {
     //         mapObject.getObjects().forEach(feature => {
     //           feature.setStyle({
-    //             fillColor: 'rgba(0,0,0,.1)',
+    //             fillColor: 'rgba(0,0,0,91)',
     //             strokeColor: 'rgba(0,0,0,.1)',
     //             lineWidth: 0
     //           });
     //         })
             
     //       }
-    // // })
+    // })
 
     // reader.parse()
     // M.Map.addLayer(reader.getLayer())
-    console.log(M)
+
 
   }
 
   componentWillUnmount() {
-    try {
+  try{
     this.state.map.dispose()
-    }
-    catch{
-
-    }
-
+  }
+  catch{
+    
+  }
+    
   }
 
 

@@ -22,7 +22,7 @@ const LoginForm = ({ handleSubmit, error, changingPage }) => {
                 <label htmlFor="Emailsignup" className={LoginCSS.uname} data-icon="p">Ваш пароль </label>
                 <Field name={"password"} placeholder={"Пароль"} type={"password"} component={Input} validate={[required]} />
             </div>
-            <div className={LoginCSS.checkBoxRememberME}>
+            <div className={LoginCSS.rememberMe}>
 
                 <Field name={"rememberMe"} type={"checkbox"} labelField="text" component={Input} value="RememberMer" /> Запомнить меня
         </div>
@@ -59,7 +59,6 @@ const Login = (props) => {
 
     let token = localStorage.getItem('isAuthToken')
     if (token === 'true') {
-        console.log(props.changingPage)
         return <Redirect to={'/main'} />
     }
 

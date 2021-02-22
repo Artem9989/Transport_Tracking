@@ -37,18 +37,19 @@ export default class DisplayMapClassContainer extends Component {
         isoline: {
           range: 300,
           type: "time",
-          transport: "car",
+          transport: this.props.transportType,
           traffic: "enabled",
           geometry: [],
           marker: {lat: null, lng: null}
         },
         waypoints: {
           url: "",
-          transport: "car",
+          transport: this.props.transportType,
           traffic: "enabled",
           markers: [],
           geometry: [],
-        }
+        },
+ 
       }
     }
 
@@ -76,6 +77,7 @@ export default class DisplayMapClassContainer extends Component {
   calculateIsoline (coords) {
     let { isoline } = this.state.options
 
+ 
     if (coords.lat === null && coords.lng === null) {
       return
     }
@@ -213,7 +215,7 @@ export default class DisplayMapClassContainer extends Component {
     let routeRequest = `${routeBaseUrl}apikey=${config.apikey}&mode=fastest;${waypoints.transport};traffic:${waypoints.traffic}&routeattributes=sh&${routeToString}`
     
     let res_route = await axios.get(routeRequest)
-
+    
     let polylineArray = res_route.data.response.route[0].shape.map((coords, i) => {
       return coords.split(',').map(Number);
     })

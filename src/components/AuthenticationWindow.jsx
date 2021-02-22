@@ -12,7 +12,7 @@ const AuthenticationWaindow = (props) => {
 
     return <>
         <section>
-            <div id="container_registration">
+         
                 <div id="wrapper" className={AuthCSS.wrapper}>
                     {
                         isLogin ?
@@ -21,8 +21,6 @@ const AuthenticationWaindow = (props) => {
                     }
                     
                 </div>
-
-            </div>
         </section>
     </>
 
