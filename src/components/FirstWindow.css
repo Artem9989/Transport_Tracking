@@ -48,6 +48,10 @@
   line-height: 64px;
   cursor: pointer;
   transition: color 0.3s;
+  background-color: rgba(0, 0, 0, 0.85);
+  width: 76px;
+  padding: 0 24px 0 24px;
+  height: 64px;
 }
 
 .trigger:hover {

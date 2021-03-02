@@ -15,8 +15,9 @@ export const ModalWindowMemo = ({ ShowModal, toggleModal, dontShowModal }) => {
         width= {'80%'}
         cancelButtonProps={{ style: { display: 'none' } }}
         >
-                <span slot="title">Healthcare Resources</span>
-                <b>Description</b>
+            
+                <span slot="title"> Мониторинг средств автотранспорта</span>
+                <b>Описания</b>
                 <br/>
                 <br/>
                 This web app is designed as an analytical tool that provides information about hospitals around Germany and their ICU and ventilating machine capacity. 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-
+import { Drawer } from "antd";
 
 // Components
 import Map from './Map'
-
+import CostOptimRoute from "./CostOptimRoute/CostOptimRoute.jsx";
 import { ModalWindowMemo  } from './Modal/Modal'
 
 // Requests library
@@ -11,6 +11,7 @@ import axios from 'axios'
 
 // Config
 import { config } from '../../assets/config.js'
+
 
 export default class DisplayMapClassContainer extends Component {
 
@@ -250,6 +251,17 @@ export default class DisplayMapClassContainer extends Component {
 
     return (<>
 
+          <Drawer
+              title="CostOptimRouter"
+              placement="left"
+              closable={true}
+              onClose={()=> { this.props.setshowCostOptimRoute(false)}}
+              visible={this.props.showCostOptimRoute}
+              mask={false}
+              width= {450}
+            >
+              <CostOptimRoute showCostOptimRoute={this.props.showCostOptimRoute} />
+            </Drawer>
 
         <ModalWindowMemo 
           toggleModal={this.props.toggleModal}

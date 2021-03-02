@@ -279,7 +279,7 @@ export default class Map extends Component {
         }),
         
         new H.util.ContextItem({
-          label: 'Center Map',
+          label: 'Центр карты',
           callback: function() {
             Map.setCenter(coord, true);
           }
@@ -288,13 +288,13 @@ export default class Map extends Component {
         H.util.ContextItem.SEPARATOR,
         
         new H.util.ContextItem({
-          label: 'Calculate Isoline',
+          label: 'Высчитать изолинию',
           callback: () => {
             calculateIsoline(coord)
           }
         }),
         new H.util.ContextItem({
-          label: 'Clear Isoline',
+          label: 'Стереть изолинию',
           callback: () => {
            
             clearIsoline()
@@ -304,14 +304,14 @@ export default class Map extends Component {
         H.util.ContextItem.SEPARATOR,
 
         new H.util.ContextItem({
-          label: 'Add waypoint',
+          label: 'Добавить путевую точку',
           callback: () => {
             updateWaypoints(coord)
           }
         }),
 
         new H.util.ContextItem({
-          label: 'Clear route',
+          label: 'Стереть путь',
           callback: () => {
             clearWaypoints(coord)
           }
