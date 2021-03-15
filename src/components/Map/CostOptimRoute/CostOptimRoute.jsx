@@ -23,9 +23,7 @@ const CostOptimRoute = (props) => {
     const [trStartRouteDate, settrStartRouteDate] = useState(false);
     const [dateNow, setDate] = useState('');
     const [time, setTime] = useState('');
-	
     const [serverURL, setserverURL] = useState('https://fleet.ls.hereapi.com/2/calculateroute.json?');
-
 	const [routeButton, setrouteButton] = useState("Высчитать оптимальную стоимость маршрута");
 	// onKey
 	const [startValue, setstartValue] = useState('am Kronberger Hang 8, Schwalbach');
@@ -49,7 +47,7 @@ const CostOptimRoute = (props) => {
 	const [trailerNr, settrailerNr] = useState('0');
 	const [emissionType, setemissionType] = useState('5');
 	const [routeAlternatives, setrouteAlternatives] = useState('1');
-	const [predefinedVehSpec, setpredefinedVehSpec] = useState('2');
+	const [predefinedVehSpec, setpredefinedVehSpec] = useState('0');
 	const [vehicles, setvehicles] = useState('2');
 	const [trailerType, settrailerType] = useState('0');
 	const [hybrid, sethybrid] = useState('0');
@@ -787,14 +785,14 @@ const CostOptimRoute = (props) => {
 
 
 			// Helper for selecting the value attached to a JS selection
-			function selectionSettingHelper(selection, value) {
-				for (var opt, j = 0; opt = selection.options[j]; j++) {
-					if (opt.value == value) {
-						selection.selectedIndex = j;
-						break;
-					}
-				}
-			}
+			// function selectionSettingHelper(selection, value) {
+			// 	for (var opt, j = 0; opt = selection.options[j]; j++) {
+			// 		if (opt.value == value) {
+			// 			selection.selectedIndex = j;
+			// 			break;
+			// 		}
+			// 	}
+			// }
 
 			/*********************************
 			 Vehicle Specification
@@ -832,9 +830,10 @@ const CostOptimRoute = (props) => {
 			var vehicleHeight = vehHeight;
 			var vehicleWeight = vehWeight;
 			var numPassengers = nrPassengers;
-			// var vehSpecSelection = predefinedVehSpec;
+			var vehSpecSelection = predefinedVehSpec;
 			function handleVehicleSpecChanged() {
 				setUserdefinedVehicleSpec(false);
+
 				// var vehicle = 2;
 				// var totalNumTires = 4;
 				// var trailerType = 0;
@@ -875,260 +874,458 @@ const CostOptimRoute = (props) => {
 				setminPollution('0');
 				sethov('0');
 				setnrPassengers('2');
-				setcommercial('0')
-				sethazardousType('0')
-				setfuelType('petrol')
-				setheightAbove1stAxle('100')
+				setcommercial('0');
+				sethazardousType('0');
+				setfuelType('petrol');
+				setheightAbove1stAxle('100');
 
-				var vehSpecSelection = document.getElementById("predefinedVehSpec");
-				if (vehSpecSelection.value == 0) // Car
+				// var vehSpecSelection = document.getElementById("predefinedVehSpec");
+				if (vehSpecSelection == 0) // Car
 				{
-					vehicle = 2;
-					totalNumTires = 4;
-					trailerType = 0;
-					trailerNum = 0;
-					vehicleNumAxles = 2;
-					trailerNumAxles = 0;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 167;
-					vehicleWeight = 1739;
-					trailerHeight = 0;
-					totalWeight = 1739;
-					totalWidth = 180;
-					totalLength = 441;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 2;
-					commercial = 0;
-					hazardousType = 0;
-					heightAbove1stAxle = 100;
-					fuelType = 'diesel';
+					// vehicle = 2;
+					// totalNumTires = 4;
+					// trailerType = 0;
+					// trailerNum = 0;
+					// vehicleNumAxles = 2;
+					// trailerNumAxles = 0;
+					// hybrid = 0;
+					// emmisionType = 5;
+					// vehicleHeight = 167;
+					// vehicleWeight = 1739;
+					// trailerHeight = 0;
+					// totalWeight = 1739;
+					// totalWidth = 180;
+					// totalLength = 441;
+					// disabledEquipped = 0;
+					// minPollution = 0;
+					// hov = 0;
+					// numPassengers = 2;
+					// commercial = 0;
+					// hazardousType = 0;
+					// heightAbove1stAxle = 100;
+					// fuelType = 'diesel';
+					setvehicles('2');
+					setnrOfTotalTires('4');
+					settrailerType('0');
+					settrailerNr('0');
+					setnrOfAxlesVehicle('2');
+					setnrOfAxlesTrailer('0');
+					sethybrid('0');
+					setemissionType('5');
+					setvehHeight('167');
+					setvehWeight('1739');
+					settrailerHeight('0');
+					settotalWeight('1739');
+					settotalWidth('180');
+					settotalLength('441');
+					setdisabledEquipped('0');
+					setminPollution('0');
+					sethov('0');
+					setnrPassengers('2');
+					setcommercial('0');
+					sethazardousType('0');
+					setfuelType('diesel');
+					setheightAbove1stAxle('100');
 				}
-				else if (vehSpecSelection.value == 1) // Transporter
+				else if (vehSpecSelection == 1) // Transporter
 				{
-					vehicle = 2;
-					totalNumTires = 4;
-					trailerType = 0;
-					trailerNum = 0;
-					vehicleNumAxles = 2;
-					trailerNumAxles = 0;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 255;
-					vehicleWeight = 3500;
-					trailerHeight = 0;
-					totalWeight = 3500;
-					totalWidth = 194;
-					totalLength = 652;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 1;
-					commercial = 1;
-					hazardousType = 0;
-					heightAbove1stAxle = 130;
-					fuelType = 'diesel';
+					// vehicle = 2;
+					// totalNumTires = 4;
+					// trailerType = 0;
+					// trailerNum = 0;
+					// vehicleNumAxles = 2;
+					// trailerNumAxles = 0;
+					// hybrid = 0;
+					// emmisionType = 5;
+					// vehicleHeight = 255;
+					// vehicleWeight = 3500;
+					// trailerHeight = 0;
+					// totalWeight = 3500;
+					// totalWidth = 194;
+					// totalLength = 652;
+					// disabledEquipped = 0;
+					// minPollution = 0;
+					// hov = 0;
+					// numPassengers = 1;
+					// commercial = 1;
+					// hazardousType = 0;
+					// heightAbove1stAxle = 130;
+					// fuelType = 'diesel';
+					setvehicles('2');
+					setnrOfTotalTires('4');
+					settrailerType('0');
+					settrailerNr('0');
+					setnrOfAxlesVehicle('2');
+					setnrOfAxlesTrailer('0');
+					sethybrid('0');
+					setemissionType('5');
+					setvehHeight('255');
+					setvehWeight('3500');
+					settrailerHeight('0');
+					settotalWeight('3500');
+					settotalWidth('1194');
+					settotalLength('652');
+					setdisabledEquipped('0');
+					setminPollution('0');
+					sethov('0');
+					setnrPassengers('1');
+					setcommercial('1');
+					sethazardousType('0');
+					setfuelType('diesel');
+					setheightAbove1stAxle('130');
 				}
-				else if (vehSpecSelection.value == 2) // Truck 7.5t
+				else if (vehSpecSelection == 2) // Truck 7.5t
 				{
-					vehicle = 3;
-					totalNumTires = 4;
-					trailerType = 0;
-					trailerNum = 0;
-					vehicleNumAxles = 2;
-					trailerNumAxles = 0;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 340;
-					vehicleWeight = 7500;
-					trailerHeight = 0;
-					totalWeight = 7500;
-					totalWidth = 250;
-					totalLength = 720;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 1;
-					commercial = 1;
-					hazardousType = 0;
-					heightAbove1stAxle = 300;
-					fuelType = 'diesel';
+					// vehicle = 3;
+					// totalNumTires = 4;
+					// trailerType = 0;
+					// trailerNum = 0;
+					// vehicleNumAxles = 2;
+					// trailerNumAxles = 0;
+					// hybrid = 0;
+					// emmisionType = 5;
+					// vehicleHeight = 340;
+					// vehicleWeight = 7500;
+					// trailerHeight = 0;
+					// totalWeight = 7500;
+					// totalWidth = 250;
+					// totalLength = 720;
+					// disabledEquipped = 0;
+					// minPollution = 0;
+					// hov = 0;
+					// numPassengers = 1;
+					// commercial = 1;
+					// hazardousType = 0;
+					// heightAbove1stAxle = 300;
+					// fuelType = 'diesel';
+					setvehicles('3');
+					setnrOfTotalTires('4');
+					settrailerType('0');
+					settrailerNr('0');
+					setnrOfAxlesVehicle('2');
+					setnrOfAxlesTrailer('0');
+					sethybrid('0');
+					setemissionType('5');
+					setvehHeight('340');
+					setvehWeight('7500');
+					settrailerHeight('0');
+					settotalWeight('7500');
+					settotalWidth('250');
+					settotalLength('720');
+					setdisabledEquipped('0');
+					setminPollution('0');
+					sethov('0');
+					setnrPassengers('1');
+					setcommercial('1');
+					sethazardousType('0');
+					setfuelType('diesel');
+					setheightAbove1stAxle('300');
 				}
-				else if (vehSpecSelection.value == 3) // Truck 11t
+				else if (vehSpecSelection == 3) // Truck 11t
 				{
-					vehicle = 3;
-					totalNumTires = 6;
-					trailerType = 0;
-					trailerNum = 0;
-					vehicleNumAxles = 2;
-					trailerNumAxles = 0;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 380;
-					vehicleWeight = 11000;
-					trailerHeight = 0;
-					totalWeight = 11000;
-					totalWidth = 255;
-					totalLength = 1000;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 1;
-					commercial = 1;
-					hazardousType = 0;
-					heightAbove1stAxle = 300;
-					fuelType = 'diesel';
+				// 	vehicle = 3;
+				// 	totalNumTires = 6;
+				// 	trailerType = 0;
+				// 	trailerNum = 0;
+				// 	vehicleNumAxles = 2;
+				// 	trailerNumAxles = 0;
+				// 	hybrid = 0;
+				// 	emmisionType = 5;
+				// 	vehicleHeight = 380;
+				// 	vehicleWeight = 11000;
+				// 	trailerHeight = 0;
+				// 	totalWeight = 11000;
+				// 	totalWidth = 255;
+				// 	totalLength = 1000;
+				// 	disabledEquipped = 0;
+				// 	minPollution = 0;
+				// 	hov = 0;
+				// 	numPassengers = 1;
+				// 	commercial = 1;
+				// 	hazardousType = 0;
+				// 	heightAbove1stAxle = 300;
+				// 	fuelType = 'diesel';
+				setvehicles('3');
+				setnrOfTotalTires('6');
+				settrailerType('0');
+				settrailerNr('0');
+				setnrOfAxlesVehicle('2');
+				setnrOfAxlesTrailer('0');
+				sethybrid('0');
+				setemissionType('5');
+				setvehHeight('380');
+				setvehWeight('11000');
+				settrailerHeight('0');
+				settotalWeight('11000');
+				settotalWidth('255');
+				settotalLength('1000');
+				setdisabledEquipped('0');
+				setminPollution('0');
+				sethov('0');
+				setnrPassengers('1');
+				setcommercial('1');
+				sethazardousType('0');
+				setfuelType('diesel');
+				setheightAbove1stAxle('300');
 				}
-				else if (vehSpecSelection.value == 4) // Truck one trailer 38t
+				else if (vehSpecSelection == 4) // Truck one trailer 38t
 				{
-					vehicle = 3;
-					totalNumTires = 10;
-					trailerType = 2;
-					trailerNum = 1;
-					vehicleNumAxles = 2;
-					trailerNumAxles = 3;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 400;
-					vehicleWeight = 24000;
-					trailerHeight = 400;
-					totalWeight = 38000;
-					totalWidth = 255;
-					totalLength = 1800;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 1;
-					commercial = 1;
-					hazardousType = 0;
-					heightAbove1stAxle = 300;
-					fuelType = 'diesel';
+					// vehicle = 3;
+					// totalNumTires = 10;
+					// trailerType = 2;
+					// trailerNum = 1;
+					// vehicleNumAxles = 2;
+					// trailerNumAxles = 3;
+					// hybrid = 0;
+					// emmisionType = 5;
+					// vehicleHeight = 400;
+					// vehicleWeight = 24000;
+					// trailerHeight = 400;
+					// totalWeight = 38000;
+					// totalWidth = 255;
+					// totalLength = 1800;
+					// disabledEquipped = 0;
+					// minPollution = 0;
+					// hov = 0;
+					// numPassengers = 1;
+					// commercial = 1;
+					// hazardousType = 0;
+					// heightAbove1stAxle = 300;
+					// fuelType = 'diesel';
+					setvehicles('3');
+					setnrOfTotalTires('10');
+					settrailerType('2');
+					settrailerNr('1');
+					setnrOfAxlesVehicle('2');
+					setnrOfAxlesTrailer('3');
+					sethybrid('0');
+					setemissionType('5');
+					setvehHeight('400');
+					setvehWeight('24000');
+					settrailerHeight('400');
+					settotalWeight('38000');
+					settotalWidth('255');
+					settotalLength('1800');
+					setdisabledEquipped('0');
+					setminPollution('0');
+					sethov('0');
+					setnrPassengers('1');
+					setcommercial('1');
+					sethazardousType('0');
+					setfuelType('diesel');
+					setheightAbove1stAxle('300');
 				}
-				else if (vehSpecSelection.value == 5) // Trailer Truck 40t
+				else if (vehSpecSelection == 5) // Trailer Truck 40t
 				{
-					vehicle = 3;
-					totalNumTires = 14;
-					trailerType = 2;
-					trailerNum = 1;
-					vehicleNumAxles = 3;
-					trailerNumAxles = 2;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 400;
-					vehicleWeight = 12000;
-					trailerHeight = 400;
-					totalWeight = 40000;
-					totalWidth = 255;
-					totalLength = 1650;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 1;
-					commercial = 1;
-					hazardousType = 0;
-					heightAbove1stAxle = 300;
-					fuelType = 'diesel';
+					// vehicle = 3;
+					// totalNumTires = 14;
+					// trailerType = 2;
+					// trailerNum = 1;
+					// vehicleNumAxles = 3;
+					// trailerNumAxles = 2;
+					// hybrid = 0;
+					// emmisionType = 5;
+					// vehicleHeight = 400;
+					// vehicleWeight = 12000;
+					// trailerHeight = 400;
+					// totalWeight = 40000;
+					// totalWidth = 255;
+					// totalLength = 1650;
+					// disabledEquipped = 0;
+					// minPollution = 0;
+					// hov = 0;
+					// numPassengers = 1;
+					// commercial = 1;
+					// hazardousType = 0;
+					// heightAbove1stAxle = 300;
+					// fuelType = 'diesel';
+					setvehicles('3');
+					setnrOfTotalTires('14');
+					settrailerType('2');
+					settrailerNr('1');
+					setnrOfAxlesVehicle('3');
+					setnrOfAxlesTrailer('2');
+					sethybrid('0');
+					setemissionType('5');
+					setvehHeight('400');
+					setvehWeight('12000');
+					settrailerHeight('400');
+					settotalWeight('40000');
+					settotalWidth('255');
+					settotalLength('1650');
+					setdisabledEquipped('0');
+					setminPollution('0');
+					sethov('0');
+					setnrPassengers('1');
+					setcommercial('1');
+					sethazardousType('0');
+					setfuelType('diesel');
+					setheightAbove1stAxle('300');
 				}
-				else if (vehSpecSelection.value == 6) // Car with Trailer
+				else if (vehSpecSelection == 6) // Car with Trailer
 				{
-					vehicle = 2;
-					totalNumTires = 6;
-					trailerType = 2;
-					trailerNum = 1;
-					vehicleNumAxles = 2;
-					trailerNumAxles = 1;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 167;
-					vehicleWeight = 1739;
-					trailerHeight = 167;
-					totalWeight = 2589;
-					totalWidth = 180;
-					totalLength = 733;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 1;
-					commercial = 0;
-					hazardousType = 0;
-					heightAbove1stAxle = 100;
-					fuelType = 'diesel';
+					// vehicle = 2;
+					// totalNumTires = 6;
+					// trailerType = 2;
+					// trailerNum = 1;
+					// vehicleNumAxles = 2;
+					// trailerNumAxles = 1;
+					// hybrid = 0;
+					// emmisionType = 5;
+					// vehicleHeight = 167;
+					// vehicleWeight = 1739;
+					// trailerHeight = 167;
+					// totalWeight = 2589;
+					// totalWidth = 180;
+					// totalLength = 733;
+					// disabledEquipped = 0;
+					// minPollution = 0;
+					// hov = 0;
+					// numPassengers = 1;
+					// commercial = 0;
+					// hazardousType = 0;
+					// heightAbove1stAxle = 100;
+					// fuelType = 'diesel';
+					setvehicles('2');
+					setnrOfTotalTires('6');
+					settrailerType('2');
+					settrailerNr('1');
+					setnrOfAxlesVehicle('2');
+					setnrOfAxlesTrailer('1');
+					sethybrid('0');
+					setemissionType('5');
+					setvehHeight('167');
+					setvehWeight('1739');
+					settrailerHeight('167');
+					settotalWeight('2589');
+					settotalWidth('180');
+					settotalLength('733');
+					setdisabledEquipped('0');
+					setminPollution('0');
+					sethov('0');
+					setnrPassengers('1');
+					setcommercial('0');
+					sethazardousType('0');
+					setfuelType('diesel');
+					setheightAbove1stAxle('100');
 				}
-				else if (vehSpecSelection.value == 7) // Bus
+				else if (vehSpecSelection == 7) // Bus
 				{
-					vehicle = 3;
-					totalNumTires = 6;
-					trailerType = 0;
-					trailerNum = 0;
-					vehicleNumAxles = 3;
-					trailerNumAxles = 0;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 371;
-					vehicleWeight = 17500;
-					trailerHeight = 0;
-					totalWeight = 17500;
-					totalWidth = 253;
-					totalLength = 1300;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 51;
-					commercial = 1;
-					hazardousType = 0;
-					heightAbove1stAxle = 300;
-					fuelType = 'diesel';
+					// vehicle = 3;
+					// totalNumTires = 6;
+					// trailerType = 0;
+					// trailerNum = 0;
+					// vehicleNumAxles = 3;
+					// trailerNumAxles = 0;
+					// hybrid = 0;
+					// emmisionType = 5;
+					// vehicleHeight = 371;
+					// vehicleWeight = 17500;
+					// trailerHeight = 0;
+					// totalWeight = 17500;
+					// totalWidth = 253;
+					// totalLength = 1300;
+					// disabledEquipped = 0;
+					// minPollution = 0;
+					// hov = 0;
+					// numPassengers = 51;
+					// commercial = 1;
+					// hazardousType = 0;
+					// heightAbove1stAxle = 300;
+					// fuelType = 'diesel';
+					setvehicles('3');
+					setnrOfTotalTires('6');
+					settrailerType('0');
+					settrailerNr('0');
+					setnrOfAxlesVehicle('3');
+					setnrOfAxlesTrailer('0');
+					sethybrid('0');
+					setemissionType('5');
+					setvehHeight('371');
+					setvehWeight('17500');
+					settrailerHeight('0');
+					settotalWeight('17500');
+					settotalWidth('253');
+					settotalLength('1300');
+					setdisabledEquipped('0');
+					setminPollution('0');
+					sethov('0');
+					setnrPassengers('51');
+					setcommercial('1');
+					sethazardousType('0');
+					setfuelType('diesel');
+					setheightAbove1stAxle('300');
 				}
-				else if (vehSpecSelection.value == 8) // Motor Home
+				else if (vehSpecSelection == 8) // Motor Home
 				{
-					vehicle = 3;
-					totalNumTires = 4;
-					trailerType = 0;
-					trailerNum = 0;
-					vehicleNumAxles = 2;
-					trailerNumAxles = 0;
-					hybrid = 0;
-					emmisionType = 5;
-					vehicleHeight = 372;
-					vehicleWeight = 4535;
-					trailerHeight = 0;
-					totalWeight = 4535;
-					totalWidth = 254;
-					totalLength = 760;
-					disabledEquipped = 0;
-					minPollution = 0;
-					hov = 0;
-					numPassengers = 4;
-					commercial = 0;
-					hazardousType = 0;
-					heightAbove1stAxle = 140;
-					fuelType = 'diesel';
+					// vehicle = 3;
+					// totalNumTires = 4;
+					// trailerType = 0;
+					// trailerNum = 0;
+					// vehicleNumAxles = 2;
+					// trailerNumAxles = 0;
+					// hybrid = 0;
+					// emmisionType = 5;
+					// vehicleHeight = 372;
+					// vehicleWeight = 4535;
+					// trailerHeight = 0;
+					// totalWeight = 4535;
+					// totalWidth = 254;
+					// totalLength = 760;
+					// disabledEquipped = 0;
+					// minPollution = 0;
+					// hov = 0;
+					// numPassengers = 4;
+					// commercial = 0;
+					// hazardousType = 0;
+					// heightAbove1stAxle = 140;
+					// fuelType = 'diesel';
+					setvehicles('3');
+					setnrOfTotalTires('4');
+					settrailerType('0');
+					settrailerNr('0');
+					setnrOfAxlesVehicle('2');
+					setnrOfAxlesTrailer('0');
+					sethybrid('0');
+					setemissionType('5');
+					setvehHeight('372');
+					setvehWeight('4535');
+					settrailerHeight('0');
+					settotalWeight('4535');
+					settotalWidth('254');
+					settotalLength('760');
+					setdisabledEquipped('0');
+					setminPollution('0');
+					sethov('0');
+					setnrPassengers('4');
+					setcommercial('0');
+					sethazardousType('0');
+					setfuelType('diesel');
+					setheightAbove1stAxle('140');
 				}
 
-				selectionSettingHelper(document.getElementById("vehicles"), vehicle);
-				document.getElementById("nrOfTotalTires").value = totalNumTires;
-				selectionSettingHelper(document.getElementById("trailerType"), trailerType);
-				selectionSettingHelper(document.getElementById("trailerNr"), trailerNum);
-				document.getElementById("nrOfAxlesVehicle").value = vehicleNumAxles;
-				document.getElementById("nrOfAxlesTrailer").value = trailerNumAxles;
-				selectionSettingHelper(document.getElementById("hybrid"), hybrid);
-				selectionSettingHelper(document.getElementById("emissionType"), emmisionType);
-				document.getElementById("vehHeight").value = vehicleHeight;
-				document.getElementById("vehWeight").value = vehicleWeight;
-				document.getElementById("trailerHeight").value = trailerHeight;
-				document.getElementById("totalWeight").value = totalWeight;
-				document.getElementById("totalWidth").value = totalWidth;
-				document.getElementById("totalLength").value = totalLength;
-				selectionSettingHelper(document.getElementById("disabledEquipped"), disabledEquipped);
-				selectionSettingHelper(document.getElementById("minPollution"), minPollution);
-				selectionSettingHelper(document.getElementById("hov"), hov);
-				document.getElementById("nrPassengers").value = numPassengers;
-				selectionSettingHelper(document.getElementById("commercial"), commercial);
-				selectionSettingHelper(document.getElementById("hazardousType"), hazardousType);
-				document.getElementById("heightAbove1stAxle").value = heightAbove1stAxle;
-				selectionSettingHelper(document.getElementById("fuelType"), fuelType);
+				// selectionSettingHelper(document.getElementById("vehicles"), vehicle);
+				// document.getElementById("nrOfTotalTires").value = totalNumTires;
+				// selectionSettingHelper(document.getElementById("trailerType"), trailerType);
+				// selectionSettingHelper(document.getElementById("trailerNr"), trailerNum);
+				// document.getElementById("nrOfAxlesVehicle").value = vehicleNumAxles;
+				// document.getElementById("nrOfAxlesTrailer").value = trailerNumAxles;
+				// selectionSettingHelper(document.getElementById("hybrid"), hybrid);
+				// selectionSettingHelper(document.getElementById("emissionType"), emmisionType);
+				// document.getElementById("vehHeight").value = vehicleHeight;
+				// document.getElementById("vehWeight").value = vehicleWeight;
+				// document.getElementById("trailerHeight").value = trailerHeight;
+				// document.getElementById("totalWeight").value = totalWeight;
+				// document.getElementById("totalWidth").value = totalWidth;
+				// document.getElementById("totalLength").value = totalLength;
+				// selectionSettingHelper(document.getElementById("disabledEquipped"), disabledEquipped);
+				// selectionSettingHelper(document.getElementById("minPollution"), minPollution);
+				// selectionSettingHelper(document.getElementById("hov"), hov);
+				// document.getElementById("nrPassengers").value = numPassengers;
+				// selectionSettingHelper(document.getElementById("commercial"), commercial);
+				// selectionSettingHelper(document.getElementById("hazardousType"), hazardousType);
+				// document.getElementById("heightAbove1stAxle").value = heightAbove1stAxle;
+				// selectionSettingHelper(document.getElementById("fuelType"), fuelType);
 			}
 
 			/**
@@ -1139,8 +1336,9 @@ const CostOptimRoute = (props) => {
 
 				if (bSetUserdefinedVehicleSpec) {
 					// show User defined option
-					var vehSpecSelection = document.getElementById("predefinedVehSpec");
-					selectionSettingHelper(vehSpecSelection, 99);
+					// var vehSpecSelection = document.getElementById("predefinedVehSpec");
+					setpredefinedVehSpec('99')
+					// selectionSettingHelper(predefinedVehSpec, 99);
 				}
 				/*else
 				 {
@@ -1206,7 +1404,6 @@ const CostOptimRoute = (props) => {
 			const [isDChecked, setisDChecked] = useState(true)
 		
 			function handleEnableCalculateOptimizedRouteClicked() {
-				debugger;
 				
 				// var isDChecked = document.getElementById("chkEnableCalculateOptimizedRoute").checked;
 				if (isDChecked) {
@@ -1362,8 +1559,8 @@ const CostOptimRoute = (props) => {
 					<td colSpan="3">
 						<select id="predefinedVehSpec" className="form-control" style={{width:312}}
 							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={()=>handleVehicleSpecChanged()}
-							value={predefinedVehSpec} onChange={(value)=> setpredefinedVehSpec(value.target.value)}>
+							// onChange={()=>handleVehicleSpecChanged()}
+							value={predefinedVehSpec} onClick={()=>handleVehicleSpecChanged()} onChange={(value)=> {setpredefinedVehSpec(value.target.value);}}>
 							<option value="0" >Машина</option>
 							<option value="1">Перевозчик</option>
 							<option value="2">Грузовик (7.5Т)</option>
