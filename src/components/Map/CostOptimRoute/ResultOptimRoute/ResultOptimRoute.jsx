@@ -12,7 +12,7 @@ const ResultCostOptimRoute = (props) => {
   return (<>	
 
 	
-			<div id="feedbackTxt" class="form-group">
+			<div id="feedbackTxt" className="form-group">
                 
             </div>
 

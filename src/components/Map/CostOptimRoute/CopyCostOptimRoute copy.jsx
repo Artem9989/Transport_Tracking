@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState } from "react";
 import { Collapse } from 'antd';
 import ResultCostOptimRoute from './ResultOptimRoute/ResultOptimRoute.jsx';
 import { config } from '../../../assets/config';
@@ -7,14 +7,8 @@ import svgMarkerImage_Line from '../InfoControl/LUI-icon-pd-information-solid-24
 const { Panel } = Collapse;
 
 export const createMarkup = (htmlValue) => {
-	if (htmlValue === undefined)
-	{
-		return {__html: `Данных пока нет`}
-	}
-	else {
-		return {__html: `${htmlValue}`};
-	}
-	
+
+	return {__html: `${htmlValue}`};
   }
 
 const CostOptimRoute = (props) => {
@@ -23,43 +17,30 @@ const CostOptimRoute = (props) => {
     const [trStartRouteDate, settrStartRouteDate] = useState(false);
     const [dateNow, setDate] = useState('');
     const [time, setTime] = useState('');
-	
-    const [serverURL, setserverURL] = useState('https://fleet.ls.hereapi.com/2/calculateroute.json?');
+    // const [serverURL, setserverURL] = useState('')
 
-	const [routeButton, setrouteButton] = useState("Высчитать оптимальную стоимость маршрута");
-	// onKey
-	const [startValue, setstartValue] = useState('am Kronberger Hang 8, Schwalbach');
-	const [DestinationValue, setDestinationValue] = useState('Frankfurt am Main');
-	const [costPerHour, setcostPerHour] = useState('50');
-	const [costPerKm, setcostPerKm] = useState('300');
-	const [currency, setCurrency] = useState('RUB');
-	const [routerParamsState, setrouterParamsState] = useState(' ');
-	const [routerParamsValueState, setrouterParamsValueState] = useState('');
-	const [nrOfTotalTires, setnrOfTotalTires] = useState('4');
-	const [nrOfAxlesVehicle, setnrOfAxlesVehicle] = useState('2');
-	const [nrOfAxlesTrailer, setnrOfAxlesTrailer] = useState('0');
-	const [vehHeight, setvehHeight] = useState('167');
-	const [trailerHeight, settrailerHeight] = useState('0');
-	const [vehWeight, setvehWeight] = useState('1739');
-	const [totalWeight, settotalWeight] = useState('1739');
-	const [totalLength, settotalLength] = useState('441');
-	const [totalWidth, settotalWidth] = useState('180');
-	const [nrPassengers, setnrPassengers] = useState('2');
-	const [heightAbove1stAxle, setheightAbove1stAxle] = useState('100');
-	const [trailerNr, settrailerNr] = useState('0');
-	const [emissionType, setemissionType] = useState('5');
-	const [routeAlternatives, setrouteAlternatives] = useState('1');
-	const [predefinedVehSpec, setpredefinedVehSpec] = useState('2');
-	const [vehicles, setvehicles] = useState('2');
-	const [trailerType, settrailerType] = useState('0');
-	const [hybrid, sethybrid] = useState('0');
-	const [disabledEquipped, setdisabledEquipped] = useState('0');
-	const [minPollution, setminPollution] = useState('0')
-	const [hov, sethov] = useState('0');
-	const [commercial, setcommercial] = useState('0')
-	const [hazardousType, sethazardousType] = useState('0');
-	const [fuelType, setfuelType] = useState("petrol");
 
+
+
+			/*
+			* authors ez,ah,mc
+			* (C) HERE 2015
+			*
+			* This is an example implementation of the route toll cost calculation offered by HERE.
+			* With a calculated route the route toll cost calculation service gets called and the
+			* response is presented in a summary.
+			* Please note that not all possible details of the route toll cost service is analysed
+			* by this demo.
+			*
+			* Cause JS has the limitations of GET request URL length there are several calls done to
+			* the route toll cost service. The route (links) gets split in overlapping segments.
+			* If they would not overlap you could loose toll informations which are only present between
+			* specific segments (links). Since the route toll cost service responds possibly with
+			* the same toll on the same links - the result gets post-processed to exclude the double
+			* toll costs. This limitation does not exists using POST or GET within other applications.
+			// author asadovoy
+			// (C) HERE 2019 -> migrate to 3.1
+			*/
 			(function setValuesFromUrl() {
 				let nameVal;
 				var indexOf = window.location.href.indexOf('?');
@@ -88,35 +69,35 @@ const CostOptimRoute = (props) => {
 				window.open(url);
 			}
 
-			const H = window.H
+			// const H = window.H
 
-			var mapContainer = document.getElementById('map');
+			// var mapContainer = document.getElementById('map');
 
-			// check if the site was loaded via secure connection
+			// // check if the site was loaded via secure connection
 			// var secure = (window.location.protocol === 'https:') ? true : false;
 
-			var platform = new H.service.Platform({
-				apikey: config.apikey,
-				// useHTTPS: secure
-			});
+			// var platform = new H.service.Platform({
+			// 	apikey: config.apikey,
+			// 	useHTTPS: secure
+			// });
 			var maptypes = platform.createDefaultLayers();
 			var geocoder = platform.getGeocodingService();
 			var router = platform.getRoutingService();
 			var group = new H.map.Group();
 			var markerGroup = new H.map.Group();
-			var map = new H.Map(mapContainer, maptypes.vector.normal.map,
-				{
-					center: { lat:54.00684227163969, lng: 56.00684227163969  },
-					zoom: 6,
-					pixelRatio: window.pixelRatio || 1,
-					engineType: H.map.render.p2d,
-					Localization: 'ru-RU',
-					languages: 'RUS'
-				}
-			);
+			// var map = new H.Map(mapContainer, maptypes.vector.normal.map,
+			// 	{
+			// 		center: { lat:54.00684227163969, lng: 56.00684227163969  },
+			// 		zoom: 6,
+			// 		pixelRatio: window.pixelRatio || 1,
+			// 		engineType: H.map.render.p2d,
+			// 		Localization: 'ru-RU',
+			// 		languages: 'RUS'
+			// 	}
+			// );
 
 			// Do not draw under control panel
-			// map.getViewPort().setPadding(0, 0, 0, ('.ctrl-panel').width());
+			map.getViewPort().setPadding(0, 0, 0, ('.ctrl-panel').width());
 
 			// add behavior control
 			new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
@@ -143,7 +124,7 @@ const CostOptimRoute = (props) => {
 			// add long click in map event listener
 			map.addEventListener('longpress', handleLongClickInMap);
 
-			// var routeButton = document.getElementById("routeButton");
+			var routeButton = document.getElementById("routeButton");
 			var start = document.getElementById("start");
 			var dest = document.getElementById("dest");
 			var mapReleaseTxt = document.getElementById("mapReleaseTxt");
@@ -151,10 +132,17 @@ const CostOptimRoute = (props) => {
 			var address;
 			var line1;
 			var line2;
-			// var vehicles;
+			var vehicles;
 // =---------------------------
-
-
+			var serverURL = 'https://fleet.ls.hereapi.com/2/calculateroute.json?';
+			var vehWeight;
+			var vehHeight;
+			var trailerNr;
+			var nrOfAxlesVehicle;
+			var nrOfAxlesTrailer;
+			var emissionType;
+			var nrPassengers;
+			var nrOfTotalTires;
 
 // =---------------------
 			var pointA;
@@ -189,8 +177,7 @@ const CostOptimRoute = (props) => {
 			map.addObject(markerGroup);
 			// enable/disable calculation of cost optimized route calculation
 			var noCostOptimizationJustCalculate = false;
-			
-			// handleEnableCalculateOptimizedRouteClicked();
+			handleEnableCalculateOptimizedRouteClicked();
 
 			/************************************
 	
@@ -213,11 +200,10 @@ const CostOptimRoute = (props) => {
 			Start Route Calculation
 			************************************/
 			var startRouteCalculation = function () {
-				debugger
 				clearLastRouteCalculation();
 				geocode(start.value, true);
 			}
-			// routeButton.onClick = startRouteCalculation;
+			routeButton.onclick = startRouteCalculation;
 
 			/********************************************************
 			Start/Destination selectin via LongClick in map
@@ -802,83 +788,52 @@ const CostOptimRoute = (props) => {
 			/**
 			 This method checks the user setted vehicle specification and adapts all vehicle value in the GUI
 			 */
-			//  переделать все значения на use State 
-			// var vehicle = 2;
-			// var totalNumTires = 4;
-			// var trailerType = 0;
-			// var trailerNum = 0;
-			// var vehicleNumAxles = 2;
-			// var trailerNumAxles = 0;
-			// var hybrid = 0;
-			// var emmisionType = 5;
-			// var vehicleHeight = 167;
-			// var vehicleWeight = 1739;
-			// var trailerHeight = 0;
-			// var totalWeight = 1739;
-			// var totalWidth = 180;
-			// var totalLength = 441;
-			// var disabledEquipped = 0;
-			// var minPollution = 0;
-			// var hov = 0;
-			// var numPassengers = 2;
-			// var commercial = 0;
-			// var hazardousType = 0;
-			// var heightAbove1stAxle = 100;
-			// var fuelType = 'petrol';
-			var totalNumTires = nrOfTotalTires;
-			var trailerNum = trailerNr;
-			var trailerNumAxles = nrOfAxlesVehicle;
-			var trailerNumAxles = nrOfAxlesTrailer;
-			var vehicleHeight = vehHeight;
-			var vehicleWeight = vehWeight;
-			var numPassengers = nrPassengers;
-			// var vehSpecSelection = predefinedVehSpec;
+			var vehicle = 2;
+			var totalNumTires = 4;
+			var trailerType = 0;
+			var trailerNum = 0;
+			var vehicleNumAxles = 2;
+			var trailerNumAxles = 0;
+			var hybrid = 0;
+			var emmisionType = 5;
+			var vehicleHeight = 167;
+			var vehicleWeight = 1739;
+			var trailerHeight = 0;
+			var totalWeight = 1739;
+			var totalWidth = 180;
+			var totalLength = 441;
+			var disabledEquipped = 0;
+			var minPollution = 0;
+			var hov = 0;
+			var numPassengers = 2;
+			var commercial = 0;
+			var hazardousType = 0;
+			var heightAbove1stAxle = 100;
+			var fuelType = 'petrol';
 			function handleVehicleSpecChanged() {
 				setUserdefinedVehicleSpec(false);
-				// var vehicle = 2;
-				// var totalNumTires = 4;
-				// var trailerType = 0;
-				// var trailerNum = 0;
-				// var vehicleNumAxles = 2;
-				// var trailerNumAxles = 0;
-				// var hybrid = 0;
-				// var emmisionType = 5;
-				// var vehicleHeight = 167;
-				// var vehicleWeight = 1739;
-				// var trailerHeight = 0;
-				// var totalWeight = 1739;
-				// var totalWidth = 180;
-				// var totalLength = 441;
-				// var disabledEquipped = 0;
-				// var minPollution = 0;
-				// var hov = 0;
-				// var numPassengers = 2;
-				// var commercial = 0;
-				// var hazardousType = 0;
-				// var heightAbove1stAxle = 100;
-				// var fuelType = 'petrol';
-				setvehicles('2');
-				setnrOfTotalTires('4');
-				settrailerType('0');
-				settrailerNr('0');
-				setnrOfAxlesVehicle('2');
-				setnrOfAxlesTrailer('0');
-				sethybrid('0');
-				setemissionType('5');
-				setvehHeight('167');
-				setvehWeight('1739');
-				settrailerHeight('0');
-				settotalWeight('1739');
-				settotalWidth('180');
-				settotalLength('441');
-				setdisabledEquipped('0');
-				setminPollution('0');
-				sethov('0');
-				setnrPassengers('2');
-				setcommercial('0')
-				sethazardousType('0')
-				setfuelType('petrol')
-				setheightAbove1stAxle('100')
+				var vehicle = 2;
+				var totalNumTires = 4;
+				var trailerType = 0;
+				var trailerNum = 0;
+				var vehicleNumAxles = 2;
+				var trailerNumAxles = 0;
+				var hybrid = 0;
+				var emmisionType = 5;
+				var vehicleHeight = 167;
+				var vehicleWeight = 1739;
+				var trailerHeight = 0;
+				var totalWeight = 1739;
+				var totalWidth = 180;
+				var totalLength = 441;
+				var disabledEquipped = 0;
+				var minPollution = 0;
+				var hov = 0;
+				var numPassengers = 2;
+				var commercial = 0;
+				var hazardousType = 0;
+				var heightAbove1stAxle = 100;
+				var fuelType = 'petrol';
 
 				var vehSpecSelection = document.getElementById("predefinedVehSpec");
 				if (vehSpecSelection.value == 0) // Car
@@ -1136,7 +1091,6 @@ const CostOptimRoute = (props) => {
 			 the passed parameter is true
 			 */
 			function setUserdefinedVehicleSpec(bSetUserdefinedVehicleSpec) {
-
 				if (bSetUserdefinedVehicleSpec) {
 					// show User defined option
 					var vehSpecSelection = document.getElementById("predefinedVehSpec");
@@ -1203,23 +1157,15 @@ const CostOptimRoute = (props) => {
 			/**
 				Function handling the click on the "enable/disable cost optimized routing calculation" checkbox
 			*/
-			const [isDChecked, setisDChecked] = useState(true)
-		
 			function handleEnableCalculateOptimizedRouteClicked() {
-				debugger;
-				
-				// var isDChecked = document.getElementById("chkEnableCalculateOptimizedRoute").checked;
+				var isDChecked = document.getElementById("chkEnableCalculateOptimizedRoute").checked;
 				if (isDChecked) {
-					setisDChecked(!isDChecked);
 					noCostOptimizationJustCalculate = false;
-					// document.getElementById("routeButton").value = "Calculate Cost Optimized Route";
-					setrouteButton("Высчитать оптимальную стоимость маршрута")
+					document.getElementById("routeButton").value = "Calculate Cost Optimized Route";
 				}
 				else {
-					setisDChecked(!isDChecked);
 					noCostOptimizationJustCalculate = true;
-					setrouteButton("Рассчитать маршрут без оптимизации")
-					// document.getElementById("routeButton").value = "Calculate Route without optimization";
+					document.getElementById("routeButton").value = "Calculate Route without optimization";
 				}
 			}
 
@@ -1245,15 +1191,6 @@ const CostOptimRoute = (props) => {
         
     }
    
-	const selectedCustomParam = (value) => {
-		setrouterParamsState(' ')
-		setrouterParamsValueState(value)
-		
-	}
-	const optionCustomParam = (value) => {
-		setrouterParamsState(value);
-		setrouterParamsValueState(value)
-	}
   return (<>	
 
 	<div id="content-real">
@@ -1261,26 +1198,26 @@ const CostOptimRoute = (props) => {
 		<div className="ctrl-panel">
 			<span id="toggle-ctrl-panel" className="glyphicon glyphicon-menu-left"></span>
 
-			<p id="mapReleaseTxt"> Оптимизированный по стоимости маршрут извлекается из Службы расширения платы за проезд и отображается на экране.
+			<p id="mapReleaseTxt"> The cost optimized route is retrieved from Toll Cost Extension Service and displayed.
 			</p>
-			<p>Начало и пункт назначения могут быть геокодированы или выбраны с помощью длинного клика на карте.</p>
+			<p>The start and destination can be geocoded or selected via long click in map.</p>
 
 			<hr className="separator"/>
 
 			<div className="form-horizontal">
 				<div className="form-group">
-					<label className="control-label col-sm-3" htmlFor="start">Старт:</label>
+					<label className="control-label col-sm-3" for="start">Start:</label>
 					<div className="col-sm-9">
 						<input type='text' id='start' className='form-control input-wide'
-							value={startValue}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null} onChange={(event)=> setstartValue(event.target.value)}/>
+							value='am Kronberger Hang 8, Schwalbach'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"/>
 					</div>
 				</div>
 				<div className="form-group">
-					<label className="control-label col-sm-3" htmlFor="dest">Место назначения:</label>
+					<label className="control-label col-sm-3" for="dest">Destination:</label>
 					<div className="col-sm-9">
-						<input type='text' id='dest' className='form-control input-wide' size='40' value={DestinationValue}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null} onChange={(event)=> setDestinationValue(event.target.value)} />
+						<input type='text' id='dest' className='form-control input-wide' size='40' value='Frankfurt am Main'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();" />
 					</div>
 				</div>
 			</div>
@@ -1289,19 +1226,19 @@ const CostOptimRoute = (props) => {
             <Panel header="Enable datetime filtering" key="1">
             <div id="trStartRouteDate" className="form-horizontal" >
 				<div className="form-group">
-					<label className="control-label col-sm-4" htmlFor="startRouteDate">Дата начала маршрута:</label>
+					<label className="control-label col-sm-4" for="startRouteDate">Route start date:</label>
 					<div className="col-sm-8">
 						<input onChange={e=> setDate(e.target.value)} value={dateNow} type="text" id="startRouteDate" className="form-control input-wide"
-							name="startRouteDate"/>(гггг-ММ-дд) 
+							name="startRouteDate"/>(yyyy-MM-dd) 
 					</div>
 				</div>
 			</div>
 			<div id="trStartRouteTime" className="form-horizontal" >
 				<div className="form-group">
-					<label className="control-label col-sm-4" htmlFor="startRouteTime">Route start time:</label>
+					<label className="control-label col-sm-4" for="startRouteTime">Route start time:</label>
 					<div className="col-sm-8">
 						<input onChange={e=> setTime(e.target.value)} value={time} type="text" id="startRouteTime" className="form-control input-wide"
-							name="startRouteTime"/>(ЧЧ:мм:сс)
+							name="startRouteTime"/>(HH:mm:ss)
 					</div>
 				</div>
 			</div>
@@ -1320,350 +1257,305 @@ const CostOptimRoute = (props) => {
 			<h5>Toll Cost Parameters</h5>
 
 			<table border="0">
-			< tbody > 
 				<tr>
-					<td>Стоимость автомобиля за километр</td>
-					<td><input type='text' id='hourVehicleCost' className="form-control" style={{width:85}} value={costPerHour}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null} onChange={(event)=> setcostPerHour(event.target.value)}/></td>
-					<td>Стоимость водителя в час</td>
-					<td><input type='text' id='hourDriverCost' className="form-control"  style={{width:85}} value={costPerKm}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null} onChange={(event)=> setcostPerKm(event.target.value)}/></td>
+					<td>Vehicle Cost per Km</td>
+					<td><input type='text' id='hourVehicleCost' className="form-control" style={{width:85}} value='0.50'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();" /></td>
+					<td>Driver Cost per Hour</td>
+					<td><input type='text' id='hourDriverCost' className="form-control"  style={{width:85}} value='10'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();" /></td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Валюта</td>
-					<td><input type='text' id='currency' className="form-control"  style={{width:85}} value={currency}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null} onChange={(event)=> setCurrency(event.target.value)}/></td>
-				</tr></ tbody > 
+					<td>Currency</td>
+					<td><input type='text' id='currency' className="form-control"  style={{width:85}} value='EUR'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();" /></td>
+				</tr>
 			</table>
 
 			<hr className="separator"/>
-			<h5>Параметра маршрута</h5>
+			<h5>Router Parameters</h5>
 
 			<table border="0" className="form-group">
-			< tbody > 
 				<tr>
-					<td>Альтернативные маршруты:</td>
-					<td colSpan="3">
+					<td>Route Alternatives:</td>
+					<td colspan="3">
 						<select id="routeAlternatives" className="form-control" style={{width:312}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							value={routeAlternatives} onChange={(value)=> setrouteAlternatives(value.target.value)}>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();">
 							<option value="0">0</option>
-							<option value="1">1</option>
+							<option value="1" selected="true">1</option>
 							<option value="2">2</option>
 						</select>
 					</td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Спецификация транспортного средства:</td>
-					<td colSpan="3">
+					<td>Vehicle Specification:</td>
+					<td colspan="3">
 						<select id="predefinedVehSpec" className="form-control" style={{width:312}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={()=>handleVehicleSpecChanged()}
-							value={predefinedVehSpec} onChange={(value)=> setpredefinedVehSpec(value.target.value)}>
-							<option value="0" >Машина</option>
-							<option value="1">Перевозчик</option>
-							<option value="2">Грузовик (7.5Т)</option>
-							<option value="3">Грузовик (11Т)</option>
-							<option value="4">Грузовик с одним прицепом (38Т)</option>
-							<option value="5">Грузовик с прицепом (40Т)</option>
-							<option value="6">Автомобиль с прицепом</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange={()=>handleVehicleSpecChanged()}>
+							<option value="0" selected="true">Car</option>
+							<option value="1">Transporter</option>
+							<option value="2">Truck (7.5t)</option>
+							<option value="3">Truck (11t)</option>
+							<option value="4">Truck with one trailer (38t)</option>
+							<option value="5">Trailer Truck (40t)</option>
+							<option value="6">Car with Trailer</option>
 							{/* <!--option value="7">Bus</option>
 					<option value="8">Motor Home</option--> */}
-							<option value="99" disabled style={{display:'none'}}>Определяемый пользователем</option>
+							<option value="99" disabled style={{display:'none'}}>User defined</option>
 						</select>
 					</td>
 				</tr>
-				</ tbody > 
-				< tbody > 
-                <tr>
-					<td>Пользовательские Параметры:</td>
-					
-					<td colSpan="2">
-						<input type='text' id='routerParamsValue' className="form-control" style={{width:212}} value={routerParamsValueState}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							// onChange={(event)=>{  setrouterParamsValue(event.target.value)}}
-							onChange={(event) => {selectedCustomParam(event.target.value); }}
-							// onChange="document.getElementById('routerParams').selectedIndex = 2;document.getElementById('routerParams').value=this.value;" 
-							/>
-					</td>
 
+                <tr>
+					<td>Custom Parameters:</td>
+					<td colspan="2">
+						<input type='text' id='routerParamsValue' class="form-control" style={{width:212}} value=''
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="document.getElementById('routerParams').selectedIndex = 2;document.getElementById('routerParams').value=this.value;" />
+					</td>
 					<td>
-						<select id="routerParams" className="form-control" style={{width:89}}
-							value={routerParamsState}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event) => optionCustomParam(event.target.value)}
-							// onChange="document.getElementById('routerParamsValue').value=this.value;" 
-							>
-						<option value=" ">Пустой</option>
-						<option 
+						{/* <select id="routerParams" class="form-control" style={{width:89}}
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="document.getElementById('routerParamsValue').value=this.value;" />
+						<option value="" selected>Empty</option>
+						<option
 							value="verbosemode=0&metricsystem=metric&maneuverAttributes=none&mode=shortest;car&jsonattributes=41&combinechange=true&linkAttributes=none,sh&legAttributes=none,li&language=en-us&alternatives=3">
-							Управляемый
-							</option>
-						<option  value="param1=value1&param2=value2" >Пользовательские</option>
-						</select> 
+							Managed
+						<option value="">Custom</option>
+						{/* <!--option value="param1=value1&param2=value2" selected>Example</option--> */}
+						{/* </select> */} 
                   
 					</td>
 				</tr>
-				</ tbody > 
-				< tbody > 
+
+
 				<tr>
-					<td>Транспортное средство</td>
+					<td>Vehicle</td>
 					<td>
 						<select id="vehicles" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=> {setUserdefinedVehicleSpec(true); setvehicles(value.target.value)  }}
-							value={vehicles}>
-							{/* <!--option value="1">Motorcycle</option--> */}
-							<option value="2">Машина</option>
-							 <option value="3">Грузовик</option>
-			
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							{/* <!--option value="1">Motorcycle</option-->
+							{/* <option value="2" selected="true">Car</option>
+							<option value="3">Truck</option> */}
+							{/* <!--option value="4">Motor Home</option>
+					<option value="5">Minibus</option>
+					<option value="6">Bus</option>
+					<option value="7">Motorcycle Sidecar</option>
+					<option value="8">Tricycle</option>
+					<option value="9">Delivery Truck</option>
+					<option value="10">Snowmobile</option>
+					<option value="11">Pick-Up</option>
+					<option value="12">Tractor</option
+					<option value="13">Taxi</option>
+					<option value="14">HCM/EME</option>--> */}
 						</select>
 					</td>
-					<td>Общее Количество Шин</td>
-					<td><input type='text' id='nrOfTotalTires' className="form-control" style={{width:85}} value={nrOfTotalTires}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); setnrOfTotalTires(event.target.value)}} /></td>
+					<td>Total Number Of Tires</td>
+					<td><input type='text' id='nrOfTotalTires' className="form-control" style={{width:85}} value='4'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Тип прицепа</td>
+					<td>Trailer Type</td>
 					<td>
 						<select id="trailerType" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=>{setUserdefinedVehicleSpec(true); settrailerType(value.target.value)}}
-							value={trailerType}>
-							<option value="0">Нет</option>
-							<option value="1">Караван</option>
-							<option value="2">Прицеп</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="0" selected="true">None</option>
+							<option value="1">Caravan</option>
+							<option value="2">Trailer</option>
 						</select>
 					</td>
-					<td>Количество прицепов</td>
+					<td>Trailer Number</td>
 					<td>
 						<select id="trailerNr" className="form-control" style={{width:89}}
-							value={trailerNr}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=>{setUserdefinedVehicleSpec(true); settrailerNr(event.target.value)}}
-							value={trailerNr}>
-							<option value="0">0</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="0" selected="true">0</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
-							<option value="3">3 или больше</option>
+							<option value="3">3 or more</option>
 						</select>
 					</td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Количество Осей Транспортного Средства</td>
-					<td><input type='text' id='nrOfAxlesVehicle' className="form-control" style={{width:85}} value={nrOfAxlesVehicle}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); setnrOfAxlesVehicle(event.target.value)}} /></td>
-					<td>Количество Осей Прицепа</td>
-					<td><input type='text' id='nrOfAxlesTrailer' className="form-control" style={{width:85}} value={nrOfAxlesTrailer}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); setnrOfAxlesTrailer(event.target.value)}} /></td>
+					<td>Vehicle Number Of Axles</td>
+					<td><input type='text' id='nrOfAxlesVehicle' className="form-control" style={{width:85}} value='2'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
+					<td>Trailer Number Of Axles</td>
+					<td><input type='text' id='nrOfAxlesTrailer' className="form-control" style={{width:85}} value='0'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Гибридный</td>
+					<td>Hybrid</td>
 					<td>
 						<select id="hybrid" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=>{setUserdefinedVehicleSpec(true); sethybrid(value.target.value)}}
-							value={hybrid}>
-							<option value="0" >Да</option>
-							<option value="1">Нет</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="0" selected="true">No Hybrid</option>
+							<option value="1">Hybrid</option>
 						</select>
 					</td>
-					<td>Тип эмиссии</td>
+					<td>Emission Type</td>
 					<td>
 						<select id="emissionType" className="form-control" style={{width:89}}
-						value={emissionType}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=>{setUserdefinedVehicleSpec(true); setemissionType(event.target.value)}}
-							value={"5"}>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
 							<option value="1">EURO I</option>
 							<option value="2">EURO II</option>
 							<option value="3">EURO III</option>
 							<option value="4">EURO IV</option>
-							<option value="5" >EURO V</option>
+							<option value="5" selected="true">EURO V</option>
 							<option value="6">EURO VI</option>
 							<option value="7">EURO EEV</option>
-							<option value="8">Электромобиль</option>
+							<option value="8">Electric Vehicle</option>
 						</select>
 					</td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Высота транспортного средства</td>
-					<td><input type='text' id='vehHeight' className="form-control" style={{width:85}} value={vehHeight}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); setvehHeight(event.target.value)} }/></td>
-					<td>Высота прицепа</td>
-					<td><input type='text' id='trailerHeight' className="form-control" style={{width:85}} value={trailerHeight}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); settrailerHeight(event.target.value)} } /></td>
+					<td>Vehicle Height</td>
+					<td><input type='text' id='vehHeight' className="form-control" style={{width:85}} value='167'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
+					<td>Trailer Height</td>
+					<td><input type='text' id='trailerHeight' className="form-control" style={{width:85}} value='0'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Масса транспортного средства</td>
-					<td><input type='text' id='vehWeight' className="form-control" style={{width:85}} value={vehWeight}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); setvehWeight(event.target.value)} } /></td>
-					<td>Общий Вес</td>
-					<td><input type='text' id='totalWeight' className="form-control" style={{width:85}} value={totalWeight}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); settotalWeight(event.target.value)} } /></td>
+					<td>Vehicle Weight</td>
+					<td><input type='text' id='vehWeight' className="form-control" style={{width:85}} value='1739'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
+					<td>Total Weight</td>
+					<td><input type='text' id='totalWeight' className="form-control" style={{width:85}} value='1739'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Общая Ширина</td>
-					<td><input type='text' id='totalWidth' className="form-control" style={{width:85}} value={totalWidth}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); settotalLength(event.target.value)} } /></td>
-					<td>Общая Длина</td>
-					<td><input type='text' id='totalLength' className="form-control" style={{width:85}} value={totalLength}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event)=> {setUserdefinedVehicleSpec(true); settotalWidth(event.target.value)} } /></td>
+					<td>Total Width</td>
+					<td><input type='text' id='totalWidth' className="form-control" style={{width:85}} value='180'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
+					<td>Total Length</td>
+					<td><input type='text' id='totalLength' className="form-control" style={{width:85}} value='441'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Инвалиды Оборудованы</td>
+					<td>Disabled Equipped</td>
 					<td>
 						<select id="disabledEquipped" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=>{setUserdefinedVehicleSpec(true); setdisabledEquipped(value.target.value)}}
-							value={disabledEquipped}>
-							<option value="0" >Нет</option>
-							<option value="1">Да</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="0" selected="true">No</option>
+							<option value="1">Yes</option>
 						</select>
 					</td>
-					<td>Минимальное Загрязнение</td>
+					<td>Min Pollution</td>
 					<td>
 						<select id="minPollution" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=>{setUserdefinedVehicleSpec(true); setminPollution(value.target.value)}}
-							value={minPollution}>
-							<option value="0">Нет</option>
-							<option value="1">Дп</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="0" selected="true">No</option>
+							<option value="1">Yes</option>
 						</select>
 					</td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>ХОВ</td>
+					<td>HOV</td>
 					<td>
 						<select id="hov" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=>{setUserdefinedVehicleSpec(true); sethov(value.target.value)}}
-							value={hov}>
-							<option value="0" >Нет</option>
-							<option value="1">Да</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="0" selected="true">No</option>
+							<option value="1">Yes</option>
 						</select>
 					</td>
-					<td>Количество пассажиров</td>
-					<td><input type='text' id='nrPassengers' className="form-control" style={{width:85}} value={nrPassengers}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event) =>{setUserdefinedVehicleSpec(true); setnrPassengers(event.target.value)}} /></td>
+					<td>Number Passengers</td>
+					<td><input type='text' id='nrPassengers' className="form-control" style={{width:85}} value='2'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" /></td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Коммерческий</td>
+					<td>Commercial</td>
 					<td>
 						<select id="commercial" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=>{setUserdefinedVehicleSpec(true); setcommercial(value.target.value)}}
-							value={commercial}>
-							<option value="0" >Нет</option>
-							<option value="1">Да</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="0" selected="true">No</option>
+							<option value="1">Yes</option>
 						</select>
 					</td>
-					<td>Опасный Тип</td>
+					<td>Hazardous Type</td>
 					<td>
 						<select id="hazardousType" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=>{setUserdefinedVehicleSpec(true); sethazardousType(value.target.value)}}
-							value={hazardousType}>
-							<option value="0" >Нет</option>
-							<option value="1">Взрывчатый</option>
-							<option value="2">Любые Опасные Материалы</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="0" selected="true">None</option>
+							<option value="1">Explosives</option>
+							<option value="2">Any Hazardous Material</option>
 						</select>
 					</td>
 				</tr>
-				</ tbody > 
-				< tbody > 
 				<tr>
-					<td>Высота над 1-й осью</td>
+					<td>Height above 1st axle</td>
 					<td>
-						<input type='text' id='heightAbove1stAxle' className="form-control" style={{width:85}} value={heightAbove1stAxle}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(event) =>{setUserdefinedVehicleSpec(true); setheightAbove1stAxle(event.target.value)}} />
+						<input type='text' id='heightAbove1stAxle' className="form-control" style={{width:85}} value='100'
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)" />
 					</td>
-					<td>Тип бензина</td>
+					<td>Fuel Type</td>
 					<td>
 						<select id="fuelType" className="form-control" style={{width:89}}
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null}
-							onChange={(value)=>{setUserdefinedVehicleSpec(true); setfuelType(value.target.value)}}
-							value={fuelType}>
-							<option value="petrol" >Бензин</option>
-							<option value="diesel">Дизель</option>
-							<option value="lng">Газ</option>
-							<option value="lpg">ЛПГ</option>
-							<option value="cng">ЦНГ</option>
-							<option value="ethanol">Этанол</option>
-							<option value="propane">Пропан</option>
-							<option value="hydrogen">Водород</option>
-							<option value="electric">Электрический</option>
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();"
+							onchange="setUserdefinedVehicleSpec(true)">
+							<option value="petrol" selected="true">Petrol</option>
+							<option value="diesel">Diesel</option>
+							<option value="lng">LNG</option>
+							<option value="lpg">LPG</option>
+							<option value="cng">CNG</option>
+							<option value="ethanol">Ethanol</option>
+							<option value="propane">Propane</option>
+							<option value="hydrogen">Hydrogen</option>
+							<option value="electric">Electric</option>
 						</select>
 					</td>
 				</tr>
-				</ tbody > 
 			</table>
-			<p>Все параметры длины и веса должны быть в сантиметрах и килограммах.</p>
+			<p>All length and weight settings must be in centimeter and kilograms.</p>
 			<div className="form-group">
 				<div className="checkbox">
-					<label><input type="checkbox" defaultChecked={isDChecked} id="chkEnableCalculateOptimizedRoute"
+					<label><input type="checkbox" checked="true" id="chkEnableCalculateOptimizedRoute"
 							name="chkEnableCalculateOptimizedRoute"
-							onClick={()=>handleEnableCalculateOptimizedRouteClicked()}/>Включение/Выключение оптимизированного маршрута
-							расчет</label>
+							onclick="handleEnableCalculateOptimizedRouteClicked()"/>Enable/Disable optimized route
+						calculation</label>
 				</div>
 			</div>
 			<table border="0" className="form-group">
-			< tbody > 
 				<tr>
-					<td><input type="submit"  id="routeButton" className="btn btn-default btn-sm"
-							value={routeButton} onClick={()=> startRouteCalculation()}/></td>
+					<td><input type="submit" id="routeButton" className="btn btn-default btn-sm"
+							value="Высчитать стоимость дороги" /></td>
 					<td><input type="submit" id="cloneButton" className="btn btn-default btn-sm"
-							value="Открыть в новой вкладке" onClick={()=>cloneSettingsInNewWindow()} /></td>
+							value="Открыть в новой вкладке" onclick={()=>cloneSettingsInNewWindow()} /></td>
 				</tr>
-				</ tbody > 
 			</table>
 			<table border="0">
-			< tbody > 
 				<tr>
 					<td>URL</td>
 					<td><input type='text' id='serverURL' className="form-control" style={{width:380}}
 							value='https://fleet.ls.hereapi.com/2/calculateroute.json?'
-							onKeyDown={(event) => event.keyCode == 13? startRouteCalculation(): null} onChange={(value)=> setserverURL(value)}/></td>
-							 
+							onkeydown="if (event.keyCode == 13)startRouteCalculation();" /></td>
+							 {/* onChange={(value)=> setserverURL(value)} */}
 				</tr>
-				</ tbody > 
 			</table>
 			<br /> 
 			<ResultCostOptimRoute />
-			<div id="feedbackTxt" dangerouslySetInnerHTML={createMarkup()} className="form-group">
+			<div id="feedbackTxt" dangerouslySetInnerHTML={createMarkup()} class="form-group">
                 
 				</div>
 		</div>

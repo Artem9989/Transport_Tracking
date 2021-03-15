@@ -41,6 +41,8 @@ export default class Map extends Component {
     const M = {
       Platform: {},
       DefaultLayers: {},
+      GeocodingService: {},
+      RoutingService: {},
       Map: {},
       TileService: {},
       TileLayer: {},
@@ -73,12 +75,17 @@ export default class Map extends Component {
     
     }
   
+    var secure = (window.location.protocol === 'https:') ? true : false;
+
     // Initialize paltform
-    M.Platform = new H.service.Platform({ apikey: this.props.apikey})
+    M.Platform = new H.service.Platform({ apikey: this.props.apikey, useHTTPS: secure})
     
     M.DefaultLayers = M.Platform.createDefaultLayers(M.config)
     
-
+    M.GeocodingService = M.Platform.getGeocodingService();
+    M.RoutingService = M.Platform.getRoutingService();
+    var group = new H.map.Group();
+		var markerGroup = new H.map.Group();
     // Customize type of basemap
     
     M.TileService = M.Platform.getMapTileService({type: 'base'})
@@ -446,7 +453,7 @@ export default class Map extends Component {
         }
       }
 
-        return <div className="map" ref={this.mapRef} />
+        return <div id="map" className="map" ref={this.mapRef} />
     }
 }
 

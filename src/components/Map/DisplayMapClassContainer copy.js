@@ -279,7 +279,7 @@ export default class DisplayMapClassContainer extends Component {
           updateWaypoints={this.updateWaypoints}
           calculateIsoline={this.calculateIsoline}
           />
-        {/* <iframe src="hh2.html" height="500px" width="10%"></iframe> */}
+        
         
 </>
 
