@@ -6,6 +6,7 @@ import appReducer from './App-reducer';
 import adminAuthReducer from './AuthAdmin-reducer'
 import registerReducer from './Register-reducer'
 import {reducer as formReducer} from 'redux-form'
+import CostOptimReducer from './CostOptim-reducer'
 // import createSagaMiddleware from 'redux-saga'
 // import sagaWatcher from './sagas/sagas'
 // const saga = createSagaMiddleware()
@@ -17,7 +18,7 @@ let reducers = combineReducers({
   form: formReducer,
   app: appReducer,
   DriversPage: driversReducer,
-  
+  CostOptimValue: CostOptimReducer
 });
 
 

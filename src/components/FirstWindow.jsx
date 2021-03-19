@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import DriversContainer from "./driver/driverContainer";
 // import DisplayMapFC from './Map/DisplayMapClass';
-import DisplayMapClassContainer from "./Map/DisplayMapClassContainer";
+import MapContainer from "./Map/MapContainer";
 // import {DisplayMapClass} from './Map/DisplayMapClass';
 // import ReactDOM from "react-dom";
 // import HEREMap from "react-here-map"
@@ -191,8 +191,8 @@ const FirstWindow = () => {
             <Search />
           </Header>
           <Content>
-            
-            <DisplayMapClassContainer
+  
+            <MapContainer
               toggleModal={toggleModal}
               ShowModal={ShowModal}
               transportType={transportType}

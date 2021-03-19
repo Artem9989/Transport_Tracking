@@ -251,6 +251,7 @@ export default class DisplayMapClassContainer extends Component {
 
     return (<>
 
+        
           <Drawer
               title="CostOptimRouter"
               placement="left"
@@ -260,9 +261,12 @@ export default class DisplayMapClassContainer extends Component {
               mask={false}
               width= {450}
             >
-              <CostOptimRoute showCostOptimRoute={this.props.showCostOptimRoute} />
+              <CostOptimRoute showCostOptimRoute={this.props.showCostOptimRoute}
+        
+                        costOptimRouteValue={this.props.costOptimRouteValue}
+                        getcostOptimRouteValue={this.props.getcostOptimRouteValue}
+                       />
             </Drawer>
-
         <ModalWindowMemo 
           toggleModal={this.props.toggleModal}
           ShowModal={this.props.ShowModal}
@@ -272,16 +276,19 @@ export default class DisplayMapClassContainer extends Component {
           apikey={apikey}
           options={options}
           analytics={analytics}
+          costOptimRouteValue={this.props.costOptimRouteValue}
           toggleModal={this.props.toggleModal}
           clearIsoline={this.clearIsoline}
           calculateRoute={this.calculateRoute}
           clearWaypoints={this.clearWaypoints}
           updateWaypoints={this.updateWaypoints}
           calculateIsoline={this.calculateIsoline}
+          getcostOptimRouteValue={this.props.getcostOptimRouteValue}
+          getcostOptimRoute={this.props.getcostOptimRoute}
           />
         {/* <iframe src="hh2.html" height="500px" width="10%"></iframe> */}
         
-</>
+</> 
 
     )
   }

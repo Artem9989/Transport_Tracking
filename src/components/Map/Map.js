@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { HomeViewControl } from './HomeViewControl/index'
 import { InfoControl } from './InfoControl/index'
 // import { ServicesLabelControl } from './ServicesLabel/index'
+// import svgMarkerImage_Line from './InfoControl/LUI-icon-pd-information-solid-24.svg';
+
 import './app.css';
 // Helpers
 import { high_care_theme } from './theme/high_care_theme'
@@ -30,15 +32,19 @@ export default class Map extends Component {
 
     this.clusteredDataProvider = null
     this.activeLayer = null
+    
   }
 
     
   async componentDidMount () {
-    let { toggleModal } = this.props
+    
+    let { toggleModal,costOptimRouteValue } = this.props
+
 
     const H = window.H
 
     const M = {
+      CORV: costOptimRouteValue,
       Platform: {},
       DefaultLayers: {},
       GeocodingService: {},
@@ -72,9 +78,15 @@ export default class Map extends Component {
         priew: 'RUS',
         pois: 'true',
       },
+  
     
     }
-  
+          // toll image
+        //   tollImg : document.createElement("img"),
+       
+        //   tollIcon : new H.map.Icon(tollImg, { anchor: new H.math.Point(0, 10) }),
+        //  map.addObject(markerGroup),
+        //  // enable/disable calculation of cost optimized route calculation
     var secure = (window.location.protocol === 'https:') ? true : false;
 
     // Initialize paltform
@@ -84,8 +96,7 @@ export default class Map extends Component {
     
     M.GeocodingService = M.Platform.getGeocodingService();
     M.RoutingService = M.Platform.getRoutingService();
-    var group = new H.map.Group();
-		var markerGroup = new H.map.Group();
+
     // Customize type of basemap
     
     M.TileService = M.Platform.getMapTileService({type: 'base'})
@@ -98,7 +109,7 @@ export default class Map extends Component {
     M.TileLayer.setMin(6)
 
     M.Map = new H.Map( this.mapRef.current, M.TileLayer, M.Settings )
-   
+    
     
     // M.options = new H.ui.UI.options( {locale: M.options.locale})
     M.UI = new H.ui.UI(M.Map, {locale: M.config.locale})
@@ -116,7 +127,7 @@ export default class Map extends Component {
     // Distance Measurement control
     M.ScaleBar = new H.ui.ScaleBar({alignment: "bottom-center"})
     M.UI.addControl('scalebar', M.ScaleBar)
-  
+
     // M.ServicesLabelControl = new ServicesLabelControl({
     //   position:'right-bottom'
     // })
@@ -221,7 +232,7 @@ export default class Map extends Component {
     window.addEventListener('resize', function() {
         M.Map.getViewPort().resize()
     })
-
+    M.Map.addEventListener('longpress', evt => this.handleLongClickInMap(evt));
     M.Map.addEventListener('contextmenu', evt => this.contextMenu(evt))
 
     M.Map.addEventListener('tap', evt => {
@@ -250,6 +261,96 @@ export default class Map extends Component {
     // M.Map.addLayer(reader.getLayer())
 
 
+  }
+
+  
+  clearLastRouteCalculation() {
+    let { M, H,Map,CORV } = this.state
+    var group = new H.map.Group();
+    CORV.bErrorHappened = false;
+    CORV.bLongClickUseForStartPoint = true;
+    if (CORV.currentOpenBubble) {
+      M.UI.removeBubble(CORV.currentOpenBubble);
+    }
+    group.removeAll();
+
+  }
+  roundUp(num, places) {
+    return +(Math.round(num + "e+" + places) + "e-" + places);
+  }
+  createIconMarker (line1, line2) {
+    
+    let { M, H,Map,CORV } = this.state;
+    
+    var svgMarker = CORV.svgMarkerImage_Line;
+
+    // every long address not shown 
+    // correctly in marker
+    if (line2 && line2.length > 42) {
+      line2 = line2.substring(0, 40);
+      line2 = line2 + "..";
+    }
+
+    svgMarker = svgMarker.replace(/__line1__/g, line1);
+    svgMarker = svgMarker.replace(/__line2__/g, (line2 != undefined ? line2 : ""));
+    svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 20 : (line1.length * 4 + 80)));
+    svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 80 : (line1.length * 4 + 150)));
+    var icon = new H.map.Icon(svgMarker, {
+      anchor: new H.math.Point(24, 57),
+      size: { w: 20, h: 20 },
+    });
+ 
+    return icon;
+
+  };
+  handleLongClickInMap(currentEvent) {
+
+    let { Map, H,M,CORV } = this.state
+    // let { M, H,Map } = this.state
+
+   
+		var markerGroup = new H.map.Group();
+    console.log(markerGroup)
+    var lastClickedPos = Map.screenToGeo(currentEvent.currentPointer.viewportX, currentEvent.currentPointer.viewportY);
+    // round up decimal places as Geocoder can only provide upto 7 digits precision after decimal
+    lastClickedPos.lat = this.roundUp(lastClickedPos.lat, 7);
+    lastClickedPos.lng = this.roundUp(lastClickedPos.lng, 7);
+
+    if (CORV.bLongClickUseForStartPoint) {
+      this.clearLastRouteCalculation();
+      CORV.line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
+      //var line2 = " ";
+      CORV.start = CORV.line1;
+      CORV.pointA = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
+
+      if (CORV.startMarker != null) {
+        markerGroup.removeObject(CORV.startMarker);
+        
+      }
+ 
+      CORV.startMarker = new H.map.Marker(CORV.pointA,
+        {
+          icon: this.createIconMarker(CORV.line1)
+        });
+
+      markerGroup.addObject(CORV.startMarker);
+      CORV.bLongClickUseForStartPoint = false;
+    }
+    else {
+      CORV.line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
+      //var line2 = " ";
+      CORV.dest= CORV.line1;
+      CORV.pointB = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
+      if (CORV.destMarker != null) {
+        markerGroup.removeObject(CORV.destMarker);
+      }
+      CORV.destMarker = new H.map.Marker(CORV.pointB,
+        {
+          icon: this.createIconMarker(CORV.line1)
+        });
+      markerGroup.addObject(CORV.destMarker);
+      CORV.bLongClickUseForStartPoint = true;
+    }
   }
 
   componentWillUnmount() {
