@@ -8,13 +8,18 @@ const ResultCostOptimRoute = (props) => {
     // const [dateNow, setdate] = useState('')
     // const [time, settime] = useState('')
    
-   
+   console.log(props.resp,props.HTMLTag)
   return (<>	
 
 	
-			<div id="feedbackTxt" className="form-group">
-                
-            </div>
+			<div id="feedbackTxt" 
+      className="form-group">
+            <p> {props.resp}
+        
+        </p>
+        {props.HTMLTag.map( (i)=>  i ) }
+    
+      </div>
 
     </>
   );

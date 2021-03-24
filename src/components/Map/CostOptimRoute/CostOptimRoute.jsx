@@ -3,20 +3,20 @@ import { Collapse } from "antd";
 import ResultCostOptimRoute from "./ResultOptimRoute/ResultOptimRoute.jsx";
 import { config } from "../../../assets/config";
 import svgMarkerImage_Line from "../InfoControl/LUI-icon-pd-information-solid-24.svg";
+import axios from "axios";
+import { DatePicker, Space } from 'antd';
+import CORS from './CORS.css';
+
+
 
 const { Panel } = Collapse;
 
-export const createMarkup = (htmlValue) => {
-  if (htmlValue === undefined) {
-    return { __html: `Данных пока нет` };
-  } else {
-    return { __html: `${htmlValue}` };
-  }
-};
 
 const CostOptimRoute = (props) => {
-  const [trStartRouteDate, settrStartRouteDate] = useState(false);
-  const [isDChecked, setisDChecked] = useState(true);
+
+  // const [trStartRouteDate, settrStartRouteDate] = useState(false);
+  const [trisDTFilteringEnabled, setisDTFilteringEnabled] = useState(false);
+  const [isDChecked, setisDChecked] = useState(false);
 
   let CORV = props.costOptimRouteValue;
   let updateCORV = props.getcostOptimRouteValue;
@@ -24,59 +24,31 @@ const CostOptimRoute = (props) => {
   const handleChange = (field, value) => {
     updateCORV(field, value);
   };
-  // // CostOptimRoute= {this.props.CostOptimRoute}
-  // // costOptimRouteValue={this.props.costOptimRouteValue}
 
-  // // const [dateNow, setDate] = useState('');
-  // // const [time, setTime] = useState('');
-  // // const [serverURL, setserverURL] = useState('https://fleet.ls.hereapi.com/2/calculateroute.json?');
-  // // const [routeButton, setrouteButton] = useState("Высчитать оптимальную стоимость маршрута");
-  // // // onKey
-  // // const [startValue, setstartValue] = useState('am Kronberger Hang 8, Schwalbach');
-  // // const [DestinationValue, setDestinationValue] = useState('Frankfurt am Main');
-  // // const [costPerHour, setcostPerHour] = useState('50');
-  // // const [costPerKm, setcostPerKm] = useState('300');
-  // // const [currency, setCurrency] = useState('RUB');
-  // // const [routerParamsState, setrouterParamsState] = useState(' ');
-  // // const [routerParamsValueState, setrouterParamsValueState] = useState('');
-  // // const [nrOfTotalTires, setnrOfTotalTires] = useState('4');
-  // // const [nrOfAxlesVehicle, setnrOfAxlesVehicle] = useState('2');
-  // // const [nrOfAxlesTrailer, setnrOfAxlesTrailer] = useState('0');
-  // // const [vehHeight, setvehHeight] = useState('167');
-  // // const [trailerHeight, settrailerHeight] = useState('0');
-  // // const [vehWeight, setvehWeight] = useState('1739');
-  // // const [totalWeight, settotalWeight] = useState('1739');
-  // // const [totalLength, settotalLength] = useState('441');
-  // // const [totalWidth, settotalWidth] = useState('180');
-  // // const [nrPassengers, setnrPassengers] = useState('2');
-  // // const [heightAbove1stAxle, setheightAbove1stAxle] = useState('100');
-  // // const [trailerNr, settrailerNr] = useState('0');
-  // // const [emissionType, setemissionType] = useState('5');
-  // // const [routeAlternatives, setrouteAlternatives] = useState('1');
-  // // const [predefinedVehSpec, setpredefinedVehSpec] = useState('0');
-  // // const [vehicles, setvehicles] = useState('2');
-  // // const [trailerType, settrailerType] = useState('0');
-  // // const [hybrid, sethybrid] = useState('0');
-  // // const [disabledEquipped, setdisabledEquipped] = useState('0');
-  // // const [minPollution, setminPollution] = useState('0')
-  // // const [hov, sethov] = useState('0');
-  // // const [commercial, setcommercial] = useState('0')
-  // // const [hazardousType, sethazardousType] = useState('0');
-  // // const [fuelType, setfuelType] = useState("petrol");
 
-  // 		(function setValuesFromUrl() {
-  // 			let nameVal;
-  // 			var indexOf = window.location.href.indexOf('?');
-  // 			if (indexOf < 0) return;
-  // 			var vars = window.location.href.slice(indexOf + 1).split('&');
 
-  // 			for (var i = 0; i < vars.length; i++) {
-  // 				nameVal = vars[i].split('=');
-  // 				if (!nameVal[0]) continue;
-  // 				document.getElementById(nameVal[0]).value = decodeURIComponent(nameVal[1]);
-  // 			}
+  const createMarkup = (htmlValue) => {
+    if (htmlValue === undefined) {
+      
+    } else {
+      handleChange('ResponseResult', htmlValue)
+    }
+    
+  }
 
-  // 		})();
+  		(function setValuesFromUrl() {
+  			let nameVal;
+  			var indexOf = window.location.href.indexOf('?');
+  			if (indexOf < 0) return;
+  			var vars = window.location.href.slice(indexOf + 1).split('&');
+
+  			for (var i = 0; i < vars.length; i++) {
+  				nameVal = vars[i].split('=');
+  				if (!nameVal[0]) continue;
+  				document.getElementById(nameVal[0]).value = decodeURIComponent(nameVal[1]);
+  			}
+
+  		})();
 
   function cloneSettingsInNewWindow() {
     var url =
@@ -97,86 +69,36 @@ const CostOptimRoute = (props) => {
     window.open(url);
   }
 
-  // 		// check if the site was loaded via secure connection
-  // 		// var secure = (window.location.protocol === 'https:') ? true : false;
+  	
+  		// Do not draw under control panel
+  		// map.getViewPort().setPadding(0, 0, 0, ('.ctrl-panel').width());
 
-  // 		// Do not draw under control panel
-  // 		// map.getViewPort().setPadding(0, 0, 0, ('.ctrl-panel').width());
+  		// add behavior control
 
-  // 		// add behavior control
+  		// add UI
+  		// var ui = H.ui.UI.createDefault(map, maptypes);
 
-  // 		// add UI
-  // 		// var ui = H.ui.UI.createDefault(map, maptypes);
 
-  // 		//add JS API Release information
-  // 		// releaseInfoTxt.innerHTML += "JS API: 3." + H.buildInfo().version;
 
-  // 		//add MRS Release information
-  // 		// loadMRSVersionTxt();
+ 
 
-  // 		//helper
-  // 		var releaseGeocoderShown = false;
-  // 		var releaseRoutingShown = false;
+	// toll image
+  		// var tollImg = document.createElement("img");
+  		// tollImg.src = "/assets/icons/toll_20_10.png";
+  		// var tollIcon = new H.map.Icon(tollImg, { anchor: new H.math.Point(0, 10) });
+  		// map.addObject(markerGroup);
+  		// // enable/disable calculation of cost optimized route calculation
+  		// var noCostOptimizationJustCalculate = false;
 
-  // 		// add window resizing event listener
-  // 		// window.addEventListener('resize', function () {
-  // 		// 	map.getViewPort().resize();
-  // 		// });
+  		// handleEnableCalculateOptimizedRouteClicked();
 
-  // 		// add long click in map event listener
-  // 		// map.addEventListener('longpress', handleLongClickInMap);
+  		/************************************
 
-  // 		// var routeButton = document.getElementById("routeButton");
-  // 		// var start = document.getElementById("start");
-  // 		// var dest = document.getElementById("dest");
-  // 		// var mapReleaseTxt = document.getElementById("mapReleaseTxt");
-  // 		// // var pos;
-  // 		// var address;
-  // 		// var line1;
-  // 		// var line2;
-  // 		// // var vehicles;
-  // 		// var pointA;
-  // 		// var pointB;
-  // 		// var startMarker = null;
-  // 		// var destMarker = null;
-  // 		// var routeLinkHashMap = new Object(); // key = linkID, value = link object
-  // 		// var routerMapRelease;
-  // 		// var release;
-  // 		// var currentBubble;
-  // 		// var currentOpenBubble;
-  // 		// var bErrorHappened = false;
-  // 		// var bLongClickUseForStartPoint = true; // for long click in map we toggle start/destination
+  		Geocoding and routing methods
 
-  // 		// var routeColor = ["rgba(18, 65, 145, 0.8)", "rgba(0, 145, 255, 0.7)", "rgba(127, 201, 255, 0.6)"];
-  // 		// var ppType_A_Color = ["rgba(255, 255, 0, 0.8)", "rgba(255, 255, 0, 0.7)", "rgba(255, 255, 0, 0.6)"];
-  // 		// var ppType_a_Color = ["rgba(255, 216, 0, 0.8)", "rgba(255, 216, 0, 0.7)", "rgba(255, 216, 0, 0.6)"];
-  // 		// var ppType_S_Color = ["rgba(255, 0, 0, 0.8)", "rgba(255, 0, 0, 0.7)", "rgba(255, 0, 0, 0.6)"];
-  // 		// var ppType_p_Color = ["rgba(255, 127, 127, 0.8)", "rgba(255, 127, 127, 0.7)", "rgba(255, 127, 127, 0.6)"];
-  // 		// var ppType_F_Color = ["rgba(214, 127, 255, 0.8)", "rgba(214, 127, 255, 0.7)", "rgba(214, 127, 255, 0.6)"];
-  // 		// var ppType_K_Color = ["rgba(178, 0, 255, 0.8)", "rgba(178, 0, 255, 0.7)", "rgba(178, 0, 255, 0.6)"];
-  // 		// var ppType_U_Color = ["rgba(0, 204, 0, 0.8)", "rgba(0, 204, 0, 0.7)", "rgba(0, 204, 0, 0.6)"];
-  // 		// var tollCostStroke = 8, routeStroke = 8;
-  // 		// var strRoutingRequestSend = "Routing request sent. Waiting for response...";
-  // 		// var strTceRequestSend = "Route Toll Cost request sent and logged. Waiting for response...";
-  // 		// var strTceError = "An Error happened during Route Toll Cost calculation. Please check the vehicle specification<br/>F.e. Trailer number set but no trailer type.";
-  // 		// var strTceResponseReceived = "Received TCE response. Processing it now.";
-  // 		// toll image
-  // 		var tollImg = document.createElement("img");
-  // 		tollImg.src = "/assets/icons/toll_20_10.png";
-  // 		var tollIcon = new H.map.Icon(tollImg, { anchor: new H.math.Point(0, 10) });
-  // 		map.addObject(markerGroup);
-  // 		// enable/disable calculation of cost optimized route calculation
-  // 		var noCostOptimizationJustCalculate = false;
+  		************************************/
 
-  // 		// handleEnableCalculateOptimizedRouteClicked();
-
-  // 		/************************************
-
-  // 		Geocoding and routing methods
-
-  // 		************************************/
-
-  // 		/***/
+  		/***/
   function clearLastRouteCalculation() {
     handleChange("bErrorHappened", false);
     handleChange("bLongClickUseForStartPoint", true);
@@ -193,7 +115,7 @@ const CostOptimRoute = (props) => {
   // 		************************************/
   var startRouteCalculation = function () {
     clearLastRouteCalculation();
-    // geocode(CORV.start, true);
+    geocode(CORV.startValue, true);
   };
   // routeButton.onClick = startRouteCalculation;
 
@@ -239,535 +161,552 @@ const CostOptimRoute = (props) => {
   // 			}
   // 		}
 
-  // 		/************************************
-  // 		Geocode start/destination
-  // 		************************************/
-  // 		var isStartGlobal;
-  // 		var geocode = function (searchTerm, isStart) {
-  // 			isStartGlobal = isStart;
-  // 			//add Geocoder Release information if not already done
-  // 			if (releaseGeocoderShown == false) {
-  // 				// loadGeocoderVersionTxt();
-  // 				releaseGeocoderShown = true;
-  // 			}
+  const createIconMarker = (line1, line2) => {
+    
+    // let { M, H,Map,CORV } = this.state;
+    
+    var svgMarker = CORV.svgMarkerImage_Line;
 
-  // 			// check if coordinates , use search end point for coordinates
-  // 			var query = searchTerm.split(",");
-  // 			var regex = /[0-9]+[.]?[0-9]*/;
-  // 			if (query.length == 2 && regex.test(query[0]) && regex.test(query[1])) {
-  // 				geocoder.search(
-  // 					{
-  // 						searchText: searchTerm
-  // 					},
-  // 					onResult,
-  // 					onError
-  // 				);
-  // 			} else {
-  // 				geocoder.geocode(
-  // 					{
-  // 						searchText: searchTerm
-  // 					},
-  // 					onResult,
-  // 					onError
-  // 				);
-  // 			}
-  // 		}
-  // 		function onError(error) {
-  // 			alert(error);
-  // 		}
+    // every long address not shown 
+    // correctly in marker
+    if (line2 && line2.length > 42) {
+      line2 = line2.substring(0, 40);
+      line2 = line2 + "..";
+    }
 
-  // 		function onResult(result) {
-  // 			// return if no results
-  // 			if (!result.Response.View[0]) {
-  // 				onError("Input could not be geocoded");
-  // 				return;
-  // 			}
+    svgMarker = svgMarker.replace(/__line1__/g, line1);
+    svgMarker = svgMarker.replace(/__line2__/g, (line2 != undefined ? line2 : ""));
+    svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 20 : (line1.length * 4 + 80)));
+    svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 80 : (line1.length * 4 + 150)));
+    var icon = new window.H.map.Icon(svgMarker, {
+      anchor: new window.H.math.Point(24, 57),
+      size: { w: 20, h: 20 },
+    });
+ 
+    return icon;
 
-  // 			if (result.Response.View[0].Result[0].Location != null) {
-  // 				pos = result.Response.View[0].Result[0].Location.DisplayPosition;
-  // 			}
-  // 			else {
-  // 				pos = result.Response.View[0].Result[0].Place.Locations[0].DisplayPosition;
-  // 			}
+  };
+  		/************************************
+  		Geocode start/destination
+  		************************************/
+  		var isStartGlobal;
+  		var geocode = function (searchTerm, isStart) {
+        
+  			isStartGlobal = isStart;
+  			//add Geocoder Release information if not already done
+  			if (CORV.releaseGeocoderShown == false) {
+  				// loadGeocoderVersionTxt();
+  				CORV.releaseGeocoderShown = true;
+  			}
 
-  // 			if (isStartGlobal)
-  // 				pointA = new H.geo.Point(pos.Latitude, pos.Longitude);
-  // 			else
-  // 				pointB = new H.geo.Point(pos.Latitude, pos.Longitude);
+  			// check if coordinates , use search end point for coordinates
+  			var query = searchTerm.split(",");
+  			var regex = /[0-9]+[.]?[0-9]*/;
+  			if (query.length == 2 && regex.test(query[0]) && regex.test(query[1])) {
+  				CORV.geocoder.search(
+  					{
+  						searchText: searchTerm
+  					},
+  					onResult,
+  					onError
+  				);
+  			} else {
+  				CORV.geocoder.geocode(
+  					{
+  						searchText: searchTerm
+  					},
+  					onResult,
+  					onError
+  				);
+  			}
+  		}
+  		function onError(error) {
+  			alert(error);
+  		}
 
-  // 			if (result.Response.View[0].Result[0].Location != null) {
-  // 				address = result.Response.View[0].Result[0].Location.Address;
-  // 			}
-  // 			else {
-  // 				address = result.Response.View[0].Result[0].Place.Locations[0].Address;
-  // 			}
+  		function onResult(result) {
 
-  // 			line1 = pos.Latitude + " " + pos.Longitude;
-  // 			line2 = address.Label;
+  			// return if no results
+  			if (!result.Response.View[0]) {
+  				onError("Input could not be geocoded");
+  				return;
+  			}
 
-  // 			if (isStartGlobal) {
-  // 				if (startMarker != null) {
-  // 					markerGroup.removeObject(startMarker);
-  // 				}
-  // 				startMarker = new H.map.Marker(pointA,
-  // 					{
-  // 						icon: createIconMarker(line1, line2)
-  // 					});
-  // 				markerGroup.addObject(startMarker);
+  			if (result.Response.View[0].Result[0].Location != null) {
+  				CORV.pos = result.Response.View[0].Result[0].Location.DisplayPosition;
+  			}
+  			else {
+  				CORV.pos = result.Response.View[0].Result[0].Place.Locations[0].DisplayPosition;
+  			}
 
-  // 			}
-  // 			else {
-  // 				if (destMarker != null) {
-  // 					markerGroup.removeObject(destMarker);
-  // 				}
-  // 				destMarker = new H.map.Marker(pointB,
-  // 					{
-  // 						icon: createIconMarker(line1, line2)
-  // 					});
-  // 				markerGroup.addObject(destMarker);
-  // 				map.getViewModel().setLookAtData({
-  // 					bounds: markerGroup.getBoundingBox()
-  // 				});
-  // 			}
+  			if (isStartGlobal)
+        CORV.pointA = new window.H.geo.Point(CORV.pos.Latitude, CORV.pos.Longitude);
+  			else
+        CORV.pointB = new window.H.geo.Point(CORV.pos.Latitude, CORV.pos.Longitude);
 
-  // 			if (isStartGlobal)
-  // 				geocode(dest.value, false);
-  // 			else
-  // 				calculateRoute(pointA, pointB);
-  // 		}
+  			if (result.Response.View[0].Result[0].Location != null) {
+  				CORV.address = result.Response.View[0].Result[0].Location.Address;
+  			}
+  			else {
+  				CORV.address = result.Response.View[0].Result[0].Place.Locations[0].Address;
+  			}
+
+  			CORV.line1 = CORV.pos.Latitude + " " + CORV.pos.Longitude;
+  			CORV.line2 = CORV.address.Label;
+
+  			if (isStartGlobal) {
+  				if (CORV.startMarker != null) {
+  					CORV.markerGroup.removeObject(CORV.startMarker);
+  				}
+  				CORV.startMarker = new window.H.map.Marker(CORV.pointA,
+  					{
+  						icon: createIconMarker(CORV.line1, CORV.line2)
+  					});
+            CORV.markerGroup.addObject(CORV.startMarker);
+
+  			}
+  			else {
+  				if (CORV.destMarker != null) {
+  					CORV.markerGroup.removeObject(CORV.destMarker);
+  				}
+  				CORV.destMarker = new window.H.map.Marker(CORV.pointB,
+  					{
+  						icon: createIconMarker(CORV.line1, CORV.line2)
+  					});
+            CORV.markerGroup.addObject(CORV.destMarker);
+            window.map.getViewModel().setLookAtData({
+  					bounds: CORV.markerGroup.getBoundingBox()
+  				});
+  			}
+
+  			if (isStartGlobal)
+  				geocode(CORV.DestinationValue, false);
+  			else
+  				calculateRoute(CORV.pointA, CORV.pointB);
+  		}
 
   // 		/************************************
   // 		Actual Route Calculation
   // 		************************************/
 
-  // 		var calculateRoute = function (start, destination) {
+  		var calculateRoute = function (start, destination) {
+  			// generate routing request
+  			var transportMode = "car";
+  			if (CORV.vehicles == "3" || CORV.vehicles == "9") {
+  				transportMode = "truck"
+  			}
 
-  // 			// generate routing request
-  // 			var transportMode = "car";
-  // 			if (vehicles == "3" || vehicles == "9") {
-  // 				transportMode = "truck"
-  // 			}
+  			var hasTrailer = null;
+  			var shippedHazardousGoods = null;
+  			var limitedWeight = null;
+  			var trailerWeight = null;
+  			var height = null;
+  			var width = null;
+  			var length = null;
+  			var heightAbove1stAxle = null;
 
-  // 			var hasTrailer = null;
-  // 			var shippedHazardousGoods = null;
-  // 			var limitedWeight = null;
-  // 			var trailerWeight = null;
-  // 			var height = null;
-  // 			var width = null;
-  // 			var length = null;
-  // 			var heightAbove1stAxle = null;
+  			if (parseInt(CORV.trailerType) > 0) {
+  				hasTrailer = "&trailersCount=1";
+  			}
 
-  // 			if (parseInt(trailerType) > 0) {
-  // 				hasTrailer = "&trailersCount=1";
-  // 			}
+  			if (parseInt(CORV.hazardousType) == 1) {
+  				shippedHazardousGoods = "&shippedHazardousGoods=explosive";
+  			}
+  			else if (parseInt(CORV.hazardousType) == 2) {
+  				shippedHazardousGoods = "&shippedHazardousGoods=other";
+  			}
 
-  // 			if (parseInt(hazardousType) == 1) {
-  // 				shippedHazardousGoods = "&shippedHazardousGoods=explosive";
-  // 			}
-  // 			else if (parseInt(hazardousType) == 2) {
-  // 				shippedHazardousGoods = "&shippedHazardousGoods=other";
-  // 			}
+  			if (parseInt(CORV.vehWeight) > 0) {
+  				if (parseInt(CORV.vehWeight) > parseInt(CORV.totalWeight)) {
+  					alert("Total Weight cannot be smaller than Vehicle Weight");
+  					return;
+  				}
+  				limitedWeight = "&limitedWeight=" + (CORV.totalWeight / 1000) + "t";// router 7.2 used by TCE includes trailer weight
+  			}
 
-  // 			if (parseInt(vehWeight) > 0) {
-  // 				if (parseInt(vehWeight) > parseInt(totalWeight)) {
-  // 					alert("Total Weight cannot be smaller than Vehicle Weight");
-  // 					return;
-  // 				}
-  // 				limitedWeight = "&limitedWeight=" + (totalWeight / 1000) + "t";// router 7.2 used by TCE includes trailer weight
-  // 			}
+  			if (parseInt(CORV.vehHeight) > 0 || parseInt(CORV.trailerHeight) > 0) {
+  				height = "&height=" + ((parseInt(CORV.vehHeight) > parseInt(CORV.trailerHeight) ? parseInt(CORV.vehHeight) : parseInt(CORV.trailerHeight)) / 100) + "m";
+  			}
 
-  // 			if (parseInt(vehHeight) > 0 || parseInt(trailerHeight) > 0) {
-  // 				height = "&height=" + ((parseInt(vehHeight) > parseInt(trailerHeight) ? parseInt(vehHeight) : parseInt(trailerHeight)) / 100) + "m";
-  // 			}
+  			if (parseInt(CORV.totalWidth) > 0) {
+  				width = "&width=" + (CORV.totalWidth / 100) + 'm';
+  			}
 
-  // 			if (parseInt(totalWidth) > 0) {
-  // 				width = "&width=" + (totalWidth / 100) + 'm';
-  // 			}
+  			if (parseInt(CORV.totalLength) > 0) {
+  				length = "&length=" + (CORV.totalLength / 100) + 'm';
+  			}
+        let heightAbove1stAxleValue;
+  			if (CORV.heightAbove1stAxle != 0) {
+  				heightAbove1stAxleValue = (CORV.heightAbove1stAxle / 100) + "m";
+          // handleChange('heightAbove1stAxle', heightAbove1stAxleValue)
+  			}
 
-  // 			if (parseInt(totalLength) > 0) {
-  // 				length = "&length=" + (totalLength / 100) + 'm';
-  // 			}
+  			var vspec = "";
+  			vspec += "&tollVehicleType=" + CORV.vehicles;
+  			vspec += "&trailerType=" + CORV.trailerType;
+  			vspec += "&trailersCount=" + CORV.trailerNr;
+  			vspec += "&vehicleNumberAxles=" + CORV.nrOfAxlesVehicle;
+  			vspec += "&trailerNumberAxles=" + CORV.nrOfAxlesTrailer;
+  			vspec += "&hybrid=" + CORV.hybrid;
+  			vspec += "&emissionType=" + CORV.emissionType;
+  			vspec += "&fuelType=" + CORV.fuelType;
+  			if (height != null && height.length > 0) vspec += height;
+  			vspec += "&trailerHeight=" + CORV.trailerHeight;
+  			vspec += "&vehicleWeight=" + CORV.vehWeight;
+  			if (limitedWeight != null && limitedWeight.length > 0) vspec += limitedWeight;
+  			vspec += "&disabledEquipped=" + CORV.disabledEquipped;
+  			vspec += "&minimalPollution=" + CORV.minPollution;
+  			vspec += "&hov=" + CORV.hov;
+  			vspec += "&passengersCount=" + CORV.nrPassengers;
+  			vspec += "&tiresCount=" + CORV.nrOfTotalTires;
+  			vspec += "&commercial=" + CORV.commercial;
+  			vspec += "&heightAbove1stAxle=" + heightAbove1stAxleValue;
+  			if (width != null && width.length > 0) vspec += width;
+  			if (length != null && length.length > 0) vspec += length;
+  			if (shippedHazardousGoods != null && shippedHazardousGoods.length > 0) vspec += shippedHazardousGoods;
+  			var routerParamsValueState = CORV.routerParamsValueState;
+  			var finalParamsValue = '';
+  			if (routerParamsValueState !== '') {
+  				var paramsArray = [];
+  				var components = routerParamsValueState.split('&');
+  				for (var i = 0; i < components.length; i++) {
+  					var key = components[i].split('=');
+  					if (key[0].substr(0, 'waypoint'.length) === 'waypoint') {
+  						continue;// ignore waypoints because we already specified.
+  					}
+  					if (key[0] === 'mode') {
+  						continue;// Ignore mode since cor build this inside
+  					}
+  					paramsArray.push(components[i]);
+  				}
+  				finalParamsValue = paramsArray.join('&');
+  			}
 
-  // 			if (document.getElementById("heightAbove1stAxle").value != 0) {
-  // 				heightAbove1stAxle = (document.getElementById("heightAbove1stAxle").value / 100) + "m";
-  // 			}
+  			var isDTFilteringEnabled = trisDTFilteringEnabled;
+  			var routeAlternativesRequested = false;
+  			if (CORV.routeAlternatives != null && CORV.routeAlternatives != "0") {
+  				routeAlternativesRequested = true;
+  			}
+  			var urlRoutingReq =
+  				[
+  					CORV.serverURL,
+  					"jsonAttributes=41",
+  					"&waypoint0=",
+  					start.lat,
+  					",",
+  					start.lng,
+  					"&detail=1",
+  					"&waypoint1=",
+  					destination.lat,
+  					",",
+  					destination.lng,
+  					"&maneuverAttributes=none",
+  					"&linkAttributes=none,sh",
+  					"&legAttributes=none,li",
+  					(CORV.noCostOptimizationJustCalculate ? "" : "&driver_cost="),
+  					(CORV.noCostOptimizationJustCalculate ? "" : CORV.costPerKm),
+  					(CORV.noCostOptimizationJustCalculate ? "" : "&vehicle_cost="),
+  					(CORV.noCostOptimizationJustCalculate ? "" : CORV.costPerHour),
+  					"&currency=",
+  					CORV.currency,
+  					"&departure=",
+  					// isDTFilteringEnabled ? `${CORV.dateNow}T${CORV.time}`: '',
+  					isDTFilteringEnabled ? `${CORV.dateNow.replace(' ', 'T')}`: '',
+  					vspec,
+  					"&mode=fastest;" + transportMode + ";traffic:disabled",
+  					"&rollup=none,country;tollsys",
+  					(routeAlternativesRequested ? "&alternatives=" + CORV.routeAlternatives : ''),
+  					"&apiKey=",
+  					config.apikey,
+  					// Additional custom parameters
+  					(finalParamsValue !== '' ? '&' + finalParamsValue : ''),
+  			    ].join("");
+  					createMarkup(CORV.strRoutingRequestSend)
+            // console.log(urlRoutingReq)
+  			// feedbackTxt.innerHTML = strRoutingRequestSend;
+  			// window.script = document.createElement("script");
+  			// window.script.src = urlRoutingReq;
+  			// document.body.appendChild(window.script);
+        parseRoutingResponse(urlRoutingReq)
+  		}
 
-  // 			var vspec = "";
-  // 			vspec += "&tollVehicleType=" + vehicles;
-  // 			vspec += "&trailerType=" + trailerType;
-  // 			vspec += "&trailersCount=" + trailerNr;
-  // 			vspec += "&vehicleNumberAxles=" + nrOfAxlesVehicle;
-  // 			vspec += "&trailerNumberAxles=" + nrOfAxlesTrailer;
-  // 			vspec += "&hybrid=" + hybrid;
-  // 			vspec += "&emissionType=" + emissionType;
-  // 			vspec += "&fuelType=" + fuelType;
-  // 			if (height != null && height.length > 0) vspec += height;
-  // 			vspec += "&trailerHeight=" + trailerHeight;
-  // 			vspec += "&vehicleWeight=" + vehWeight;
-  // 			if (limitedWeight != null && limitedWeight.length > 0) vspec += limitedWeight;
-  // 			vspec += "&disabledEquipped=" + disabledEquipped;
-  // 			vspec += "&minimalPollution=" + minPollution;
-  // 			vspec += "&hov=" + hov;
-  // 			vspec += "&passengersCount=" + nrPassengers;
-  // 			vspec += "&tiresCount=" + nrOfTotalTires;
-  // 			vspec += "&commercial=" + commercial;
-  // 			vspec += "&heightAbove1stAxle=" + heightAbove1stAxle;
-  // 			if (width != null && width.length > 0) vspec += width;
-  // 			if (length != null && length.length > 0) vspec += length;
-  // 			if (shippedHazardousGoods != null && shippedHazardousGoods.length > 0) vspec += shippedHazardousGoods;
-  // 			var routerParamsValue = document.getElementById('routerParamsValue').value;
-  // 			var finalParamsValue = '';
-  // 			if (routerParamsValue !== '') {
-  // 				var paramsArray = [];
-  // 				var components = routerParamsValue.split('&');
-  // 				for (var i = 0; i < components.length; i++) {
-  // 					var key = components[i].split('=');
-  // 					if (key[0].substr(0, 'waypoint'.length) === 'waypoint') {
-  // 						continue;// ignore waypoints because we already specified.
-  // 					}
-  // 					if (key[0] === 'mode') {
-  // 						continue;// Ignore mode since cor build this inside
-  // 					}
-  // 					paramsArray.push(components[i]);
-  // 				}
-  // 				finalParamsValue = paramsArray.join('&');
-  // 			}
+  		/************************************
+  		parse the routing response
+  		************************************/
+  		async function  parseRoutingResponse(response) {
+        
+        let data = await axios.get(response);
+      let resp = data.data;
+  			if (resp.error != undefined) {
+  				if (resp.error == "NoRouteFound") {
+  					alert('Пожалуйста, подумайте о том, чтобы изменить свой старт или пункт назначения, так как тот, который вы ввели, недоступен с данным профилем транспортного средства');
+  					// feedbackTxt.innerHTML = 'The Router service is unable to compute the route: try to change your start / destination point';
+  					createMarkup('Служба маршрутизатора не может вычислить маршрут: попробуйте изменить начальную / конечную точку');
+  				}
+  				else {
+  					alert(resp.error);
+  					createMarkup(resp.error)
+  					// feedbackTxt.innerHTML = resp.error;
+  				}
+  				return;
+  			}
+  			if (resp.response == undefined && resp.subtype != undefined) {
+  				if (resp.subtype == "NoRouteFound") {
+  					alert('Пожалуйста, подумайте о том, чтобы изменить свой старт или пункт назначения, так как тот, который вы ввели, недоступен с данным профилем транспортного средства');
+  					// feedbackTxt.innerHTML = 'The Router service is unable to compute the route: try to change your start / destination point';
+  					createMarkup('Служба маршрутизатора не может вычислить маршрут: попробуйте изменить начальную / конечную точку')
+  				}
+  				else {
+  					alert(resp.subtype + " " + resp.details);
+  					createMarkup(resp.error)
+  					// feedbackTxt.innerHTML = resp.error;
+  				}
+  				return;
+  			}
+  			if (resp.error != undefined) {
+  				// feedbackTxt.innerHTML = resp.error;
+  				createMarkup(resp.error)
+  				return;
+  			}
+  			if (resp.responseCode != undefined) {
+  				alert(resp.message);
+  				// feedbackTxt.innerHTML = resp.message;
+  				createMarkup(resp.message)
+  				return;
+  			}
+  			if (resp.onError == true) {
+  				for (var i = 0; i < resp.errors.length; i++) {
+  					createMarkup(<font color='red'> {resp.errors} </font>)
+  					// feedbackTxt.innerHTML = "<font color='red'>" + resp.errors + "</font>";
+  					createMarkup(<br />)
+  					// feedbackTxt.innerHTML += "<br />";
+  				}
+  				return;
+  			}
+  			if (CORV.bErrorHappened) {
+  				return;
+  			}
 
-  // 			var isDTFilteringEnabled = document.getElementById("chkEnableDTFiltering").checked;
-  // 			var routeAlternativesRequested = false;
-  // 			if (document.getElementById("routeAlternatives").value != null && document.getElementById("routeAlternatives").value != "0") {
-  // 				routeAlternativesRequested = true;
-  // 			}
+  			if (createMarkup() != CORV.strTceError) {
+  				// feedbackTxt.innerHTML = strTceResponseReceived;
+  				createMarkup(CORV.strTceResponseReceived)
+  			}
 
-  // 			var urlRoutingReq =
-  // 				[
-  // 					serverURL,
-  // 					"jsonAttributes=41",
-  // 					"&waypoint0=",
-  // 					start.lat,
-  // 					",",
-  // 					start.lng,
-  // 					"&detail=1",
-  // 					"&waypoint1=",
-  // 					destination.lat,
-  // 					",",
-  // 					destination.lng,
-  // 					"&maneuverAttributes=none",
-  // 					"&linkAttributes=none,sh",
-  // 					"&legAttributes=none,li",
-  // 					(noCostOptimizationJustCalculate ? "" : "&driver_cost="),
-  // 					(noCostOptimizationJustCalculate ? "" : document.getElementById('hourDriverCost').value),
-  // 					(noCostOptimizationJustCalculate ? "" : "&vehicle_cost="),
-  // 					(noCostOptimizationJustCalculate ? "" : document.getElementById('hourVehicleCost').value),
-  // 					"&currency=",
-  // 					document.getElementById('currency').value,
-  // 					"&departure=",
-  // 					isDTFilteringEnabled ? document.getElementById("startRouteDate").value + 'T' + document.getElementById("startRouteTime").value : '',
-  // 					vspec,
-  // 					"&mode=fastest;" + transportMode + ";traffic:disabled",
-  // 					"&rollup=none,country;tollsys",
-  // 					(routeAlternativesRequested ? "&alternatives=" + document.getElementById("routeAlternatives").value : ''),
-  // 					"&apiKey=",
-  // 					config.apikey,
-  // 					// Additional custom parameters
-  // 					(finalParamsValue !== '' ? '&' + finalParamsValue : ''),
-  // 					"&jsoncallback=parseRoutingResponse"].join("");
-  // 					createMarkup(strRoutingRequestSend)
-  // 			// feedbackTxt.innerHTML = strRoutingRequestSend;
-  // 			window.script = document.createElement("script");
-  // 			window.script.src = urlRoutingReq;
-  // 			document.body.appendChild(window.script);
-  // 		}
+  			CORV.routeLinkHashMap = new Object();
 
-  // 		/************************************
-  // 		parse the routing response
-  // 		************************************/
-  // 		function parseRoutingResponse(resp) {
-  // 			if (resp.error != undefined) {
-  // 				if (resp.error == "NoRouteFound") {
-  // 					alert('Please consider to change your start or destination as the one you entered is not reachable with the given vehicle profile');
-  // 					// feedbackTxt.innerHTML = 'The Router service is unable to compute the route: try to change your start / destination point';
-  // 					createMarkup('The Router service is unable to compute the route: try to change your start / destination point');
-  // 				}
-  // 				else {
-  // 					alert(resp.error);
-  // 					createMarkup(resp.error)
-  // 					// feedbackTxt.innerHTML = resp.error;
-  // 				}
-  // 				return;
-  // 			}
-  // 			if (resp.response == undefined && resp.subtype != undefined) {
-  // 				if (resp.subtype == "NoRouteFound") {
-  // 					alert('Please consider to change your start or destination as the one you entered is not reachable with the given vehicle profile');
-  // 					// feedbackTxt.innerHTML = 'The Router service is unable to compute the route: try to change your start / destination point';
-  // 					createMarkup('The Router service is unable to compute the route: try to change your start / destination point')
-  // 				}
-  // 				else {
-  // 					alert(resp.subtype + " " + resp.details);
-  // 					createMarkup(resp.error)
-  // 					// feedbackTxt.innerHTML = resp.error;
-  // 				}
-  // 				return;
-  // 			}
-  // 			if (resp.error != undefined) {
-  // 				// feedbackTxt.innerHTML = resp.error;
-  // 				createMarkup(resp.error)
-  // 				return;
-  // 			}
-  // 			if (resp.responseCode != undefined) {
-  // 				alert(resp.message);
-  // 				// feedbackTxt.innerHTML = resp.message;
-  // 				createMarkup(resp.message)
-  // 				return;
-  // 			}
-  // 			if (resp.onError == true) {
-  // 				for (var i = 0; i < resp.errors.length; i++) {
-  // 					createMarkup("<font color='red'>" + resp.errors + "</font>")
-  // 					// feedbackTxt.innerHTML = "<font color='red'>" + resp.errors + "</font>";
-  // 					createMarkup("<br />")
-  // 					// feedbackTxt.innerHTML += "<br />";
-  // 				}
-  // 				return;
-  // 			}
-  // 			if (bErrorHappened) {
-  // 				return;
-  // 			}
+  			// create link objects
+  			for (var r = 0; r < resp.response.route.length; r++) {
+  				for (var m = 0; m < resp.response.route[r].leg[0].link.length; m++) {
+  					// only add new link if it does not exist so far - so alternatives are not drawn multiple times
+  					var linkId = (resp.response.route[r].leg[0].link[m].linkId.lastIndexOf("+", 0) === 0 ? resp.response.route[r].leg[0].link[m].linkId.substring(1) : resp.response.route[r].leg[0].link[m].linkId);
+  					if (CORV.routeLinkHashMap[linkId] == null) {
+  						var strip = new window.H.geo.LineString(),
+  							shape = resp.response.route[r].leg[0].link[m].shape,
+  							i,
+  							l = shape.length;
 
-  // 			if (createMarkup() != strTceError) {
-  // 				// feedbackTxt.innerHTML = strTceResponseReceived;
-  // 				createMarkup(strTceResponseReceived)
-  // 			}
+  						for (i = 0; i < l; i += 2) {
+  							strip.pushLatLngAlt(shape[i], shape[i + 1], 0);
+  						}
 
-  // 			routeLinkHashMap = new Object();
+  						var link = new window.H.map.Polyline(strip,
+  							{
+  								style: {
+  									lineWidth: (CORV.routeStroke - (r + 1)), // alternatives get smaller line with
+  									strokeColor: CORV.routeColor[r],
+  									lineCap: 'butt'
+  								}
+  							});
+  						link.setArrows({ color: "#F00F", width: 2, length: 3, frequency: 4 });
+  						link.$linkId = resp.response.route[r].leg[0].link[m].linkId;
+  						link.$remainTime = resp.response.route[r].leg[0].link[m].remainTime;
+              // console.log(resp.response.route[r].leg[0].link[m])
 
-  // 			// create link objects
-  // 			for (var r = 0; r < resp.response.route.length; r++) {
-  // 				for (var m = 0; m < resp.response.route[r].leg[0].link.length; m++) {
-  // 					// only add new link if it does not exist so far - so alternatives are not drawn multiple times
-  // 					var linkId = (resp.response.route[r].leg[0].link[m].linkId.lastIndexOf("+", 0) === 0 ? resp.response.route[r].leg[0].link[m].linkId.substring(1) : resp.response.route[r].leg[0].link[m].linkId);
-  // 					if (routeLinkHashMap[linkId] == null) {
-  // 						var strip = new H.geo.LineString(),
-  // 							shape = resp.response.route[r].leg[0].link[m].shape,
-  // 							i,
-  // 							l = shape.length;
+  						//The router can send back links ids with "-" or "+" prefix: only "-" prefix is kept and stored in this HashMap, the "+" is removed
+  						CORV.routeLinkHashMap[linkId] = link;
 
-  // 						for (i = 0; i < l; i += 2) {
-  // 							strip.pushLatLngAlt(shape[i], shape[i + 1], 0);
-  // 						}
+  						// add event listener to link
+  						link.addEventListener("pointerdown", function (e) {
+  							if (CORV.currentOpenBubble)
+                window.UI.removeBubble(CORV.currentOpenBubble);
+                console.log(e.target)
+  							var html = `<div>
+  								<p style="font-family:Arial,sans-serif; font-size:12px;">Точка нажатия:  ${e.target.$linkId} </p>
+  								<p style="font-family:Arial,sans-serif; font-size:12px;">Оставшееся время:  ${e.target.$remainTime}  </p>
+  								<p style="font-family:Arial,sans-serif; font-size:12px;">Скорость:  ${Math.floor(Math.random() * Math.floor(80))}  </p>
+  				        </div>`;
 
-  // 						var link = new H.map.Polyline(strip,
-  // 							{
-  // 								style: {
-  // 									lineWidth: (routeStroke - (r + 1)), // alternatives get smaller line with
-  // 									strokeColor: routeColor[r],
-  // 									lineCap: 'butt'
-  // 								}
-  // 							});
-  // 						link.setArrows({ color: "#F00F", width: 2, length: 3, frequency: 4 });
-  // 						link.$linkId = resp.response.route[r].leg[0].link[m].linkId;
 
-  // 						//The router can send back links ids with "-" or "+" prefix: only "-" prefix is kept and stored in this HashMap, the "+" is removed
-  // 						routeLinkHashMap[linkId] = link;
+  							var pos = window.map.screenToGeo(e.currentPointer.viewportX, e.currentPointer.viewportY);
 
-  // 						// add event listener to link
-  // 						link.addEventListener("pointerdown", function (e) {
-  // 							if (currentOpenBubble)
-  // 								ui.removeBubble(currentOpenBubble);
-  // 							var html = `'<div>' +
-  // 								'<p style="font-family:Arial,sans-serif; font-size:12px;">LinkId: ' + e.target.$linkId + '</p>'
-  // 							'</div>'`;
+  							CORV.currentOpenBubble = new window.H.ui.InfoBubble(pos, { content: html });
+  							window.UI.addBubble(CORV.currentOpenBubble);
+  						});
 
-  // 							var pos = map.screenToGeo(e.currentPointer.viewportX, e.currentPointer.viewportY);
+  						CORV.group.addObject(link);
+  					}
+  				}
+  			}
 
-  // 							currentOpenBubble = new H.ui.InfoBubble(pos, { content: html });
-  // 							ui.addBubble(currentOpenBubble);
-  // 						});
+  			window.map.addObject(CORV.group);
 
-  // 						group.addObject(link);
-  // 					}
-  // 				}
-  // 			}
+// РАСКОМЕНТИТь с нижними функциям
+  			// // show TCE costs
+  			showTceCost(resp.response.route[0].tollCost.costsByCountryAndTollSystem, resp.response.route[0].cost, resp.response.route[0].summary.distance / 1000.0, resp.response.route[0].summary.baseTime / 60 / 60.00, resp.response.route[0].summary.trafficTime / 60 / 60.00);
 
-  // 			map.addObject(group);
+  			// /***********************************************
+  			// Highlight Links
+  			// ***********************************************/
+  			for (var i = 0; i < resp.response.route.length; i++) {
+  				// highlightRoute(resp.response.route[i].tollCost.routeTollItems, i);
+  			}
+  		}
+const [HTMLTag, setHTMLTag] = useState([])
+  		/**************************************************
+  		show route toll cost response
+  		**************************************************/
+  		function showTceCost(costByCountryAndTollSystem, costs, length, basetime, traffictime) {
+debugger
+        var HTML = [];
+  			// /***********************************************
 
-  // 			// show TCE costs
-  // 			showTceCost(resp.response.route[0].tollCost.costsByCountryAndTollSystem, resp.response.route[0].cost, resp.response.route[0].summary.distance / 1000.0, resp.response.route[0].summary.baseTime / 60 / 60.00, resp.response.route[0].summary.trafficTime / 60 / 60.00);
+  			// Publishing route total cost
 
-  // 			/***********************************************
-  // 			Highlight Links
-  // 			***********************************************/
-  // 			for (var i = 0; i < resp.response.route.length; i++) {
-  // 				highlightRoute(resp.response.route[i].tollCost.routeTollItems, i);
-  // 			}
-  // 		}
+  			// ***********************************************/
 
-  // 		/**************************************************
-  // 		show route toll cost response
-  // 		**************************************************/
-  // 		function showTceCost(costByCountryAndTollSystem, costs, length, basetime, traffictime) {
+        HTML = [...HTML, <p style={{  fontWeight: 'bold',fontSize: '16px',
+        padding: '2px'}} className={CORS.title}>Затраты на основной маршрут</p>];
+		    if (!costs) {
+  				createMarkup('None.');
+  			} else {
+          HTML = [...HTML, <p> Длина: { Math.floor(length * 100) / 100}км </p>];
+          HTML = [...HTML, <p> Базовое время: { Math.floor(basetime * 100) / 100}ч или {Math.floor(basetime * 100*60) / 100}Мин </p>];
+          HTML = [...HTML, <p> Время Движения: {Math.floor(traffictime * 100) / 100}ч или {Math.floor(traffictime * 100*60) / 100}Мин</p>];
+          HTML = [...HTML, <p> Общая Стоимость: {costs.totalCost} {costs.currency} </p>];
+          HTML = [...HTML, <p> Оплата водителя: {costs.details.driverCost} {costs.currency}  </p>];
+          HTML = [...HTML, <p> Стоимость ТС: {costs.details.vehicleCost} {costs.currency} </p>];
+          HTML = [...HTML, <p> Стоимость Проезда: {costs.details.tollCost} {costs.currency} </p>];
+  				// createMarkup("<br/><br/>Length: " + length + " km<br/>");
+  				// createMarkup("BaseTime: " + basetime + " h<br/>");
+  				// createMarkup("TrafficTime: " + traffictime + " h<br/>");
 
-  // 			/***********************************************
-
-  // 			Publishing route total cost
-
-  // 			***********************************************/
-  // 			createMarkup("<br/><span style=\"font-weight: bold;border: 1px solid;padding: 2px;\">COSTS FOR MAIN ROUTE</span>")
-  // 			// feedbackTxt.innerHTML = "<br/><span style=\"font-weight: bold;border: 1px solid;padding: 2px;\">COSTS FOR MAIN ROUTE</span>";
-  // 			if (!costs) {
-  // 				// feedbackTxt.innerHTML += "<br/><br/>None.";
-  // 				createMarkup("<br/><br/>None.");
-  // 			} else {
-  // 				createMarkup("<br/><br/>Length: " + length + " km<br/>");
-  // 				createMarkup("BaseTime: " + basetime + " h<br/>");
-  // 				createMarkup("TrafficTime: " + traffictime + " h<br/>");
-
-  // 				createMarkup("Total Cost: " + costs.totalCost + " " + costs.currency + "<br/>");
-  // 				createMarkup("Driver Cost: " + costs.details.driverCost + " " + costs.currency + "<br/>");
-  // 				createMarkup("Vehicle Cost: " + costs.details.vehicleCost + " " + costs.currency + "<br/>");
-  // 				createMarkup("Toll Cost: " + costs.details.tollCost + " " + costs.currency + "<br/>");
-  // 				// feedbackTxt.innerHTML += "<br/><br/>Length: " + length + " km<br/>";
-  // 				// feedbackTxt.innerHTML += "BaseTime: " + basetime + " h<br/>";
-  // 				// feedbackTxt.innerHTML += "TrafficTime: " + traffictime + " h<br/>";
-
-  // 				// feedbackTxt.innerHTML += "Total Cost: " + costs.totalCost + " " + costs.currency + "<br/>";
-  // 				// feedbackTxt.innerHTML += "Driver Cost: " + costs.details.driverCost + " " + costs.currency + "<br/>";
-  // 				// feedbackTxt.innerHTML += "Vehicle Cost: " + costs.details.vehicleCost + " " + costs.currency + "<br/>";
-  // 				// feedbackTxt.innerHTML += "Toll Cost: " + costs.details.tollCost + " " + costs.currency + "<br/>";
-  // 			}
+  				// createMarkup("Total Cost: " + costs.totalCost + " " + costs.currency + "<br/>");
+  				// createMarkup("Driver Cost: " + costs.details.driverCost + " " + costs.currency + "<br/>");
+  				// createMarkup("Vehicle Cost: " + costs.details.vehicleCost + " " + costs.currency + "<br/>");
+  				// createMarkup("Toll Cost: " + costs.details.tollCost + " " + costs.currency + "<br/>");
+  			}
 
   // 			/***********************************************
 
   // 			Publishing route detail cost
 
   // 			***********************************************/
-  // 			createMarkup("<br/><span style=\"font-weight: bold;border: 1px solid;padding: 2px;\">TOLL COST FOR MAIN ROUTE</span>")
-  // 			// feedbackTxt.innerHTML += "<br/><span style=\"font-weight: bold;border: 1px solid;padding: 2px;\">TOLL COST FOR MAIN ROUTE</span>";
-
-  // 			if (costs.details.tollCost == 0.0) {
-  // 				createMarkup("<br/><br/>None.<br/><br/>")
-  // 				// feedbackTxt.innerHTML += "<br/><br/>None.<br/><br/>";
-  // 			}
-
+  HTML = [...HTML, <p style={{  fontWeight: 'bold',fontSize: '16px',
+    padding: '2px'}} className={CORS.title}>Стоимость проезда по основному маршруту </p>];
+    debugger
+  			if (costs.details.tollCost == 0.0) {
+          HTML = [...HTML, <p>None.</p>];
+  			}
+   
   // 			/***********************************************
   // 			Apply toll to link objects
   // 			***********************************************/
-  // 			if (costByCountryAndTollSystem != null) {
-  // 				var feedback = "";
-  // 				feedback += "<br/>";
-  // 				for (var j = 0; j < costByCountryAndTollSystem.length; j++) {
-  // 					feedback += "<br/><span style=\"font-weight: bold;border: 1px solid;padding: 2px;\">" + costByCountryAndTollSystem[j].country + "</span>"
-  // 					feedback += "<ul><li>";
-  // 					if (costByCountryAndTollSystem[j].name != null && costByCountryAndTollSystem[j].name.trim().length > 0) {
-  // 						feedback += "Toll System " + costByCountryAndTollSystem[j].name + ": ";
-  // 					} else if (costByCountryAndTollSystem[j].tollSystemId != null && costByCountryAndTollSystem[j].tollSystemId.trim().length > 0) {
-  // 						feedback += "Toll System ID " + costByCountryAndTollSystem[j].tollSystemId + ": "
-  // 					} else {
-  // 						feedback += "Toll : ";
-  // 					}
-  // 					feedback += costByCountryAndTollSystem[j].amountInTargetCurrency + " " + costs.currency;
-  // 					feedback += "</li></ul>";
-  // 				}
-  // 				createMarkup(feedback)
-  // 				// feedbackTxt.innerHTML += feedback;
-  // 			}
+  			if (costByCountryAndTollSystem != null) {
+  				var feedback = [];
+  				// feedback += "<br/>";
+  				for (var j = 0; j < costByCountryAndTollSystem.length; j++) {
+            feedback = [...feedback, <p className={CORS.title}> {costByCountryAndTollSystem[j].country} </p>];
+  					// feedback += <p className={CORS.title}> {costByCountryAndTollSystem[j].country} </p>;
+  					// feedback += "<ul><li>";
+  					if (costByCountryAndTollSystem[j].name != null && costByCountryAndTollSystem[j].name.trim().length > 0) {
+  						// feedback += <p>Платная система {costByCountryAndTollSystem[j].name} : </p>;
+              feedback = [...feedback, <p>Платная система {costByCountryAndTollSystem[j].name} : </p>];
+  					} else if (costByCountryAndTollSystem[j].tollSystemId != null && costByCountryAndTollSystem[j].tollSystemId.trim().length > 0) {
+  						// feedback += <p>Идентификатор Платной системы {costByCountryAndTollSystem[j].tollSystemId}:</p>;
+              feedback = [...feedback, <p>Идентификатор Платной системы {costByCountryAndTollSystem[j].tollSystemId} : </p>];
+            } else {
+              feedback = [...feedback, <p>Пошлина : </p>];
+  						// feedback += <p>Пошлина : </p>;
+  					}
+            feedback = [...feedback, <p>{costByCountryAndTollSystem[j].amountInTargetCurrency} {costs.currency}; </p>];
+  					// feedback += costByCountryAndTollSystem[j].amountInTargetCurrency + " " + costs.currency;
+  					// feedback += "</li></ul>";
+  				}
+          HTML = [...HTML, feedback];
+  			}
+       
+  			if (costs.details.tollCost != 0.0) {        
+  				HTML = [...HTML, <p style={{fontWeight: 'normal', color: rgb2hex(CORV.ppType_A_Color[0])}}> Точка оплаты Типа А: платный проезд по всей стране оплачивается здесь.</p>];
+  				HTML = [...HTML, <p style={{fontWeight: 'normal',color:  rgb2hex(CORV.ppType_a_Color[0])}}  > Точка оплаты Типа А: платный проезд по всей стране оплачивается где - то в другом месте.</p>];
+  				HTML = [...HTML, <p style={{fontWeight: 'normal',color:  rgb2hex(CORV.ppType_S_Color[0])}} > Типы точек оплаты: Платный участок от одной платной будки или между двумя платными будками.</p>];
+  				HTML = [...HTML, <p style={{fontWeight: 'normal',color:  rgb2hex(CORV.ppType_p_Color[0])}}  > Тип точки оплаты p: Платный проезд оплачивается где - то в другом месте.</p>];
+  				HTML = [...HTML, <p style={{fontWeight: 'normal',color:  rgb2hex(CORV.ppType_F_Color[0])}}  > Тип точки оплаты F: Платная секция, принадлежащая платной системе.</p>];
+  				HTML = [...HTML, <p style={{fontWeight: 'normal',color:  rgb2hex(CORV.ppType_K_Color[0])}}  > Тип точки оплаты K: Платный участок, определенный между перекрестками.</p>];
+  				HTML = [...HTML, <p style={{fontWeight: 'normal',color:  rgb2hex(CORV.ppType_U_Color[0])}}  > Ссылка (ссылки) на обязательную плату за использование.(UFR)</p>];
+        	}
+          // createMarkup('ыыы ')
+          setHTMLTag(HTML);
+  			return; // done
 
-  // 			if (costs.details.tollCost != 0.0) {
-  // 				createMarkup("<br/><br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_A_Color[0]) + ";\">Paypoint Type A: Country wide toll - payed here.</span>")
-  // 				createMarkup("<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_a_Color[0]) + ";\">Paypoint Type A: Country wide toll - payed somewhere else.</span>")
-  // 				createMarkup("<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_S_Color[0]) + ";\">Paypoint Type S: Toll section from one toll booth or between two toll boths.</span>")
-  // 				createMarkup("<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_p_Color[0]) + ";\">Paypoint Type p: Toll - payed somewhere else.</span>")
-  // 				createMarkup("<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_F_Color[0]) + ";\">Paypoint Type F: Toll section belonging to a toll system.</span>")
-  // 				createMarkup("<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_K_Color[0]) + ";\">Paypoint Type K: Toll section defined between junctions.</span>")
-  // 				createMarkup("<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_U_Color[0]) + ";\">UFR: Usage fee required link(s).</span>")
-  // 				// feedbackTxt.innerHTML += "<br/><br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_A_Color[0]) + ";\">Paypoint Type A: Country wide toll - payed here.</span>";
-  // 				// feedbackTxt.innerHTML += "<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_a_Color[0]) + ";\">Paypoint Type A: Country wide toll - payed somewhere else.</span>";
-  // 				// feedbackTxt.innerHTML += "<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_S_Color[0]) + ";\">Paypoint Type S: Toll section from one toll booth or between two toll boths.</span>";
-  // 				// feedbackTxt.innerHTML += "<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_p_Color[0]) + ";\">Paypoint Type p: Toll - payed somewhere else.</span>";
-  // 				// feedbackTxt.innerHTML += "<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_F_Color[0]) + ";\">Paypoint Type F: Toll section belonging to a toll system.</span>";
-  // 				// feedbackTxt.innerHTML += "<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_K_Color[0]) + ";\">Paypoint Type K: Toll section defined between junctions.</span>";
-  // 				// feedbackTxt.innerHTML += "<br/><span style=\"font-weight: normal;color:" + rgb2hex(ppType_U_Color[0]) + ";\">UFR: Usage fee required link(s).</span>";
-  // 			}
-
-  // 			return; // done
-
-  // 		}
+  		}
 
   // 		/**
   // 			Highlights the toll links in map display
+  // Выделяет платные ссылки на дисплее карты
   // 		*/
-  // 		function highlightRoute(routeTollItems, routeAlternative) {
-  // 			if (routeTollItems != null) {
-  // 				for (var i = 0; i < routeTollItems.length; i++) {
-  // 					var tollType = routeTollItems[i].tollType;
-  // 					var color = ppType_S_Color[routeAlternative];
-  // 					if (tollType == 'A') {
-  // 						color = ppType_A_Color[routeAlternative];
-  // 					} else if (tollType == 'a') {
-  // 						color = ppType_a_Color[routeAlternative];
-  // 					} else if (tollType == 'S') {
-  // 						color = ppType_S_Color[routeAlternative];
-  // 					} else if (tollType == 'p') {
-  // 						color = ppType_p_Color[routeAlternative];
-  // 					} else if (tollType == 'F') {
-  // 						color = ppType_F_Color[routeAlternative];
-  // 					} else if (tollType == 'K') {
-  // 						color = ppType_K_Color[routeAlternative];
-  // 					} else if (tollType == 'U') {
-  // 						color = ppType_U_Color[routeAlternative];
-  // 					}
+  		// function highlightRoute(routeTollItems, routeAlternative) {
+  		// 	if (routeTollItems != null) {
+  		// 		for (var i = 0; i < routeTollItems.length; i++) {
+  		// 			var tollType = routeTollItems[i].tollType;
+  		// 			var color = CORV.ppType_S_Color[routeAlternative];
+  		// 			if (tollType == 'A') {
+  		// 				color = CORV.ppType_A_Color[routeAlternative];
+  		// 			} else if (tollType == 'a') {
+  		// 				color = CORV.ppType_a_Color[routeAlternative];
+  		// 			} else if (tollType == 'S') {
+  		// 				color = CORV.ppType_S_Color[routeAlternative];
+  		// 			} else if (tollType == 'p') {
+  		// 				color = CORV.ppType_p_Color[routeAlternative];
+  		// 			} else if (tollType == 'F') {
+  		// 				color = CORV.ppType_F_Color[routeAlternative];
+  		// 			} else if (tollType == 'K') {
+  		// 				color = CORV.ppType_K_Color[routeAlternative];
+  		// 			} else if (tollType == 'U') {
+  		// 				color = CORV.ppType_U_Color[routeAlternative];
+  		// 			}
 
-  // 					for (var j = 0; j < routeTollItems[i].linkIds.length; j++) {
-  // 						// set color and stroke of links
-  // 						var tollstroke = (tollCostStroke - (routeAlternative + 1));	// route alternatives have a different stroke
-  // 						var link = routeLinkHashMap[routeTollItems[i].linkIds[j]];
-  // 						if (link.getStyle().strokeColor == routeColor[routeAlternative]) { // only change link color to toll color if not already modified
-  // 							link.setStyle({ strokeColor: color, lineWidth: tollstroke });
-  // 						}
-  // 					}
+  		// 			for (var j = 0; j < routeTollItems[i].linkIds.length; j++) {
+  		// 				// set color and stroke of links
+  		// 				var tollstroke = (CORV.tollCostStroke - (routeAlternative + 1));	// route alternatives have a different stroke
+  		// 				var link = CORV.routeLinkHashMap[routeTollItems[i].linkIds[j]];
+  		// 				if (link.getStyle().strokeColor == routeColor[routeAlternative]) { // only change link color to toll color if not already modified
+  		// 					link.setStyle({ strokeColor: color, lineWidth: tollstroke });
+  		// 				}
+  		// 			}
 
-  // 					//toll structures
-  // 					if (routeTollItems[i].tollStructures != null) {
-  // 						for (var j = 0; j < routeTollItems[i].tollStructures.length; j++) {
-  // 							createTollMarker(routeTollItems[i].tollStructures[j]);
-  // 						}
-  // 					}
-  // 				}
-  // 			}
+  		// 			//toll structures
+  		// 			if (routeTollItems[i].tollStructures != null) {
+  		// 				for (var j = 0; j < routeTollItems[i].tollStructures.length; j++) {
+  		// 					createTollMarker(routeTollItems[i].tollStructures[j]);
+  		// 				}
+  		// 			}
+  		// 		}
+  		// 	}
 
-  // 		}
+  		// }
 
-  // 		//--- Helper - Create Start / Destination marker
-  // 		// var createIconMarker = function (line1, line2) {
-  // 		// 	var svgMarker = svgMarkerImage_Line;
+ 
 
-  // 		// 	// every long address not shown
-  // 		// 	// correctly in marker
-  // 		// 	if (line2 && line2.length > 42) {
-  // 		// 		line2 = line2.substring(0, 40);
-  // 		// 		line2 = line2 + "..";
-  // 		// 	}
 
-  // 		// 	svgMarker = svgMarker.replace(/__line1__/g, line1);
-  // 		// 	svgMarker = svgMarker.replace(/__line2__/g, (line2 != undefined ? line2 : ""));
-  // 		// 	svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 20 : (line1.length * 4 + 80)));
-  // 		// 	svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 80 : (line1.length * 4 + 150)));
-  // 		// 	console.log(svgMarker);
-  // 		// 	var icon = new H.map.Icon(svgMarker, {
-  // 		// 		anchor: new H.math.Point(24, 57)
-  // 		// 	});
-  // 		// 	return icon;
-
-  // 		// };
-
-  // 		// Helper for selecting the value attached to a JS selection
-  // 		// function selectionSettingHelper(selection, value) {
-  // 		// 	for (var opt, j = 0; opt = selection.options[j]; j++) {
-  // 		// 		if (opt.value == value) {
-  // 		// 			selection.selectedIndex = j;
-  // 		// 			break;
-  // 		// 		}
-  // 		// 	}
-  // 		// }
+  		// Helper for selecting the value attached to a JS selection
+  		// function selectionSettingHelper(selection, value) {
+  		// 	for (var opt, j = 0; opt = selection.options[j]; j++) {
+  		// 		if (opt.value == value) {
+  		// 			selection.selectedIndex = j;
+  		// 			break;
+  		// 		}
+  		// 	}
+  		// }
 
   // 		/*********************************
   // 		 Vehicle Specification
@@ -809,28 +748,6 @@ const CostOptimRoute = (props) => {
     handleChange("hazardousType", "0");
     handleChange("fuelType", "petrol");
     handleChange("heightAbove1stAxle", "100");
-    // vehicles('2');
-    // nrOfTotalTires('4');
-    // trailerType('0');
-    // trailerNr('0');
-    // nrOfAxlesVehicle('2');
-    // nrOfAxlesTrailer('0');
-    // hybrid('0');
-    // emissionType('5');
-    // vehHeight('167');
-    // vehWeight('1739');
-    // trailerHeight('0');
-    // totalWeight('1739');
-    // totalWidth('180');
-    // totalLength('441');
-    // disabledEquipped('0');
-    // minPollution('0');
-    // hov('0');
-    // nrPassengers('2');
-    // commercial('0');
-    // hazardousType('0');
-    // fuelType('petrol');
-    // heightAbove1stAxle('100');
 
     // var vehSpecSelection = document.getElementById("predefinedVehSpec");
     if (CORV.predefinedVehSpec == 0) {
@@ -857,28 +774,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "100");
-      // vehicles('2');
-      // nrOfTotalTires('4');
-      // trailerType('0');
-      // trailerNr('0');
-      // nrOfAxlesVehicle('2');
-      // nrOfAxlesTrailer('0');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('167');
-      // vehWeight('1739');
-      // trailerHeight('0');
-      // totalWeight('1739');
-      // totalWidth('180');
-      // totalLength('441');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('2');
-      // commercial('0');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('100');
     } else if (CORV.predefinedVehSpec == 1) {
       // Transporter
       handleChange("vehicles", "2");
@@ -903,28 +798,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "130");
-      // vehicles('2');
-      // nrOfTotalTires('4');
-      // trailerType('0');
-      // trailerNr('0');
-      // nrOfAxlesVehicle('2');
-      // nrOfAxlesTrailer('0');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('255');
-      // vehWeight('3500');
-      // trailerHeight('0');
-      // totalWeight('3500');
-      // totalWidth('1194');
-      // totalLength('652');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('1');
-      // commercial('1');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('130');
     } else if (CORV.predefinedVehSpec == 2) {
       // Truck 7.5t
       handleChange("vehicles", "3");
@@ -949,28 +822,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "300");
-      // vehicles('3');
-      // nrOfTotalTires('4');
-      // trailerType('0');
-      // trailerNr('0');
-      // nrOfAxlesVehicle('2');
-      // nrOfAxlesTrailer('0');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('340');
-      // vehWeight('7500');
-      // trailerHeight('0');
-      // totalWeight('7500');
-      // totalWidth('250');
-      // totalLength('720');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('1');
-      // commercial('1');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('300');
     } else if (CORV.predefinedVehSpec == 3) {
       // Truck 11t
       handleChange("vehicles", "3");
@@ -995,28 +846,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "300");
-      // vehicles('3');
-      // nrOfTotalTires('6');
-      // trailerType('0');
-      // trailerNr('0');
-      // nrOfAxlesVehicle('2');
-      // nrOfAxlesTrailer('0');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('380');
-      // vehWeight('11000');
-      // trailerHeight('0');
-      // totalWeight('11000');
-      // totalWidth('255');
-      // totalLength('1000');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('1');
-      // commercial('1');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('300');
     } else if (CORV.predefinedVehSpec == 4) {
       // Truck one trailer 38t
       handleChange("vehicles", "3");
@@ -1041,28 +870,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "300");
-      // vehicles('3');
-      // nrOfTotalTires('10');
-      // trailerType('2');
-      // trailerNr('1');
-      // nrOfAxlesVehicle('2');
-      // nrOfAxlesTrailer('3');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('400');
-      // vehWeight('24000');
-      // trailerHeight('400');
-      // totalWeight('38000');
-      // totalWidth('255');
-      // totalLength('1800');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('1');
-      // commercial('1');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('300');
     } else if (CORV.predefinedVehSpec == 5) {
       // Trailer Truck 40t
       handleChange("vehicles", "3");
@@ -1087,28 +894,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "300");
-      // vehicles('3');
-      // nrOfTotalTires('14');
-      // trailerType('2');
-      // trailerNr('1');
-      // nrOfAxlesVehicle('3');
-      // nrOfAxlesTrailer('2');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('400');
-      // vehWeight('12000');
-      // trailerHeight('400');
-      // totalWeight('40000');
-      // totalWidth('255');
-      // totalLength('1650');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('1');
-      // commercial('1');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('300');
     } else if (CORV.predefinedVehSpec == 6) {
       // Car with Trailer
       handleChange("vehicles", "3");
@@ -1133,28 +918,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "100");
-      // vehicles('2');
-      // nrOfTotalTires('6');
-      // trailerType('2');
-      // trailerNr('1');
-      // nrOfAxlesVehicle('2');
-      // nrOfAxlesTrailer('1');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('167');
-      // vehWeight('1739');
-      // trailerHeight('167');
-      // totalWeight('2589');
-      // totalWidth('180');
-      // totalLength('733');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('1');
-      // commercial('0');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('100');
     } else if (CORV.predefinedVehSpec == 7) {
       // Bus
       handleChange("vehicles", "3");
@@ -1179,28 +942,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "300");
-      // vehicles('3');
-      // nrOfTotalTires('6');
-      // trailerType('0');
-      // trailerNr('0');
-      // nrOfAxlesVehicle('3');
-      // nrOfAxlesTrailer('0');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('371');
-      // vehWeight('17500');
-      // trailerHeight('0');
-      // totalWeight('17500');
-      // totalWidth('253');
-      // totalLength('1300');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('51');
-      // commercial('1');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('300');
     } else if (CORV.predefinedVehSpec == 8) {
       // Motor Home
       handleChange("vehicles", "3");
@@ -1225,28 +966,6 @@ const CostOptimRoute = (props) => {
       handleChange("hazardousType", "0");
       handleChange("fuelType", "diesel");
       handleChange("heightAbove1stAxle", "140");
-      // vehicles('3');
-      // nrOfTotalTires('4');
-      // trailerType('0');
-      // trailerNr('0');
-      // nrOfAxlesVehicle('2');
-      // nrOfAxlesTrailer('0');
-      // hybrid('0');
-      // emissionType('5');
-      // vehHeight('372');
-      // vehWeight('4535');
-      // trailerHeight('0');
-      // totalWeight('4535');
-      // totalWidth('254');
-      // totalLength('760');
-      // disabledEquipped('0');
-      // minPollution('0');
-      // hov('0');
-      // nrPassengers('4');
-      // commercial('0');
-      // hazardousType('0');
-      // fuelType('diesel');
-      // heightAbove1stAxle('140');
     }
   }
 
@@ -1257,14 +976,12 @@ const CostOptimRoute = (props) => {
   function setUserdefinedVehicleSpec(bSetUserdefinedVehicleSpec) {
     if (bSetUserdefinedVehicleSpec) {
       // show User defined option
-      // var vehSpecSelection = document.getElementById("predefinedVehSpec");
       handleChange("predefinedVehSpec", "99");
-      // selectionSettingHelper(predefinedVehSpec, 99);
     }
-    /*else
+    else
   			 {
   			 // do nothing cause User defined option will hide automatically
-  			 }*/
+  			 }
   }
 
   // 		/**
@@ -1283,102 +1000,88 @@ const CostOptimRoute = (props) => {
   // 		}
 
   // 		//Function to convert hex format to a rgb color from http://jsfiddle.net/Mottie/xcqpF/1/light/
-  // 		function rgb2hex(rgb) {
-  // 			rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-  // 			return (rgb && rgb.length === 4) ? "#" +
-  // 				("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
-  // 				("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
-  // 				("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
-  // 		}
+  		function rgb2hex(rgb) {
+  			rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+  			return (rgb && rgb.length === 4) ? "#" +
+  				("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+  				("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+  				("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
+  		}
 
-  // 		// Check if a string is null/undefined/withoutContent
-  // 		function isEmpty(str) {
-  // 			return (!str || 0 === str.length);
-  // 		}
+  		// Check if a string is null/undefined/withoutContent
+  		function isEmpty(str) {
+  			return (!str || 0 === str.length);
+  		}
 
   // 		/**
   // 		 * Function handling the click on the "Enable datetime filtering" checkbox
   // 		 */
-  // 		// function handleDateTimeFilteringClicked() {
-  // 		// 	var isDTFilteringEnabled = document.getElementById("chkEnableDTFiltering").checked;
-  // 		// 	if (isDTFilteringEnabled) {
-  // 		// 		//Displaying the date and time input checkboxes
-  // 		// 		document.getElementById("trStartRouteDate").style.display = '';
-  // 		// 		document.getElementById("trStartRouteTime").style.display = '';
-  // 		// 		document.getElementById("trStartRouteActions").style.display = '';
-  // 		// 	}
-  // 		// 	else {
-  // 		// 		//Hiding the date and time input checkboxes
-  // 		// 		document.getElementById("trStartRouteDate").style.display = 'none';
-  // 		// 		document.getElementById("trStartRouteTime").style.display = 'none';
-  // 		// 		document.getElementById("trStartRouteActions").style.display = 'none';
-  // 		// 	}
+  		// function handleDateTimeFilteringClicked() {
+      //   setisDTFilteringEnabled(!isDTFilteringEnabled)
+  		// 	// var isDTFilteringEnabled = document.getElementById("chkEnableDTFiltering").checked;
+  		// 	// if (isDTFilteringEnabled) {
+  		// 	// 	//Displaying the date and time input checkboxes
+  		// 	// 	// document.getElementById("trStartRouteDate").style.display = '';
+  		// 	// 	// document.getElementById("trStartRouteTime").style.display = '';
+  		// 	// 	// document.getElementById("trStartRouteActions").style.display = '';
+  		// 	// }
+  		// 	// else {
+  		// 	// 	//Hiding the date and time input checkboxes
+  		// 	// 	// document.getElementById("trStartRouteDate").style.display = 'none';
+  		// 	// 	// document.getElementById("trStartRouteTime").style.display = 'none';
+  		// 	// 	// document.getElementById("trStartRouteActions").style.display = 'none';
+  		// 	// }
 
-  // 		// }
+  		// }
 
   // 		/**
   // 			Function handling the click on the "enable/disable cost optimized routing calculation" checkbox
   // 		*/
 
   function handleEnableCalculateOptimizedRouteClicked() {
-    // var isDChecked = document.getElementById("chkEnableCalculateOptimizedRoute").checked;
     if (isDChecked) {
       setisDChecked(!isDChecked);
       handleChange("noCostOptimizationJustCalculate", false);
-      // noCostOptimizationJustCalculate = false;
-      // document.getElementById("routeButton").value = "Calculate Cost Optimized Route";
       handleChange("routeButton", "Высчитать оптимальную стоимость маршрута");
     } else {
       setisDChecked(!isDChecked);
       handleChange("noCostOptimizationJustCalculate", true);
-      // noCostOptimizationJustCalculate = true;
       handleChange("routeButton", "Рассчитать маршрут без оптимизации");
-      // document.getElementById("routeButton").value = "Calculate Route without optimization";
     }
   }
 
-  // 		// Function rounds up number of decimal places
-  		// function roundUp(num, places) {
-  		// 	return +(Math.round(num + "e+" + places) + "e-" + places);
-  		// }
+ 
 
-  const applyNowToStartRoute = () => {
-    //Getting now datetime informations
-    var now = new Date();
-    var day = now.getDate();
-    var month = now.getMonth() + 1; //January is 0!
-    var year = now.getFullYear();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    var seconds = now.getSeconds();
-    //Setting these info in the datetime fields
-    handleChange(
-      "dateNow",
-      year +
-        "-" +
-        (month < 10 ? "0" + month : month) +
-        "-" +
-        (day < 10 ? "0" + day : day)
-    );
-    handleChange(
-      "time",
-      (hours < 10 ? "0" + hours : hours) +
-        ":" +
-        (minutes < 10 ? "0" + minutes : minutes) +
-        ":" +
-        (seconds < 10 ? "0" + seconds : seconds)
-    );
-  };
 
-  // const selectedCustomParam = (value) => {
-  // 	setrouterParamsState(' ')
-  // 	setrouterParamsValueState(value)
+  // const applyNowToStartRoute = () => {
+  //   //Getting now datetime informations
+  //   var now = new Date();
+  //   var day = now.getDate();
+  //   var month = now.getMonth() + 1; //January is 0!
+  //   var year = now.getFullYear();
+  //   var hours = now.getHours();
+  //   var minutes = now.getMinutes();
+  //   var seconds = now.getSeconds();
+  //   //Setting these info in the datetime fields
+  //   handleChange(
+  //     "dateNow",
+  //     year +
+  //       "-" +
+  //       (month < 10 ? "0" + month : month) +
+  //       "-" +
+  //       (day < 10 ? "0" + day : day)
+  //   );
+  //   handleChange(
+  //     "time",
+  //     (hours < 10 ? "0" + hours : hours) +
+  //       ":" +
+  //       (minutes < 10 ? "0" + minutes : minutes) +
+  //       ":" +
+  //       (seconds < 10 ? "0" + seconds : seconds)
+  //   );
+  // };
 
-  // }
-  // const optionCustomParam = (value) => {
-  // 	setrouterParamsState(value);
-  // 	setrouterParamsValueState(value)
-  // }
+
   return (
     <>
       <div id="content-real">
@@ -1442,16 +1145,32 @@ const CostOptimRoute = (props) => {
             </div>
           </div>
 
-          <Collapse onChange={() => settrStartRouteDate(!trStartRouteDate)}>
-            <Panel header="Enable datetime filtering" key="1">
-              <div id="trStartRouteDate" className="form-horizontal">
-                <div className="form-group">
-                  <label
+          <Collapse onChange={() => {setisDTFilteringEnabled(!trisDTFilteringEnabled)}}>
+            <Panel header="Включить фильтрацию даты и времени" key="1">
+   
+            <label
                     className="control-label col-sm-4"
                     htmlFor="startRouteDate"
                   >
                     Дата начала маршрута:
                   </label>
+                  <Space direction="vertical" size={12}>
+                  <DatePicker
+                  allowClear={true}
+                  showToday= {true}
+                  showTime={true}
+                    format="YYYY-MM-DD HH:mm:ss"
+                    
+                    // showToday={{ defaultValue: '00:00:00' }}
+                    // showTime={{ defaultValue: '00:00:00' }}
+                    // onChange={(d,m) => console.log(d, m)}
+                    onChange={(d,e) => handleChange("dateNow", e)}
+                    // onOk={()=> console.log(CORV.dateNow)}
+                  />
+                    </Space>
+              {/* <div id="trStartRouteDate" className="form-horizontal">
+                <div className="form-group">
+
                   <div className="col-sm-8">
                     <input
                       onChange={(e) => handleChange("dateNow", e.target.value)}
@@ -1466,6 +1185,7 @@ const CostOptimRoute = (props) => {
                 </div>
               </div>
               <div id="trStartRouteTime" className="form-horizontal">
+                
                 <div className="form-group">
                   <label
                     className="control-label col-sm-4"
@@ -1474,6 +1194,7 @@ const CostOptimRoute = (props) => {
                     Route start time:
                   </label>
                   <div className="col-sm-8">
+                  
                     <input
                       onChange={(e) => handleChange("time", e.target.value)}
                       value={CORV.time}
@@ -1496,7 +1217,7 @@ const CostOptimRoute = (props) => {
                     onClick={() => applyNowToStartRoute()}
                   />
                 </div>
-              </div>
+              </div> */}
             </Panel>
           </Collapse>
 
@@ -1630,7 +1351,7 @@ const CostOptimRoute = (props) => {
                 <td colSpan="2">
                   <input
                     type="text"
-                    id="routerParamsValue"
+                    id="routerParamsValueState"
                     className="form-control"
                     style={{ width: 212 }}
                     value={CORV.routerParamsValueState}
@@ -2196,12 +1917,13 @@ const CostOptimRoute = (props) => {
             </tbody>
           </table>
           <br />
-          <ResultCostOptimRoute />
-          <div
-            id="feedbackTxt"
-            dangerouslySetInnerHTML={createMarkup()}
-            className="form-group"
-          ></div>
+          {/* <ResultCostOptimRoute createMarkup={createMarkup}/> */}
+          {CORV.ResponseResult ?
+           <ResultCostOptimRoute resp={CORV.ResponseResult} HTMLTag={HTMLTag}/>:
+           'данных пока нет'  }
+          {/* {CORV.ResponseResult ?
+           HTMLTag:
+           'данных пока нет'  } */}
         </div>
       </div>
     </>

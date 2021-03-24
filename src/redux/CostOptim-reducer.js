@@ -4,7 +4,12 @@ import { authAPI, usersAPI, rolesAPI } from "../api/api";
 const COST_OPTIM_ROUTE_VALUE = "COST_OPTIM_ROUTE_VALUE";
 
 let initialState = {
-
+  geocoder: null,
+  router: null,
+  markerGroup: null,
+  group: null,
+  map: null,
+  UI: null,
     trStartRouteDate: false,
     dateNow: "",
     time: "",
@@ -49,6 +54,9 @@ let initialState = {
     address: null,
     line1: null,
     line: null,
+    //helper releaseGeocoderShown /releaseRoutingShown
+    releaseGeocoderShown: false,
+    releaseRoutingShown: false, 
     //  vehicles: null,
     pointA: null,
     pointB: null,
@@ -103,12 +111,12 @@ let initialState = {
     ],
     tollCostStroke: 8,
     routeStroke: 8,
-    strRoutingRequestSend: "Routing request sent. Waiting for response...",
+    strRoutingRequestSend: "Отправлен запрос на маршрутизацию. Ожидание ответа...",
     strTceRequestSend:
-      "Route Toll Cost request sent and logged. Waiting for response...",
+      "Запрос на оплату проезда по маршруту отправлен и зарегистрирован. Ожидание ответа...",
     strTceError:
-      "An Error happened during Route Toll Cost calculation. Please check the vehicle specification<br/>F.e. Trailer number set but no trailer type.",
-    strTceResponseReceived: "Received TCE response. Processing it now.",
+      "При расчете стоимости проезда произошла ошибка. Пожалуйста, проверьте спецификацию транспортного средства. Номер прицепа установлен, но нет типа прицепа.",
+    strTceResponseReceived: "Получил ответ. Обрабатываю его сейчас.",
 
     noCostOptimizationJustCalculate: false,
     svgMarkerImage_Line:'<svg width="__widthAll__" height="60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
@@ -134,6 +142,9 @@ let initialState = {
    svgMarkerPublicTransit: '<svg  width="20" height="20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' +
     '<image width="20" height="20" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj48cGF0aCBmaWxsPSJibGFja19ibHVlIiBkPSJNNC42ODkgOWgtLjcyVjUuMTgyYzAtLjUuNjc4LTEuMjI5IDEuMTgtMS4yMjlsMi40ODgtLjAxNWMuMzU5LTEuMDQ1Ljc0My0xLjI4IDIuMTM2LTEuMjhoMi4zNTFDMTEuODA5IDIuMTE2IDExLjE1MyAyIDEwLjQ4NSAySDUuMDI5Yy0xIDAtMi4wMTcuODE0LTIuMDE3IDEuODE1di45NzhsLS4yNDUuMDZjLS4yNSAwLS43MDUuMjA0LS43MDUuNDU0djEuMTk0YzAgLjI1MS40MDMuNDAzLjY1My40MDNsLjI5Ny4wNjF2NC45NDRjMCAuNjIzLjYxLjU2MyAxLjAxOS43MTN2Ljk5MmMwIC4yNS4zNTYuMzU1LjM1Ni4zNTVoLjk2OWEuNDU1LjQ1NSAwIDAgMCAuNDU0LS40NTV2LS41MzdIN1Y5SDQuNjg5em0uODE5IDIuMjg3YS43OS43OSAwIDEgMS0uMDAyLTEuNTguNzkuNzkgMCAwIDEgLjAwMiAxLjU4eiIvPjxwYXRoIGQ9Ik0xNS45NjkgMTd2LS45OTdoLS45MDdWMTdoLTQuMDkzdi0uOTk3SDEwVjE3aC0uOTg3di45MjZoNy45NTZWMTd6bS4yNjctMTIuOTc5aC02LjE4Yy0uOTY3IDAtMi4wMjcgMS4wNTEtMi4wMjcgMi4wMTl2Ny42MTRjMCAuNzI2Ljc3MSAxLjMyIDEuNDk3IDEuMzJoNy4wNDJjLjcyNSAwIDEuNDE0LS41OTUgMS40MTQtMS4zMlY2LjA0YzAtLjk2OC0uNzc3LTIuMDE5LTEuNzQ2LTIuMDE5ek0xMC4wMSA1LjMyM2MwLS4xODMuMTAxLS4zMzEuMjIyLS4zMzFoNS41Yy4xMTkgMCAuMjIuMTc0LjIyLjM1NXYuMzQ4YzAgLjE4MS0uMTAxLjMyOS0uMjIuMzI5aC01LjVjLS4xMjEgMC0uMjIyLS4xNDgtLjIyMi0uMzI5di0uMzcyem0tLjQ5MSA3Ljk4OGEuODA1LjgwNSAwIDAgMS0uODA0LS44MDIuODA1LjgwNSAwIDAgMSAxLjYwOCAwIC44MDMuODAzIDAgMCAxLS44MDQuODAyem02Ljk3OSAwYS44MDUuODA1IDAgMCAxLS44MDQtLjgwMi44MDUuODA1IDAgMCAxIDEuNjA4IDAgLjgwMi44MDIgMCAwIDEtLjgwNC44MDJ6bS41MTUtMi4yNzZIOC45NjV2LTQuMDRoOC4wNDh2NC4wNHoiIGZpbGw9ImJsYWNrX2JsdWUiLz48L3N2Zz4=" />'+
     '</svg>',
+  ResponseResult: null,
+  HTML: [],
+  
 };
 
 const costOptimRouteReducer = (state = initialState, action) => {
