@@ -44,12 +44,13 @@ export default class Map extends Component {
     const H = window.H
 
     const M = {
-      CORV: costOptimRouteValue,
+      // CORV: costOptimRouteValue,
       getCORV:getcostOptimRouteValue,
-      // bLongClickUseForStartPoint: CORV.bLongClickUseForStartPoint,
+      // bLongClickUseForStartPoint: this.props.CORV.bLongClickUseForStartPoint,
       Platform: {},
       DefaultLayers: {},
       GeocodingService: {},
+      markerGroup: {},
       RoutingService: {},
       Map: {},
       TileService: {},
@@ -100,6 +101,7 @@ export default class Map extends Component {
 
     let group = new H.map.Group();
     let markerGroup = new H.map.Group();
+    M.markerGroup = markerGroup;
     M.GeocodingService = M.Platform.getGeocodingService();
     M.RoutingService = M.Platform.getRoutingService();
     
@@ -344,14 +346,14 @@ export default class Map extends Component {
   //     //var line2 = " ";
   //     start.value = line1;
   //     pointA = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
-  //     if (startMarker != null) {
-  //       markerGroup.removeObject(startMarker);
+  //     if (this.props.CORV.startMarker != null) {
+  //       markerGroup.removeObject(this.props.CORV.startMarker);
   //     }
-  //     startMarker = new H.map.Marker(pointA,
+  //     this.props.CORV.startMarker = new H.map.Marker(pointA,
   //       {
   //         icon: createIconMarker(line1)
   //       });
-  //     markerGroup.addObject(startMarker);
+  //     markerGroup.addObject(this.props.CORV.startMarker);
   //     bLongClickUseForStartPoint = false;
   //   }
   //   else {
@@ -507,8 +509,8 @@ export default class Map extends Component {
   
       this.handleChange("bErrorHappened", false);
       this.handleChange("bLongClickUseForStartPoint", true);
-      if (CORV.currentOpenBubble) {
-        M.UI.removeBubble(CORV.currentOpenBubble);
+      if (this.props.CORV.currentOpenBubble) {
+        M.UI.removeBubble(this.props.CORV.currentOpenBubble);
       }
       group.removeAll();
   
@@ -523,7 +525,7 @@ export default class Map extends Component {
       
       let { M, H,Map,CORV } = this.state;
       
-      var svgMarker = CORV.svgMarkerImage_Line;
+      var svgMarker = this.props.CORV.svgMarkerImage_Line;
   debugger
       // every long address not shown 
       // correctly in marker
@@ -536,22 +538,23 @@ export default class Map extends Component {
       svgMarker = svgMarker.replace(/__line2__/g, (line2 != undefined ? line2 : ""));
       svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 20 : (line1.length * 4 + 80)));
       svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 80 : (line1.length * 4 + 150)));
-      var icon = new window.H.map.Icon(svgMarker, {
-        anchor: new window.H.math.Point(24, 57),
-        size: { w: 20, h: 20 },
+      var icon = new H.map.Icon(svgMarker, {
+        anchor: new H.math.Point(24, 57),
+        size: { w: 100, h: 80 },
       });
    
       return icon;
   
     };
     handleLongClickInMap(currentEvent) {
-      let { Map, H, M, CORV, getCORV } = this.state;
+      let { Map, H, M, getCORV,markerGroup } = this.state;
+      // console.log(Map.getObjects()[0])
       let pointA;
       let pointB;
-      let startMarker;
-      let destMarker;
-      let bLongClickUseForStartPointValue = CORV.bLongClickUseForStartPoint;
-      console.log('CORV.bLongClickUseForStartPoint',CORV.bLongClickUseForStartPoint)
+      let startMarkerValue;
+      let destMarkerValue;
+      let bLongClickUseForStartPointValue = this.props.CORV.bLongClickUseForStartPoint;
+      console.log('this.props.CORV.bLongClickUseForStartPoint',this.props.CORV.bLongClickUseForStartPoint)
       // if (bLongClickUseForStartPointValue == null || bLongClickUseForStartPointValue == true) {
       //   bLongClickUseForStartPointValue = false;
       // }
@@ -563,7 +566,7 @@ export default class Map extends Component {
       // round up decimal places as Geocoder can only provide upto 7 digits precision after decimal
       lastClickedPos.lat = this.roundUp(lastClickedPos.lat, 7);
       lastClickedPos.lng = this.roundUp(lastClickedPos.lng, 7);
-      let markerGroup = new window.H.map.Group();
+      // let markerGroup = new H.map.Group();
       debugger
       if (bLongClickUseForStartPointValue) {
         this.clearLastRouteCalculation();
@@ -571,18 +574,31 @@ export default class Map extends Component {
         //var line2 = " ";
         this.handleChange('startValue',line1)
         pointA = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
-        if (startMarker != null) {
-          markerGroup.removeObject(startMarker);
+        if (this.props.CORV.startMarker != null) {
+          // markerGroup.removeObject(startMarkerValue);
+          Map.removeObject(Map.getObjects()[0]);
         }
-        startMarker = new H.map.Marker(pointA,
+        startMarkerValue = new H.map.Marker(pointA,
           {
             icon: this.createIconMarker(line1)
           });
-        markerGroup.addObject(startMarker);
+          window.map.addObject(startMarkerValue);
+
+          this.handleChange('startMarker',startMarkerValue)
+        // markerGroup.addObject(this.props.CORV.startMarker);
         
+        // this.handleChange('startMarker',new H.map.Marker(pointA,
+        //   {
+        //     icon: this.createIconMarker(line1)
+        //   }))
+          // const marker = new window.H.map.Marker(pointA,
+  				// 	{
+  				// 		icon: this.createIconMarker(line1)
+  				// 	})
+          //   this.handleChange('startMarker', marker)
+          
         this.handleChange('bLongClickUseForStartPoint',false)
-        bLongClickUseForStartPointValue = false;
-        // bLongClickUseForStartPoint = false;
+
       }
       else {
         var line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
@@ -590,17 +606,18 @@ export default class Map extends Component {
         // dest.value = line1;
         this.handleChange('DestinationValue', line1)
         pointB = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
-        if (destMarker != null) {
-          markerGroup.removeObject(destMarker);
+        if (this.props.CORV.destMarker != null) {
+          // window.map.removeObject(destMarker);
+          Map.removeObject(Map.getObjects()[1]);
         }
-        destMarker = new H.map.Marker(pointB,
+        destMarkerValue = new H.map.Marker(pointB,
           {
             icon: this.createIconMarker(line1)
           });
-        markerGroup.addObject(destMarker);
+        window.map.addObject(destMarkerValue);
+        this.handleChange('destMarker',destMarkerValue)
         this.handleChange('bLongClickUseForStartPoint',true)
-        bLongClickUseForStartPointValue = true;
-        // bLongClickUseForStartPoint = true;
+
       }
     }
     render() {
@@ -612,7 +629,7 @@ export default class Map extends Component {
       if (Map != null) {
         
     
-        Map.removeObjects(Map.getObjects())
+        // Map.removeObjects(Map.getObjects())
 
         if( options.isoline.geometry.length !== 0) {
           

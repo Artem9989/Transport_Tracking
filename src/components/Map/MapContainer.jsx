@@ -53,7 +53,7 @@ class MapContainer extends React.Component {
         return <>
             { this.props.isFetching ? <Preloader /> : null}
             <DisplayMapClassContainer 
-            costOptimRouteValue={this.props.costOptimRouteValue}
+            CORV={this.props.costOptimRouteValue}
             toggleModal={this.props.toggleModal}
             ShowModal={this.props.ShowModal}
             transportType={this.props.transportType}

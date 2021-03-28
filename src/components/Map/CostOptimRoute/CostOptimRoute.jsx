@@ -12,21 +12,23 @@ import CORS from './CORS.css';
 const { Panel } = Collapse;
 
 
-const CostOptimRoute = (props) => {
+const CostOptimRoute = ({CORV , getcostOptimRouteValue}, props) => {
 
   // const [trStartRouteDate, settrStartRouteDate] = useState(false);
   const [trisDTFilteringEnabled, setisDTFilteringEnabled] = useState(false);
   const [isDChecked, setisDChecked] = useState(false);
 
-  let CORV = props.costOptimRouteValue;
-  let updateCORV = props.getcostOptimRouteValue;
+  // let updateCORV = props.getcostOptimRouteValue;
 console.log('startMarker:', CORV.startValue);
 console.log('dest:', CORV.DestinationValue);
 // console.log('bLongClickUseForStartPoint:', CORV.bLongClickUseForStartPoint);
   const handleChange = (field, value) => {
-    updateCORV(field, value);
+    getcostOptimRouteValue(field, value);
   };
+useEffect(() => {
+  console.log(CORV)
 
+}, [CORV])
 
 
   const createMarkup = (htmlValue) => {
