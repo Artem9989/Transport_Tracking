@@ -20,7 +20,9 @@ const CostOptimRoute = (props) => {
 
   let CORV = props.costOptimRouteValue;
   let updateCORV = props.getcostOptimRouteValue;
-
+console.log('startMarker:', CORV.startValue);
+console.log('dest:', CORV.DestinationValue);
+// console.log('bLongClickUseForStartPoint:', CORV.bLongClickUseForStartPoint);
   const handleChange = (field, value) => {
     updateCORV(field, value);
   };
@@ -31,6 +33,7 @@ const CostOptimRoute = (props) => {
     if (htmlValue === undefined) {
       
     } else {
+      // CORV.ResponseResult = htmlValue;
       handleChange('ResponseResult', htmlValue)
     }
     
@@ -99,22 +102,22 @@ const CostOptimRoute = (props) => {
   		************************************/
 
   		/***/
-  function clearLastRouteCalculation() {
-    handleChange("bErrorHappened", false);
-    handleChange("bLongClickUseForStartPoint", true);
-    // CORV.bErrorHappened = false;
-    // bLongClickUseForStartPoint = true;
-    // if (CORV.currentOpenBubble) {
-    // 	ui.removeBubble(CORV.currentOpenBubble);
-    // }
-    // group.removeAll();
-  }
+  // function clearLastRouteCalculation() {
+  //   handleChange("bErrorHappened", false);
+  //   handleChange("bLongClickUseForStartPoint", true);
+  //   // CORV.bErrorHappened = false;
+  //   // bLongClickUseForStartPoint = true;
+  //   // if (CORV.currentOpenBubble) {
+  //   // 	ui.removeBubble(CORV.currentOpenBubble);
+  //   // }
+  //   // group.removeAll();
+  // }
 
   // 		/************************************
   // 		Start Route Calculation
   // 		************************************/
   var startRouteCalculation = function () {
-    clearLastRouteCalculation();
+    // clearLastRouteCalculation();
     geocode(CORV.startValue, true);
   };
   // routeButton.onClick = startRouteCalculation;
@@ -196,7 +199,8 @@ const CostOptimRoute = (props) => {
   			//add Geocoder Release information if not already done
   			if (CORV.releaseGeocoderShown == false) {
   				// loadGeocoderVersionTxt();
-  				CORV.releaseGeocoderShown = true;
+  				// CORV.releaseGeocoderShown = true;
+          handleChange('releaseGeocoderShown',true);
   			}
 
   			// check if coordinates , use search end point for coordinates
@@ -253,29 +257,29 @@ const CostOptimRoute = (props) => {
 
   			CORV.line1 = CORV.pos.Latitude + " " + CORV.pos.Longitude;
   			CORV.line2 = CORV.address.Label;
-
+        var markerGroup = new window.H.map.Group();
   			if (isStartGlobal) {
   				if (CORV.startMarker != null) {
-  					CORV.markerGroup.removeObject(CORV.startMarker);
+  					markerGroup.removeObject(CORV.startMarker);
   				}
   				CORV.startMarker = new window.H.map.Marker(CORV.pointA,
   					{
   						icon: createIconMarker(CORV.line1, CORV.line2)
   					});
-            CORV.markerGroup.addObject(CORV.startMarker);
+            markerGroup.addObject(CORV.startMarker);
 
   			}
   			else {
   				if (CORV.destMarker != null) {
-  					CORV.markerGroup.removeObject(CORV.destMarker);
+  					markerGroup.removeObject(CORV.destMarker);
   				}
   				CORV.destMarker = new window.H.map.Marker(CORV.pointB,
   					{
   						icon: createIconMarker(CORV.line1, CORV.line2)
   					});
-            CORV.markerGroup.addObject(CORV.destMarker);
+            markerGroup.addObject(CORV.destMarker);
             window.map.getViewModel().setLookAtData({
-  					bounds: CORV.markerGroup.getBoundingBox()
+  					bounds: markerGroup.getBoundingBox()
   				});
   			}
 
@@ -318,7 +322,7 @@ const CostOptimRoute = (props) => {
 
   			if (parseInt(CORV.vehWeight) > 0) {
   				if (parseInt(CORV.vehWeight) > parseInt(CORV.totalWeight)) {
-  					alert("Total Weight cannot be smaller than Vehicle Weight");
+  					alert("Общий вес не может быть меньше веса автомобиля.");
   					return;
   				}
   				limitedWeight = "&limitedWeight=" + (CORV.totalWeight / 1000) + "t";// router 7.2 used by TCE includes trailer weight
@@ -508,7 +512,7 @@ const CostOptimRoute = (props) => {
   						for (i = 0; i < l; i += 2) {
   							strip.pushLatLngAlt(shape[i], shape[i + 1], 0);
   						}
-
+              
   						var link = new window.H.map.Polyline(strip,
   							{
   								style: {
@@ -552,6 +556,8 @@ const CostOptimRoute = (props) => {
 
 // РАСКОМЕНТИТь с нижними функциям
   			// // show TCE costs
+
+				console.log('response',resp.response)
   			showTceCost(resp.response.route[0].tollCost.costsByCountryAndTollSystem, resp.response.route[0].cost, resp.response.route[0].summary.distance / 1000.0, resp.response.route[0].summary.baseTime / 60 / 60.00, resp.response.route[0].summary.trafficTime / 60 / 60.00);
 
   			// /***********************************************

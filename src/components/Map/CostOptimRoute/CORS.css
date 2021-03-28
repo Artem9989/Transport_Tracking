@@ -4,3 +4,66 @@
     padding: 2px;
  }
 
+ /* handleLongClickInMap(currentEvent) {
+
+    let { Map, H,M,CORV,getCORV } = this.state
+    // let { M, H,Map } = this.state
+    let updateCORV = getCORV;
+   debugger
+   let BLCUSPValue = CORV.BLCUSP;
+		var markerGroup = new window.H.map.Group();
+    console.log(CORV.BLCUSP)
+
+    var lastClickedPos = Map.screenToGeo(currentEvent.currentPointer.viewportX, currentEvent.currentPointer.viewportY);
+    // round up decimal places as Geocoder can only provide upto 7 digits precision after decimal
+    lastClickedPos.lat = this.roundUp(lastClickedPos.lat, 7);
+    lastClickedPos.lng = this.roundUp(lastClickedPos.lng, 7);
+    console.log('BLCUSP',CORV.BLCUSP)
+ 
+
+    if (CORV.BLCUSP) {
+      this.clearLastRouteCalculation();
+      CORV.line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
+      //var line2 = " ";
+      // CORV.startValue = CORV.line1;
+      this.handleChange('startValue',CORV.line1)
+      this.handleChange('BLCUSP',false)
+      CORV.pointA = new window.H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
+
+      if (CORV.startMarker != null) {
+        markerGroup.removeObject(CORV.startMarker);
+        
+      }
+ 
+      CORV.startMarker = new window.H.map.Marker(CORV.pointA,
+        {
+          icon: this.createIconMarker(CORV.line1)
+        });
+        // this.handleChange('BLCUSP',false)
+      markerGroup.addObject(CORV.startMarker);
+      // CORV.bLongClickUseForStartPoint = false;
+      
+      
+    }
+    else {
+      debugger
+      CORV.line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
+      //var line2 = " ";
+      CORV.DestinationValue= CORV.line1;
+      this.handleChange('DestinationValue',CORV.line1)
+      this.handleChange('BLCUSP',true)
+      CORV.pointB = new window.H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
+      if (CORV.destMarker != null) {
+        markerGroup.removeObject(CORV.destMarker);
+      }
+      CORV.destMarker = new window.H.map.Marker(CORV.pointB,
+        {
+          icon: this.createIconMarker(CORV.line1)
+        });
+        // this.handleChange('BLCUSP',true)
+      markerGroup.addObject(CORV.destMarker);
+      
+      // CORV.bLongClickUseForStartPoint = true;
+      
+    }
+  } */

@@ -8,7 +8,6 @@ const ResultCostOptimRoute = (props) => {
     // const [dateNow, setdate] = useState('')
     // const [time, settime] = useState('')
    
-   console.log(props.resp,props.HTMLTag)
   return (<>	
 
 	
