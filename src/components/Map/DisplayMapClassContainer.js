@@ -38,14 +38,14 @@ export default class DisplayMapClassContainer extends Component {
         isoline: {
           range: 300,
           type: "time",
-          transport: this.props.transportType,
+          transport: 'truck',
           traffic: "enabled",
           geometry: [],
           marker: {lat: null, lng: null}
         },
         waypoints: {
           url: "",
-          transport: this.props.transportType,
+          transport: 'truck',
           traffic: "enabled",
           markers: [],
           geometry: [],
@@ -263,7 +263,7 @@ export default class DisplayMapClassContainer extends Component {
             >
               <CostOptimRoute showCostOptimRoute={this.props.showCostOptimRoute}
         
-                        costOptimRouteValue={this.props.costOptimRouteValue}
+                        CORV={this.props.CORV}
                         getcostOptimRouteValue={this.props.getcostOptimRouteValue}
                        />
             </Drawer>
@@ -276,7 +276,7 @@ export default class DisplayMapClassContainer extends Component {
           apikey={apikey}
           options={options}
           analytics={analytics}
-          costOptimRouteValue={this.props.costOptimRouteValue}
+          CORV={this.props.CORV}
           toggleModal={this.props.toggleModal}
           clearIsoline={this.clearIsoline}
           calculateRoute={this.calculateRoute}
