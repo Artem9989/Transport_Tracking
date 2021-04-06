@@ -185,7 +185,7 @@ useEffect(() => {
     svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 80 : (line1.length * 4 + 150)));
     var icon = new window.H.map.Icon(svgMarker, {
       anchor: new window.H.math.Point(24, 57),
-      size: { w: 20, h: 20 },
+      size: { w: 200, h: 80 },
     });
  
     return icon;
