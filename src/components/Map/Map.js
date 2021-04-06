@@ -98,7 +98,7 @@ export default class Map extends Component {
     M.DefaultLayers = M.Platform.createDefaultLayers(M.config)
 
   
-
+    M.markerGroup = {};
     let group = new H.map.Group();
     let markerGroup = new H.map.Group();
     M.markerGroup = markerGroup;
@@ -536,11 +536,11 @@ export default class Map extends Component {
   
       svgMarker = svgMarker.replace(/__line1__/g, line1);
       svgMarker = svgMarker.replace(/__line2__/g, (line2 != undefined ? line2 : ""));
-      svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 20 : (line1.length * 4 + 80)));
-      svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 80 : (line1.length * 4 + 150)));
+      svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 10 : (line1.length * 4 + 40)));
+      svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 40 : (line1.length * 4 + 100)));
       var icon = new H.map.Icon(svgMarker, {
         anchor: new H.math.Point(24, 57),
-        size: { w: 100, h: 80 },
+        size: { w: 200, h: 80 },
       });
    
       return icon;
