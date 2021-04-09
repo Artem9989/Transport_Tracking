@@ -100,8 +100,8 @@ export default class Map extends Component {
   
     M.markerGroup = {};
     let group = new H.map.Group();
-    let markerGroup = new H.map.Group();
-    M.markerGroup = markerGroup;
+    let markerGroup = new window.H.map.Group();
+    M.markerGroup = window.markerGroup;
     M.GeocodingService = M.Platform.getGeocodingService();
     M.RoutingService = M.Platform.getRoutingService();
     
@@ -505,14 +505,13 @@ export default class Map extends Component {
 
     clearLastRouteCalculation() {
       let { M, H,Map,CORV } = this.state
-      let group = new H.map.Group();
+      // let group = new H.map.Group();
   
       this.handleChange("bErrorHappened", false);
-      this.handleChange("bLongClickUseForStartPoint", true);
       if (this.props.CORV.currentOpenBubble) {
         M.UI.removeBubble(this.props.CORV.currentOpenBubble);
       }
-      group.removeAll();
+      this.props.CORV.group.removeAll();
   
     }
   
@@ -526,7 +525,7 @@ export default class Map extends Component {
       let { M, H,Map,CORV } = this.state;
       
       var svgMarker = this.props.CORV.svgMarkerImage_Line;
-  debugger
+  
       // every long address not shown 
       // correctly in marker
       if (line2 && line2.length > 42) {
@@ -567,16 +566,21 @@ export default class Map extends Component {
       lastClickedPos.lat = this.roundUp(lastClickedPos.lat, 7);
       lastClickedPos.lng = this.roundUp(lastClickedPos.lng, 7);
       // let markerGroup = new H.map.Group();
-      debugger
+      
       if (bLongClickUseForStartPointValue) {
         this.clearLastRouteCalculation();
         var line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
         //var line2 = " ";
         this.handleChange('startValue',line1)
         pointA = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
-        if (this.props.CORV.startMarker != null) {
+        if (this.props.CORV.startMarker != null ) {
           // markerGroup.removeObject(startMarkerValue);
-          Map.removeObject(Map.getObjects()[0]);
+          Map.removeObject(Map.getObjects()[1]);
+          if (this.props.BLCUSP) {
+            Map.removeObject(Map.getObjects());
+            // Map.removeObjects(Map.getObjects());
+            this.handleChange('BLCUSP',false)
+          }
         }
         startMarkerValue = new H.map.Marker(pointA,
           {
@@ -601,6 +605,7 @@ export default class Map extends Component {
 
       }
       else {
+        this.clearLastRouteCalculation();
         var line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
         //var line2 = " ";
         // dest.value = line1;
@@ -608,7 +613,12 @@ export default class Map extends Component {
         pointB = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
         if (this.props.CORV.destMarker != null) {
           // window.map.removeObject(destMarker);
-          Map.removeObject(Map.getObjects()[1]);
+          Map.removeObject(Map.getObjects()[0]);
+          if (this.props.BLCUSP) {
+            Map.removeObject(Map.getObjects());
+            // Map.removeObjects(Map.getObjects());
+            this.handleChange('BLCUSP',false)
+          }
         }
         destMarkerValue = new H.map.Marker(pointB,
           {
@@ -704,3 +714,122 @@ Map.propTypes = {
   updateWaypoints: PropTypes.func,
   clearWaypoints: PropTypes.func
 }
+
+
+// handleLongClickInMap(currentEvent) {
+//   let { Map, H, M, getCORV } = this.state;
+//   // console.log(Map.getObjects()[0])
+//   let pointA;
+//   let pointB;
+//   let startMarkerValue;
+//   let destMarkerValue;
+//   let bLongClickUseForStartPointValue = this.props.CORV.bLongClickUseForStartPoint;
+//   console.log('this.props.CORV.bLongClickUseForStartPoint',this.props.CORV.bLongClickUseForStartPoint)
+//   // if (bLongClickUseForStartPointValue == null || bLongClickUseForStartPointValue == true) {
+//   //   bLongClickUseForStartPointValue = false;
+//   // }
+//   // else {
+//   //   bLongClickUseForStartPointValue = true;
+//   // }
+
+//   var lastClickedPos = Map.screenToGeo(currentEvent.currentPointer.viewportX, currentEvent.currentPointer.viewportY);
+//   // round up decimal places as Geocoder can only provide upto 7 digits precision after decimal
+//   lastClickedPos.lat = this.roundUp(lastClickedPos.lat, 7);
+//   lastClickedPos.lng = this.roundUp(lastClickedPos.lng, 7);
+//   // let markerGroup = new H.map.Group();
+//  let  markerGroup = this.props.CORV.markerGroup;
+//   
+//   console.log('Full',Map.getObjects() )
+//   if (bLongClickUseForStartPointValue) {
+//     this.clearLastRouteCalculation();
+//     var line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
+//     //var line2 = " ";
+//     this.handleChange('startValue',line1)
+//     pointA = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
+//     if (this.props.CORV.startMarker != null) {
+//       // markerGroup.removeObject(startMarkerValue);
+//       console.log('START',Map.getObjects() )
+//       console.log('START',markerGroup.getObjects() )
+//       Map.removeObject(Map.getObjects()[0]);
+//       markerGroup.removeObject(markerGroup.getObjects()[0])
+//       // markerGroup.removeObject(markerGroup.getObjects()[0])
+//       console.log('START-three',Map.getObjects() )
+//       console.log('START-two',markerGroup.getObjects() )
+//       // markerGroup.removeObject(Map.getObjects()[0]);
+//      if (this.props.CORV.BLCUSP) {
+//       // Map.removeAll();
+//       // markerGroup.removeAll();
+//       // markerGroup.removeObject(markerGroup.getObjects()[0])
+//       this.handleChange('markerGroup',markerGroup)
+//       this.handleChange('BLCUSP',false)
+//       this.handleChange('startMarker',null)
+//      }
+
+//     }
+//     startMarkerValue = new H.map.Marker(pointA,
+//       {
+//         icon: this.createIconMarker(line1)
+//       });
+//       markerGroup.addObject(startMarkerValue);
+//       console.log('START-three',markerGroup.getObjects() )
+
+//       console.log('START-three',Map.getObjects() )
+    
+//       this.handleChange('startMarker',startMarkerValue)
+//     // markerGroup.addObject(this.props.CORV.startMarker);
+    
+//     // this.handleChange('startMarker',new H.map.Marker(pointA,
+//     //   {
+//     //     icon: this.createIconMarker(line1)
+//     //   }))
+//       // const marker = new window.H.map.Marker(pointA,
+//       // 	{
+//       // 		icon: this.createIconMarker(line1)
+//       // 	})
+//       //   this.handleChange('startMarker', marker)
+      
+//       this.handleChange('markerGroup',markerGroup)
+//     this.handleChange('bLongClickUseForStartPoint',false)
+
+//   }
+//   else {
+//     var line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
+
+//     this.handleChange('DestinationValue', line1)
+//     pointB = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
+//     if (this.props.CORV.destMarker != null) {
+
+//       console.log('DEST',Map.getObjects() )
+//       console.log('DEST',markerGroup.getObjects() )
+//       Map.removeObject(Map.getObjects()[1]);
+//       markerGroup.removeObject(markerGroup.getObjects()[1])
+//       console.log('DEST-TWO',Map.getObjects() )
+//       console.log('DEST-TWO',markerGroup.getObjects() )
+//       // markerGroup.removeObject(markerGroup.getObjects()[0])
+//       // markerGroup.removeObject(Map.getObjects()[1]);
+//       if (this.props.CORV.BLCUSP) {
+//         // markerGroup.removeAll();
+//         markerGroup.removeObject(markerGroup.getObjects()[1])
+//         this.handleChange('markerGroup',markerGroup)
+//         this.handleChange('BLCUSP',false)
+//         this.handleChange('destMarker',null)
+//        }
+//     }
+//     destMarkerValue = new H.map.Marker(pointB,
+//       {
+//         icon: this.createIconMarker(line1)
+//       });
+//       console.log('DEST-three',Map.getObjects() )
+//       console.log('DEST-three',markerGroup.getObjects() )
+//       markerGroup.addObject(destMarkerValue)
+//       console.log('DEST-four',Map.getObjects() )
+//       console.log('DEST-four',markerGroup.getObjects() )
+//       this.handleChange('markerGroup',markerGroup)
+//     this.handleChange('destMarker',destMarkerValue)
+//     this.handleChange('bLongClickUseForStartPoint',true)
+
+//   }
+//   window.map.addObject(markerGroup)
+//   console.log('Full END',Map.getObjects() )
+//   console.log('Full END',markerGroup.getObjects() )
+// }

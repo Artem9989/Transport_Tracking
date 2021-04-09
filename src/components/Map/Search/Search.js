@@ -34,6 +34,14 @@ const handleSearch =  (value) => {
   }
 
 
+
+    // Update zoom level on each animation frame,
+    // till we reach endZoom:
+
+
+    // Start zoom animation
+  
+
     const  onSelect = async (value,option) => {
       
       let location = option.key;
@@ -44,8 +52,9 @@ const handleSearch =  (value) => {
         const res = await axios.get(geocoderUrl)
           let lat = res.data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
           let lng = res.data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
-          window.map.setCenter({lat: lat,lng: lng});
-          window.map.setZoom(12);
+          window.map.setCenter({lat: lat,lng: lng},true);
+
+          // window.map.setZoom(12);
           // setSearchText('');
           
           setSuggestions([]);

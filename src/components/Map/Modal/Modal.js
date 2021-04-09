@@ -17,48 +17,42 @@ export const ModalWindowMemo = ({ ShowModal, toggleModal, dontShowModal }) => {
         >
             
                 <span slot="title"> Мониторинг средств автотранспорта</span>
+                <br/>
+                <br/>
                 <b>Описания</b>
                 <br/>
                 <br/>
-                This web app is designed as an analytical tool that provides information about hospitals around Germany and their ICU and ventilating machine capacity. 
-                People who may need medical cure, can find which hospital is nearest and less busy. Ambulance drivers can use the navigation option to find the best way to a particular hospital. 
-                Hospital administration or local authorities can use this tool as a point in decision making about equipment distribution and supply. 
+                Это веб - приложение разработано как аналитический инструмент, который предоставляет информацию о поездка ТС, расход их топлива, стоимость поездки и путь, и др. информацию для аналитики. Водители могут отследить свой маршрут и посмотреть информацию. Диспетчеры могут отследить откланения, высчитать стоимость поездки, просмотреть информацию поездки или поездок, расход бензина и составить отчет. Администраторы могут установить роли зарегистрированных пользователей, внести правки в информацию и добавить новое ТС.
 
                 <br/>
                 <br/> 
-                <b>Data Features</b>
+                <b>Функции данных</b>
                 <br/>
                 <br/>
-                For the pilot project we used data from <a target="_blank" href="https://www.intensivregister.de/#/intensivregister">DIVI</a>. 
-                It provides updates every 5 minutes on hospital occupancy rate and capacity: Number of patients in total, number of beds (standard and ICU), number and availability of ventilation machines and ECMO units.
-                
+               Для пилотного проекта создали базу данных, вынесли в облочный сервис и по запросам получаем информацию необходимую.
                 <br/>
                 <br/> 
-                <b>Map functionality</b>
+                <b>Функциональность карты</b>
                 <br/>
                 <br/> 
-              
-                This web app shows detailed information for each hospital. 
-                You can see each hospital point colored according to how busy it is (red, yellow and green), quantity of ICU (divided on low/high care). 
-                In addition, it provides navigational features, that offer you the best routes (to hospital according workload, from one hospital to another, from equipment supplier to hospital etc.) 
+                Это веб-приложение показывает подробную информацию каждое ТС. Вы можете выбрать автомобиль/водителя и видеть каждое ТС. Также есть возможность просмотреть альтернативные пути. Его скорость на момент проезда в выбранной точке (требуется нажать на точку на пути). Также выделяются платные дороги. Кроме того, он предоставляет навигационные функции, которые предлагают вам лучшие маршруты, в зависимости от дорожных ситуаций.
                 <br/>
                 <br/>
-                In order to create a route, right-click on the desired starting point and choose from the menu “add waypoint”, then make a right-click again on the desired hospital. 
-                In addition to the routing feature, you can also see in a radius of any given distance from your location, how many and which hospitals have free capacity. 
-                From the panel on the left choose the “Routing” option, select a means of transportation and travel time; then make a right-click on the map and choose the “calculate isoline” option. 
+                Для того чтобы создать маршрут, щелкните правой кнопкой мыши на нужной начальной точке и выберите в меню “добавить путевую точку”, затем снова сделайте правый клик на второе место, так можно установить путь по нескольким контрольным точкам.
+                В дополнение к функции маршрутизации вы также можете видеть в радиусе любого заданного расстояния от ТС, до куда есть возможность доехать за определенное время (поможет в случает непредвиденных ситуациях), для этого надо нажать правую кнопку мыши и выбрать "Расчитать изолинию".
+                Удаление изолинии и маршрута возможно также по правой кнопки мыши, а также сохранить изолинию.
                 <br/>
                 <br/> 
-                <b>Technical description</b>
+                <b>Техническое описание</b>
                 <br/>
                 <br/> 
 
-                The application was implemented with <a href="https://developer.here.com/documentation/studio/map_customization_suite_cli_hlp/dev_guide/index.html?cid=Coronavirus-coronavirusmap-CM-0-Dev-&utm_source=coronavirusmap&utm_medium=referral&utm_campaign=Online_Coronavirus_Dev_2020" target="_blank">HERE Data Hub </a> to store and update information about hospitals in real time. 
-                As a data source we decided to use DIVI portal. Web-application we implemented using efficient set of tools including <a href="https://developer.here.com/develop/javascript-api?cid=Coronavirus-coronavirusmap-CM-0-Dev-&utm_source=coronavirusmap&utm_medium=referral&utm_campaign=Online_Coronavirus_Dev_2020" target="_blank">HERE JavaScript API</a>. 
-                It’s possible to customize routes based on traffic information and type of vehicle.
+                Приложение было реализовано с помощью <a href="https://developer.here.com/documentation/studio/map_customization_suite_cli_hlp/dev_guide/index.html?cid=Coronavirus-coronavirusmap-CM-0-Dev-&utm_source=coronavirusmap&utm_medium=referral&utm_campaign=Online_Coronavirus_Dev_2020" target="_blank">HERE Data Hub </a> для хранения и обновления информации о больницах в режиме реального времени.
+В качестве источника данных мы решили использовать портал DIVI. Веб-приложение мы реализовали с использованием эффективного набора инструментов, включая <a href="https://developer.here.com/develop/javascript-api?cid=Coronavirus-coronavirusmap-CM-0-Dev-&utm_source=coronavirusmap&utm_medium=referral&utm_campaign=Online_Coronavirus_Dev_2020" target="_blank">ЗДЕСЬ JavaScript API</a>.
+Можно настроить маршруты на основе информации о дорожном движении и типе транспортного средства.
                 <br/>
                 <br/>
-                To enable users to create routes, we used the HERE Routing API that helps order up to 100 points on a route. And finally, isochrones are calculated through the HERE Routing API as well. 
- 
+                Чтобы пользователи могли создавать маршруты, мы использовали API маршрутизации HERE, который помогает заказывать до 100 точек на маршруте. И, наконец, изохроны также вычисляются с помощью API маршрутизации HERE.
                 {/* {
                     localStorage.getItem("modal") !== "false" ?
                         <lui-button slot="controls" secondary onClick={dontShowModal}>Don't show again</lui-button>

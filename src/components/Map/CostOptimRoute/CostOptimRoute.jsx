@@ -14,13 +14,14 @@ const { Panel } = Collapse;
 
 const CostOptimRoute = ({CORV , getcostOptimRouteValue}, props) => {
 
+  const [animation, setAnimation] = useState(false)
   // const [trStartRouteDate, settrStartRouteDate] = useState(false);
   const [trisDTFilteringEnabled, setisDTFilteringEnabled] = useState(false);
   const [isDChecked, setisDChecked] = useState(false);
 
   // let updateCORV = props.getcostOptimRouteValue;
-console.log('startMarker:', CORV.startValue);
-console.log('dest:', CORV.DestinationValue);
+// console.log('startMarker:', CORV.startValue);
+// console.log('dest:', CORV.DestinationValue);
 // console.log('bLongClickUseForStartPoint:', CORV.bLongClickUseForStartPoint);
   const handleChange = (field, value) => {
     getcostOptimRouteValue(field, value);
@@ -88,9 +89,9 @@ useEffect(() => {
  
 
 	// toll image
-  		// var tollImg = document.createElement("img");
+  		var tollImg = `<img src=https://tcs.ext.here.com/assets/icons/toll_20_10.png> </img>`;
   		// tollImg.src = "/assets/icons/toll_20_10.png";
-  		// var tollIcon = new H.map.Icon(tollImg, { anchor: new H.math.Point(0, 10) });
+  		var tollIcon = new window.H.map.Icon(tollImg, { anchor: new window.H.math.Point(0, 10) });
   		// map.addObject(markerGroup);
   		// // enable/disable calculation of cost optimized route calculation
   		// var noCostOptimizationJustCalculate = false;
@@ -104,72 +105,28 @@ useEffect(() => {
   		************************************/
 
   		/***/
-  // function clearLastRouteCalculation() {
-  //   handleChange("bErrorHappened", false);
-  //   handleChange("bLongClickUseForStartPoint", true);
-  //   // CORV.bErrorHappened = false;
-  //   // bLongClickUseForStartPoint = true;
-  //   // if (CORV.currentOpenBubble) {
-  //   // 	ui.removeBubble(CORV.currentOpenBubble);
-  //   // }
-  //   // group.removeAll();
-  // }
+  function clearLastRouteCalculation() {
+    handleChange("bErrorHappened", false);
+    handleChange("bLongClickUseForStartPoint", true);
+
+    if (CORV.currentOpenBubble) {
+    	window.UI.removeBubble(CORV.currentOpenBubble);
+    }
+    CORV.group.removeAll();
+  }
 
   // 		/************************************
   // 		Start Route Calculation
   // 		************************************/
   var startRouteCalculation = function () {
-    // clearLastRouteCalculation();
+    clearLastRouteCalculation();
     geocode(CORV.startValue, true);
   };
-  // routeButton.onClick = startRouteCalculation;
 
-  // 		/********************************************************
-  // 		Start/Destination selectin via LongClick in map
-  // 		********************************************************/
-  // 		function handleLongClickInMap(currentEvent) {
-  // 			var lastClickedPos = map.screenToGeo(currentEvent.currentPointer.viewportX, currentEvent.currentPointer.viewportY);
-  // 			// round up decimal places as Geocoder can only provide upto 7 digits precision after decimal
-  // 			lastClickedPos.lat = roundUp(lastClickedPos.lat, 7);
-  // 			lastClickedPos.lng = roundUp(lastClickedPos.lng, 7);
-
-  // 			if (bLongClickUseForStartPoint) {
-  // 				clearLastRouteCalculation();
-  // 				var line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
-  // 				//var line2 = " ";
-  // 				start.value = line1;
-  // 				pointA = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
-  // 				if (startMarker != null) {
-  // 					markerGroup.removeObject(startMarker);
-  // 				}
-  // 				startMarker = new H.map.Marker(pointA,
-  // 					{
-  // 						icon: createIconMarker(line1)
-  // 					});
-  // 				markerGroup.addObject(startMarker);
-  // 				bLongClickUseForStartPoint = false;
-  // 			}
-  // 			else {
-  // 				var line1 = "" + lastClickedPos.lat + "," + lastClickedPos.lng;
-  // 				//var line2 = " ";
-  // 				dest.value = line1;
-  // 				pointB = new H.geo.Point(lastClickedPos.lat, lastClickedPos.lng);
-  // 				if (destMarker != null) {
-  // 					markerGroup.removeObject(destMarker);
-  // 				}
-  // 				destMarker = new H.map.Marker(pointB,
-  // 					{
-  // 						icon: createIconMarker(line1)
-  // 					});
-  // 				markerGroup.addObject(destMarker);
-  // 				bLongClickUseForStartPoint = true;
-  // 			}
-  // 		}
 
   const createIconMarker = (line1, line2) => {
     
-    // let { M, H,Map,CORV } = this.state;
-    
+
     var svgMarker = CORV.svgMarkerImage_Line;
 
     // every long address not shown 
@@ -181,7 +138,7 @@ useEffect(() => {
 
     svgMarker = svgMarker.replace(/__line1__/g, line1);
     svgMarker = svgMarker.replace(/__line2__/g, (line2 != undefined ? line2 : ""));
-    svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 20 : (line1.length * 4 + 80)));
+    svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 10 : (line1.length * 4 + 40)));
     svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 80 : (line1.length * 4 + 150)));
     var icon = new window.H.map.Icon(svgMarker, {
       anchor: new window.H.math.Point(24, 57),
@@ -229,9 +186,16 @@ useEffect(() => {
   		function onError(error) {
   			alert(error);
   		}
-
+       
+      let pointB;
+      let pointA;
+      let line1;
+      let line2;
+      let pos;
   		function onResult(result) {
 
+        // var markerGroup = new window.H.map.Group;
+        var markerGroup = CORV.markerGroup;
   			// return if no results
   			if (!result.Response.View[0]) {
   				onError("Input could not be geocoded");
@@ -239,16 +203,16 @@ useEffect(() => {
   			}
 
   			if (result.Response.View[0].Result[0].Location != null) {
-  				CORV.pos = result.Response.View[0].Result[0].Location.DisplayPosition;
+  				pos= result.Response.View[0].Result[0].Location.DisplayPosition;
   			}
   			else {
-  				CORV.pos = result.Response.View[0].Result[0].Place.Locations[0].DisplayPosition;
+  				pos= result.Response.View[0].Result[0].Place.Locations[0].DisplayPosition;
   			}
 
   			if (isStartGlobal)
-        CORV.pointA = new window.H.geo.Point(CORV.pos.Latitude, CORV.pos.Longitude);
+        pointA = new window.H.geo.Point(pos.Latitude, pos.Longitude);
   			else
-        CORV.pointB = new window.H.geo.Point(CORV.pos.Latitude, CORV.pos.Longitude);
+        pointB = new window.H.geo.Point(pos.Latitude, pos.Longitude);
 
   			if (result.Response.View[0].Result[0].Location != null) {
   				CORV.address = result.Response.View[0].Result[0].Location.Address;
@@ -257,38 +221,60 @@ useEffect(() => {
   				CORV.address = result.Response.View[0].Result[0].Place.Locations[0].Address;
   			}
 
-  			CORV.line1 = CORV.pos.Latitude + " " + CORV.pos.Longitude;
-  			CORV.line2 = CORV.address.Label;
-        var markerGroup = new window.H.map.Group();
+  			line1 = pos.Latitude + " " + pos.Longitude;
+  			line2 = CORV.address.Label;
+        
+     
+      
+        
   			if (isStartGlobal) {
   				if (CORV.startMarker != null) {
-  					markerGroup.removeObject(CORV.startMarker);
+  					// markerGroup.removeObject(markerGroup.getObjects()[0]);
+  					markerGroup.removeAll();
+  					window.map.removeObjects(window.map.getObjects());
+            // console.log('START',markerGroup.getObjects()[0] )
+            // markerGroup.removeObject(window.map.getObjects()[0]);
+            // window.map.removeObject(window.map.getObjects()[0]);
   				}
-  				CORV.startMarker = new window.H.map.Marker(CORV.pointA,
+          // console.log('STARTTWO',markerGroup.getObjects()[0] )
+  				let startMarkerValue = new window.H.map.Marker(pointA,
   					{
-  						icon: createIconMarker(CORV.line1, CORV.line2)
+  						icon: createIconMarker(line1, line2)
   					});
-            markerGroup.addObject(CORV.startMarker);
-
+            markerGroup.addObject(startMarkerValue);
+            // window.map.addObject(startMarkerValue);
+          handleChange('startMarker',startMarkerValue)
+          handleChange('markerGroup',markerGroup)
+          handleChange('BLCUSP',true)
   			}
   			else {
-  				if (CORV.destMarker != null) {
-  					markerGroup.removeObject(CORV.destMarker);
-  				}
-  				CORV.destMarker = new window.H.map.Marker(CORV.pointB,
+  				// if (CORV.destMarker != null) {
+  				// 	// markerGroup.removeObject(CORV.destMarker);
+          //   console.log('DEST',markerGroup.getObjects()[1] )
+          //   markerGroup.removeObject(markerGroup.getObjects()[1]);
+          //   // console.log('DEST',markerGroup.getObjects()[1] )
+          //   // window.map.removeObject(window.map.getObjects()[1]);
+  				// }
+          
+  				let destMarkerValue = new window.H.map.Marker(pointB,
   					{
-  						icon: createIconMarker(CORV.line1, CORV.line2)
+  						icon: createIconMarker(line1, line2)
   					});
-            markerGroup.addObject(CORV.destMarker);
+            handleChange('destMarker',destMarkerValue)
+            markerGroup.addObject(destMarkerValue);
+            // window.map.addObject(destMarkerValue);
+            handleChange('markerGroup',markerGroup)
+            window.map.addObject(markerGroup);
+            // console.log('Full',markerGroup.getObjects() )
             window.map.getViewModel().setLookAtData({
   					bounds: markerGroup.getBoundingBox()
-  				});
+  				},animation);
   			}
 
   			if (isStartGlobal)
   				geocode(CORV.DestinationValue, false);
   			else
-  				calculateRoute(CORV.pointA, CORV.pointB);
+  				calculateRoute(pointA, pointB);
   		}
 
   // 		/************************************
@@ -301,7 +287,8 @@ useEffect(() => {
   			if (CORV.vehicles == "3" || CORV.vehicles == "9") {
   				transportMode = "truck"
   			}
-
+        
+      
   			var hasTrailer = null;
   			var shippedHazardousGoods = null;
   			var limitedWeight = null;
@@ -393,6 +380,7 @@ useEffect(() => {
   			if (CORV.routeAlternatives != null && CORV.routeAlternatives != "0") {
   				routeAlternativesRequested = true;
   			}
+        
   			var urlRoutingReq =
   				[
   					CORV.serverURL,
@@ -499,6 +487,12 @@ useEffect(() => {
   			}
 
   			CORV.routeLinkHashMap = new Object();
+       
+        let group = CORV.group;
+        // if ( CORV.group.getObjects().length > 0) {
+        //     group.removeAll();
+        //     window.map.removeAll();
+        // }
 
   			// create link objects
   			for (var r = 0; r < resp.response.route.length; r++) {
@@ -535,11 +529,11 @@ useEffect(() => {
   						link.addEventListener("pointerdown", function (e) {
   							if (CORV.currentOpenBubble)
                 window.UI.removeBubble(CORV.currentOpenBubble);
-                console.log(e.target)
+                // console.log(e.target)
   							var html = `<div>
   								<p style="font-family:Arial,sans-serif; font-size:12px;">Точка нажатия:  ${e.target.$linkId} </p>
   								<p style="font-family:Arial,sans-serif; font-size:12px;">Оставшееся время:  ${e.target.$remainTime}  </p>
-  								<p style="font-family:Arial,sans-serif; font-size:12px;">Скорость:  ${Math.floor(Math.random() * Math.floor(80))}  </p>
+  								<p style="font-family:Arial,sans-serif; font-size:12px;">Скорость:  ${Math.floor(Math.random() *  Math.floor(80))}  </p>
   				        </div>`;
 
 
@@ -548,25 +542,26 @@ useEffect(() => {
   							CORV.currentOpenBubble = new window.H.ui.InfoBubble(pos, { content: html });
   							window.UI.addBubble(CORV.currentOpenBubble);
   						});
-
-  						CORV.group.addObject(link);
+              
+  						group.addObject(link);
   					}
   				}
   			}
 
-  			window.map.addObject(CORV.group);
+  			window.map.addObject(group);
+        handleChange('group', group)
 
 // РАСКОМЕНТИТь с нижними функциям
   			// // show TCE costs
 
-				console.log('response',resp.response)
+				// console.log('response',resp.response)
   			showTceCost(resp.response.route[0].tollCost.costsByCountryAndTollSystem, resp.response.route[0].cost, resp.response.route[0].summary.distance / 1000.0, resp.response.route[0].summary.baseTime / 60 / 60.00, resp.response.route[0].summary.trafficTime / 60 / 60.00);
 
   			// /***********************************************
   			// Highlight Links
   			// ***********************************************/
   			for (var i = 0; i < resp.response.route.length; i++) {
-  				// highlightRoute(resp.response.route[i].tollCost.routeTollItems, i);
+  				highlightRoute(resp.response.route[i].tollCost.routeTollItems, i);
   			}
   		}
 const [HTMLTag, setHTMLTag] = useState([])
@@ -574,7 +569,7 @@ const [HTMLTag, setHTMLTag] = useState([])
   		show route toll cost response
   		**************************************************/
   		function showTceCost(costByCountryAndTollSystem, costs, length, basetime, traffictime) {
-debugger
+
         var HTML = [];
   			// /***********************************************
 
@@ -594,15 +589,7 @@ debugger
           HTML = [...HTML, <p> Оплата водителя: {costs.details.driverCost} {costs.currency}  </p>];
           HTML = [...HTML, <p> Стоимость ТС: {costs.details.vehicleCost} {costs.currency} </p>];
           HTML = [...HTML, <p> Стоимость Проезда: {costs.details.tollCost} {costs.currency} </p>];
-  				// createMarkup("<br/><br/>Length: " + length + " km<br/>");
-  				// createMarkup("BaseTime: " + basetime + " h<br/>");
-  				// createMarkup("TrafficTime: " + traffictime + " h<br/>");
-
-  				// createMarkup("Total Cost: " + costs.totalCost + " " + costs.currency + "<br/>");
-  				// createMarkup("Driver Cost: " + costs.details.driverCost + " " + costs.currency + "<br/>");
-  				// createMarkup("Vehicle Cost: " + costs.details.vehicleCost + " " + costs.currency + "<br/>");
-  				// createMarkup("Toll Cost: " + costs.details.tollCost + " " + costs.currency + "<br/>");
-  			}
+	}
 
   // 			/***********************************************
 
@@ -611,7 +598,7 @@ debugger
   // 			***********************************************/
   HTML = [...HTML, <p style={{  fontWeight: 'bold',fontSize: '16px',
     padding: '2px'}} className={CORS.title}>Стоимость проезда по основному маршруту </p>];
-    debugger
+    
   			if (costs.details.tollCost == 0.0) {
           HTML = [...HTML, <p>None.</p>];
   			}
@@ -662,46 +649,46 @@ debugger
   // 			Highlights the toll links in map display
   // Выделяет платные ссылки на дисплее карты
   // 		*/
-  		// function highlightRoute(routeTollItems, routeAlternative) {
-  		// 	if (routeTollItems != null) {
-  		// 		for (var i = 0; i < routeTollItems.length; i++) {
-  		// 			var tollType = routeTollItems[i].tollType;
-  		// 			var color = CORV.ppType_S_Color[routeAlternative];
-  		// 			if (tollType == 'A') {
-  		// 				color = CORV.ppType_A_Color[routeAlternative];
-  		// 			} else if (tollType == 'a') {
-  		// 				color = CORV.ppType_a_Color[routeAlternative];
-  		// 			} else if (tollType == 'S') {
-  		// 				color = CORV.ppType_S_Color[routeAlternative];
-  		// 			} else if (tollType == 'p') {
-  		// 				color = CORV.ppType_p_Color[routeAlternative];
-  		// 			} else if (tollType == 'F') {
-  		// 				color = CORV.ppType_F_Color[routeAlternative];
-  		// 			} else if (tollType == 'K') {
-  		// 				color = CORV.ppType_K_Color[routeAlternative];
-  		// 			} else if (tollType == 'U') {
-  		// 				color = CORV.ppType_U_Color[routeAlternative];
-  		// 			}
+  		function highlightRoute(routeTollItems, routeAlternative) {
+  			if (routeTollItems != null) {
+  				for (var i = 0; i < routeTollItems.length; i++) {
+  					var tollType = routeTollItems[i].tollType;
+  					var color = CORV.ppType_S_Color[routeAlternative];
+  					if (tollType == 'A') {
+  						color = CORV.ppType_A_Color[routeAlternative];
+  					} else if (tollType == 'a') {
+  						color = CORV.ppType_a_Color[routeAlternative];
+  					} else if (tollType == 'S') {
+  						color = CORV.ppType_S_Color[routeAlternative];
+  					} else if (tollType == 'p') {
+  						color = CORV.ppType_p_Color[routeAlternative];
+  					} else if (tollType == 'F') {
+  						color = CORV.ppType_F_Color[routeAlternative];
+  					} else if (tollType == 'K') {
+  						color = CORV.ppType_K_Color[routeAlternative];
+  					} else if (tollType == 'U') {
+  						color = CORV.ppType_U_Color[routeAlternative];
+  					}
 
-  		// 			for (var j = 0; j < routeTollItems[i].linkIds.length; j++) {
-  		// 				// set color and stroke of links
-  		// 				var tollstroke = (CORV.tollCostStroke - (routeAlternative + 1));	// route alternatives have a different stroke
-  		// 				var link = CORV.routeLinkHashMap[routeTollItems[i].linkIds[j]];
-  		// 				if (link.getStyle().strokeColor == routeColor[routeAlternative]) { // only change link color to toll color if not already modified
-  		// 					link.setStyle({ strokeColor: color, lineWidth: tollstroke });
-  		// 				}
-  		// 			}
+  					for (var j = 0; j < routeTollItems[i].linkIds.length; j++) {
+  						// set color and stroke of links
+  						var tollstroke = (CORV.tollCostStroke - (routeAlternative + 1));	// route alternatives have a different stroke
+  						var link = CORV.routeLinkHashMap[routeTollItems[i].linkIds[j]];
+  						if (link.getStyle().strokeColor == CORV.routeColor[routeAlternative]) { // only change link color to toll color if not already modified
+  							link.setStyle({ strokeColor: color, lineWidth: tollstroke });
+  						}
+  					}
 
-  		// 			//toll structures
-  		// 			if (routeTollItems[i].tollStructures != null) {
-  		// 				for (var j = 0; j < routeTollItems[i].tollStructures.length; j++) {
-  		// 					createTollMarker(routeTollItems[i].tollStructures[j]);
-  		// 				}
-  		// 			}
-  		// 		}
-  		// 	}
+  					//toll structures
+  					if (routeTollItems[i].tollStructures != null) {
+  						for (var j = 0; j < routeTollItems[i].tollStructures.length; j++) {
+  							createTollMarker(routeTollItems[i].tollStructures[j]);
+  						}
+  					}
+  				}
+  			}
 
-  		// }
+  		}
 
  
 
@@ -995,17 +982,18 @@ debugger
   // 		/**
   // 		This method creates the toll marker at the beginning of the passed link
   // 		*/
-  // 		function createTollMarker(oneTollStructure) {
-  // 			var pos = new H.geo.Point(oneTollStructure.latitude, oneTollStructure.longitude);
-  // 			var tollMarker = new H.map.Marker(pos, { icon: tollIcon });
-  // 			tollMarker.addEventListener("tap", function () { displayTollStructureName(pos, oneTollStructure.name); });
-  // 			group.addObject(tollMarker);
-  // 		}
+  		function createTollMarker(oneTollStructure) {
+  			var pos = new window.H.geo.Point(oneTollStructure.latitude, oneTollStructure.longitude);
+  			var tollMarker = new window.H.map.Marker(pos, { icon: tollIcon });
+  			tollMarker.addEventListener("tap", function () { displayTollStructureName(pos, oneTollStructure.name); });
+  			CORV.group.addObject(tollMarker);
 
-  // 		function displayTollStructureName(position, name) {
-  // 			let infoBubble = new H.ui.InfoBubble(position, { content: name });
-  // 			ui.addBubble(infoBubble);
-  // 		}
+  		}
+
+  		function displayTollStructureName(position, name) {
+  			let infoBubble = new window.H.ui.InfoBubble(position, { content: name });
+  			window.UI.addBubble(infoBubble);
+  		}
 
   // 		//Function to convert hex format to a rgb color from http://jsfiddle.net/Mottie/xcqpF/1/light/
   		function rgb2hex(rgb) {
@@ -1228,7 +1216,16 @@ debugger
               </div> */}
             </Panel>
           </Collapse>
-
+          <div>
+          <input
+                  type="checkbox"
+                  defaultChecked={isDChecked}
+                  id="chkEnableAnimation"
+                  name="chkEnableAnimation"
+                  onClick={() => setAnimation(!animation)}
+                />
+                {" "}Включить/ Выключить Анимацию
+                </div>
           <hr className="separator" />
           <h5>Toll Cost Parameters</h5>
 

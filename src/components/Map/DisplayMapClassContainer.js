@@ -270,6 +270,7 @@ export default class DisplayMapClassContainer extends Component {
         <ModalWindowMemo 
           toggleModal={this.props.toggleModal}
           ShowModal={this.props.ShowModal}
+          
           />
         
         <Map 
