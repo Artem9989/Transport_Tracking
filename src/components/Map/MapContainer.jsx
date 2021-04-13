@@ -60,6 +60,8 @@ class MapContainer extends React.Component {
             setshowCostOptimRoute={this.props.setshowCostOptimRoute}
             showCostOptimRoute={this.props.showCostOptimRoute}
             getcostOptimRouteValue={this.props.getcostOptimRouteValue}
+            visible={this.props.visible}
+            setvisible={this.props.setvisible}
 
 
             />

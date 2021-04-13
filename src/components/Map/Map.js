@@ -396,7 +396,8 @@ export default class Map extends Component {
       calculateIsoline, 
       clearIsoline,
       updateWaypoints,
-      clearWaypoints
+      clearWaypoints,
+      saveRoute
     } = this.props
 
     let coord  = Map.screenToGeo(evt.viewportX, evt.viewportY)
@@ -446,6 +447,12 @@ export default class Map extends Component {
           label: 'Стереть путь',
           callback: () => {
             clearWaypoints(coord)
+          }
+        }),
+        new H.util.ContextItem({
+          label: 'Сохранить путь',
+          callback: () => {
+            saveRoute()
           }
         }),
       )

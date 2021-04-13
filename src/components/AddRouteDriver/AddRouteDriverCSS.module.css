@@ -1,0 +1,15 @@
+.avatar {
+    width: 100px;
+    border-radius: 5px;
+    margin: 10px;
+}
+.infoContainer{
+    display: flex;
+    flex-direction: column;
+}
+.info{
+    display: flex;
+}
+.info div{
+    margin-top: 10px;
+}

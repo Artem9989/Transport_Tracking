@@ -33,9 +33,3 @@
     color: #c0e1fd;
     font-size: 16px;
 }
-
-.viewingInformationDriver{
-    border: 1px solid;
-    width: 22px;
-    box-shadow:  0 0 10px rgba(204, 204, 204, 0.5);
-}

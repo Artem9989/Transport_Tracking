@@ -48,8 +48,8 @@ export const ModalWindowMemo = ({ ShowModal, toggleModal, dontShowModal }) => {
                 <br/> 
 
                 Приложение было реализовано с помощью <a href="https://developer.here.com/documentation/studio/map_customization_suite_cli_hlp/dev_guide/index.html?cid=Coronavirus-coronavirusmap-CM-0-Dev-&utm_source=coronavirusmap&utm_medium=referral&utm_campaign=Online_Coronavirus_Dev_2020" target="_blank">HERE Data Hub </a> для хранения и обновления информации о больницах в режиме реального времени.
-В качестве источника данных мы решили использовать портал DIVI. Веб-приложение мы реализовали с использованием эффективного набора инструментов, включая <a href="https://developer.here.com/develop/javascript-api?cid=Coronavirus-coronavirusmap-CM-0-Dev-&utm_source=coronavirusmap&utm_medium=referral&utm_campaign=Online_Coronavirus_Dev_2020" target="_blank">ЗДЕСЬ JavaScript API</a>.
-Можно настроить маршруты на основе информации о дорожном движении и типе транспортного средства.
+                В качестве источника данных мы решили использовать портал DIVI. Веб-приложение мы реализовали с использованием эффективного набора инструментов, включая <a href="https://developer.here.com/develop/javascript-api?cid=Coronavirus-coronavirusmap-CM-0-Dev-&utm_source=coronavirusmap&utm_medium=referral&utm_campaign=Online_Coronavirus_Dev_2020" target="_blank">ЗДЕСЬ JavaScript API</a>.
+                Можно настроить маршруты на основе информации о дорожном движении и типе транспортного средства.
                 <br/>
                 <br/>
                 Чтобы пользователи могли создавать маршруты, мы использовали API маршрутизации HERE, который помогает заказывать до 100 точек на маршруте. И, наконец, изохроны также вычисляются с помощью API маршрутизации HERE.

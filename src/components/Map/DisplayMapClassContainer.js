@@ -5,6 +5,7 @@ import { Drawer } from "antd";
 import Map from './Map'
 import CostOptimRoute from "./CostOptimRoute/CostOptimRoute.jsx";
 import { ModalWindowMemo  } from './Modal/Modal'
+import  AddRouteDriverContainer  from '../AddRouteDriver/AddRouteDriverContainer';
 
 // Requests library
 import axios from 'axios'
@@ -38,23 +39,25 @@ export default class DisplayMapClassContainer extends Component {
         isoline: {
           range: 300,
           type: "time",
-          transport: 'truck',
+          transport: this.props.transportType,
           traffic: "enabled",
           geometry: [],
           marker: {lat: null, lng: null}
         },
         waypoints: {
           url: "",
-          transport: 'truck',
+          transport: this.props.transportType,
           traffic: "enabled",
           markers: [],
           geometry: [],
         },
  
-      }
+      },
+      // modal: {
+      //   visible:false,
+      //   toggleModal: false
+      // }
     }
-
-   
 
 
 
@@ -66,12 +69,17 @@ export default class DisplayMapClassContainer extends Component {
     this.calculateRoute = this.calculateRoute.bind(this)
     this.updateWaypoints = this.updateWaypoints.bind(this)
     this.clearWaypoints = this.clearWaypoints.bind(this)
+    this.saveRoute = this.saveRoute.bind(this)
 
   }
 
   componentDidMount () {
+
     
-    
+
+  }
+  componentDidUpdate () {
+    let transportType = this.props.transportType
 
   }
 
@@ -156,7 +164,7 @@ export default class DisplayMapClassContainer extends Component {
       }
     }))
   }
-
+  
   async __getWaypointsSequence () {
     const { transport, markers } = this.state.options.waypoints
     const waypointBaseUrl = "https://wse.ls.hereapi.com/2/findsequence.json?"
@@ -178,12 +186,12 @@ export default class DisplayMapClassContainer extends Component {
     let waypointsRequest = `${waypointBaseUrl}apikey=${config.apikey}&mode=fastest;${transport}&${waypointsToString}`
 
     let res = await axios.get(waypointsRequest)
-
+  
     let optimalMarkersOrder = res.data.results[0].waypoints.map( (point, i) => {
       return {lat: point.lat, lng: point.lng}
     })
 
-    console.log(optimalMarkersOrder)
+
 
     return optimalMarkersOrder
   }
@@ -201,7 +209,6 @@ export default class DisplayMapClassContainer extends Component {
   async calculateRoute () {
     const { waypoints } = this.state.options
     const routeBaseUrl = "https://route.ls.hereapi.com/routing/7.2/calculateroute.json?"
-
     if (waypoints.markers.length === 1) {
       return
     }
@@ -241,12 +248,26 @@ export default class DisplayMapClassContainer extends Component {
 
   }
 
+  saveRoute () {
+
+    // const { markers } = this.state.options.waypoints;
+    const { markers } = this.state.options.waypoints
+    try{ 
+
+      // console.log('saveRoute',markers)
+    this.props.setvisible(true)
+    }
+    catch {
+      console.log('FALSE ERROR A')
+    }
+  }
   render () {
 
     let {
       apikey,
       analytics,
       options,
+
     } = this.state
 
     return (<>
@@ -272,6 +293,7 @@ export default class DisplayMapClassContainer extends Component {
           ShowModal={this.props.ShowModal}
           
           />
+          { this.props.visible ?  <AddRouteDriverContainer visible={this.props.visible} setvisible= {this.props.setvisible}/> : null}
         
         <Map 
           apikey={apikey}
@@ -284,6 +306,7 @@ export default class DisplayMapClassContainer extends Component {
           clearWaypoints={this.clearWaypoints}
           updateWaypoints={this.updateWaypoints}
           calculateIsoline={this.calculateIsoline}
+          saveRoute={this.saveRoute}
           getcostOptimRouteValue={this.props.getcostOptimRouteValue}
           getcostOptimRoute={this.props.getcostOptimRoute}
           />

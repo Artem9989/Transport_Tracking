@@ -59,9 +59,13 @@ const FirstWindow = () => {
   const [ShowModal, setShowModal] = useState(false);
   const [transportType, setTransportType] = useState("truck");
   // const [ShowModal, setShowModal] = useState(false)
+  //  Открытие окна добавления водителей
+  const [visible, setvisible] = useState(false)
   const toggleModal = () => {
     setShowModal(!ShowModal);
   };
+
+
   const content = (
     <div>
       <p>Content</p>
@@ -195,6 +199,8 @@ const FirstWindow = () => {
             <MapContainer
               toggleModal={toggleModal}
               ShowModal={ShowModal}
+              setvisible={setvisible}
+              visible={visible}
               transportType={transportType}
               setshowCostOptimRoute={setshowCostOptimRoute}
               showCostOptimRoute={showCostOptimRoute}
