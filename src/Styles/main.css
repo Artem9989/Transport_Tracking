@@ -1,5 +1,6 @@
 body {
-    background-color: rgb(241, 241, 241);
+    background-color: #001529;
+    
 }
 
 .root {
@@ -15,3 +16,68 @@ body {
     margin: 0;
 }
 
+.ant-collapse .ant-collapse-icon-position-left {
+    background-color: #00162e;
+
+}
+.ant-collapse{
+    border: 1px solid #001b38;
+}
+.ant-collapse > .ant-collapse-item.ant-collapse-no-arrow > .ant-collapse-header {
+    background-color: #001b38;
+
+}
+.ant-collapse-item .ant-collapse-item-active .ant-collapse-no-arrow {
+    background-color: #001529;
+
+}
+.ant-collapse-content .ant-collapse-content-active {
+    background-color: #001529;
+
+}
+.ant-collapse-content-box {
+    background-color: #022448;
+    color: #9cadb4;
+
+}
+
+.ant-collapse-content {
+    border-top: 1px solid #0b477f;
+ }
+ .ant-collapse > .ant-collapse-item {
+    border-bottom: 1px solid #0b477f;
+    width: 274px;
+}
+
+::-webkit-scrollbar-button {
+    /* background-image:url('');
+    background-repeat:no-repeat; */
+    width:5px;
+    height:0px
+    }
+    
+    ::-webkit-scrollbar-track {
+    background-color:#001529
+    }
+    
+    ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #306317;
+    
+    }
+    
+    ::-webkit-scrollbar-thumb:hover{
+    background-color: #49aa19;
+    }
+    
+    ::-webkit-resizer{
+    /* background-image:url('');
+    background-repeat:no-repeat; */
+    width:6px;
+    height:0px
+    }
+    
+    ::-webkit-scrollbar{
+    width: 6px;
+    }

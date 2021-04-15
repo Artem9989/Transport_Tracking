@@ -1,5 +1,5 @@
 .drivers {
-    color: #57abf5;
+    color: rgb(163, 163, 163);
     font-size: 16px;
     display: flex;
     cursor: pointer;
@@ -35,7 +35,24 @@
 }
 
 .viewingInformationDriver{
+    position: absolute;
+    right: 2px;
+    top: 2px;
     border: 1px solid;
     width: 22px;
     box-shadow:  0 0 10px rgba(204, 204, 204, 0.5);
+}
+.siteDescriptionItemProfilePLabel{
+    font-weight: bold;
+    margin-top: 10px;
+}
+.siteDescriptionItemProfileWrapper{
+    margin-top: 12px;
+}
+
+.avatarInCard {
+    width:  120px;
+    height: 120px;
+    border-radius: 10px;
+    margin-right:  10px;
 }

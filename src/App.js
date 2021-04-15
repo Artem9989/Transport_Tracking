@@ -11,9 +11,10 @@ import store from './redux/redux-store.js'
 import { initializeApp } from './redux/App-reducer';
 import Preloader from './components/Common/Preloader/Preloader';
 import AdminAuthContainer from './components/AdminPanel/AdminAuthContainer';
-import './Styles/main.css'
-import './Styles/App.css'
-import 'antd/dist/antd.css';
+// import './Styles/main.css'
+// import './Styles/App.css'
+// import 'antd/dist/antd.css';
+// import 'antd/dist/antd.dark.css';
 
 export const history = createBrowserHistory();
 

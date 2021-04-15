@@ -84,7 +84,21 @@ const onClear = () => {
         onCancel={()=>  handleCancel()}
         style={{ top: 80}}
         width= {'40%'}
-
+        footer={[
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={enterLoading}
+              disabled= {disabled}
+  
+              // disabled={
+              //   !form.isFieldsTouched(true) ||
+              //   !!form.getFieldsError().filter(({ errors }) => errors.length).length
+              // }
+            >
+              Готово
+            </Button>
+             ]}
         >
       
     <Form onFinish={() => handleOk()} form={form} name="horizontal_login" layout="inline" >
@@ -165,23 +179,11 @@ const onClear = () => {
         </div>
         </div>
         : null}
-        <Form.Item shouldUpdate={true} style={{ marginTop: 10, marginLeft: '82%'}} >
+        {/* <Form.Item shouldUpdate={true} style={{ marginTop: 10, marginLeft: '82%'}} >
         {() => (
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={enterLoading}
-            disabled= {disabled}
-
-            // disabled={
-            //   !form.isFieldsTouched(true) ||
-            //   !!form.getFieldsError().filter(({ errors }) => errors.length).length
-            // }
-          >
-            Готово
-          </Button>
+            
         )}
-      </Form.Item>
+      </Form.Item> */}
       </Form>
         </Modal>
 
