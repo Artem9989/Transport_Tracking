@@ -20,14 +20,12 @@ const CostOptimRoute = ({CORV , getcostOptimRouteValue}, props) => {
   const [isDChecked, setisDChecked] = useState(false);
 
   // let updateCORV = props.getcostOptimRouteValue;
-// console.log('startMarker:', CORV.startValue);
-// console.log('dest:', CORV.DestinationValue);
-// console.log('bLongClickUseForStartPoint:', CORV.bLongClickUseForStartPoint);
+
   const handleChange = (field, value) => {
     getcostOptimRouteValue(field, value);
   };
 useEffect(() => {
-  console.log(CORV)
+
 
 }, [CORV])
 
@@ -138,13 +136,14 @@ useEffect(() => {
 
     svgMarker = svgMarker.replace(/__line1__/g, line1);
     svgMarker = svgMarker.replace(/__line2__/g, (line2 != undefined ? line2 : ""));
-    svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length * 4 + 10 : (line1.length * 4 + 40)));
-    svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 4 + 80 : (line1.length * 4 + 150)));
+    svgMarker = svgMarker.replace(/__width__/g, (line2 != undefined ? line2.length  * 2 + 110: (line1.length * 2 + 80)));
+    svgMarker = svgMarker.replace(/__widthAll__/g, (line2 != undefined ? line2.length * 2  + 160: (line1.length * 2  + 160)));
+  
     var icon = new window.H.map.Icon(svgMarker, {
       anchor: new window.H.math.Point(24, 57),
-      size: { w: 200, h: 80 },
+      size: { w: 250, h: 80 },
     });
- 
+    
     return icon;
 
   };
@@ -232,11 +231,11 @@ useEffect(() => {
   					// markerGroup.removeObject(markerGroup.getObjects()[0]);
   					markerGroup.removeAll();
   					window.map.removeObjects(window.map.getObjects());
-            // console.log('START',markerGroup.getObjects()[0] )
+
             // markerGroup.removeObject(window.map.getObjects()[0]);
             // window.map.removeObject(window.map.getObjects()[0]);
   				}
-          // console.log('STARTTWO',markerGroup.getObjects()[0] )
+
   				let startMarkerValue = new window.H.map.Marker(pointA,
   					{
   						icon: createIconMarker(line1, line2)
@@ -250,9 +249,9 @@ useEffect(() => {
   			else {
   				// if (CORV.destMarker != null) {
   				// 	// markerGroup.removeObject(CORV.destMarker);
-          //   console.log('DEST',markerGroup.getObjects()[1] )
+
           //   markerGroup.removeObject(markerGroup.getObjects()[1]);
-          //   // console.log('DEST',markerGroup.getObjects()[1] )
+
           //   // window.map.removeObject(window.map.getObjects()[1]);
   				// }
           
@@ -265,7 +264,7 @@ useEffect(() => {
             // window.map.addObject(destMarkerValue);
             handleChange('markerGroup',markerGroup)
             window.map.addObject(markerGroup);
-            // console.log('Full',markerGroup.getObjects() )
+
             window.map.getViewModel().setLookAtData({
   					bounds: markerGroup.getBoundingBox()
   				},animation);
@@ -416,7 +415,7 @@ useEffect(() => {
   					(finalParamsValue !== '' ? '&' + finalParamsValue : ''),
   			    ].join("");
   					createMarkup(CORV.strRoutingRequestSend)
-            // console.log(urlRoutingReq)
+
   			// feedbackTxt.innerHTML = strRoutingRequestSend;
   			// window.script = document.createElement("script");
   			// window.script.src = urlRoutingReq;
@@ -520,7 +519,7 @@ useEffect(() => {
   						link.setArrows({ color: "#F00F", width: 2, length: 3, frequency: 4 });
   						link.$linkId = resp.response.route[r].leg[0].link[m].linkId;
   						link.$remainTime = resp.response.route[r].leg[0].link[m].remainTime;
-              // console.log(resp.response.route[r].leg[0].link[m])
+
 
   						//The router can send back links ids with "-" or "+" prefix: only "-" prefix is kept and stored in this HashMap, the "+" is removed
   						CORV.routeLinkHashMap[linkId] = link;
@@ -528,8 +527,7 @@ useEffect(() => {
   						// add event listener to link
   						link.addEventListener("pointerdown", function (e) {
   							if (CORV.currentOpenBubble)
-                window.UI.removeBubble(CORV.currentOpenBubble);
-                // console.log(e.target)
+
   							var html = `<div>
   								<p style="font-family:Arial,sans-serif; font-size:12px;">Точка нажатия:  ${e.target.$linkId} </p>
   								<p style="font-family:Arial,sans-serif; font-size:12px;">Оставшееся время:  ${e.target.$remainTime}  </p>
@@ -554,7 +552,7 @@ useEffect(() => {
 // РАСКОМЕНТИТь с нижними функциям
   			// // show TCE costs
 
-				// console.log('response',resp.response)
+
   			showTceCost(resp.response.route[0].tollCost.costsByCountryAndTollSystem, resp.response.route[0].cost, resp.response.route[0].summary.distance / 1000.0, resp.response.route[0].summary.baseTime / 60 / 60.00, resp.response.route[0].summary.trafficTime / 60 / 60.00);
 
   			// /***********************************************
@@ -1159,9 +1157,9 @@ const [HTMLTag, setHTMLTag] = useState([])
                     
                     // showToday={{ defaultValue: '00:00:00' }}
                     // showTime={{ defaultValue: '00:00:00' }}
-                    // onChange={(d,m) => console.log(d, m)}
+
                     onChange={(d,e) => handleChange("dateNow", e)}
-                    // onOk={()=> console.log(CORV.dateNow)}
+
                   />
                     </Space>
               {/* <div id="trStartRouteDate" className="form-horizontal">

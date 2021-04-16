@@ -119,6 +119,7 @@ export default class DisplayMapClassContainer extends Component {
   }
 
   clearIsoline () {
+    // window.map.removeObjects(window.map.getObjects())
     this.setState((state, props) => ({
       
       options: {
@@ -153,7 +154,8 @@ export default class DisplayMapClassContainer extends Component {
   }
 
   clearWaypoints () {
-
+    // console.log(window.map.getObjects())
+    // window.map.removeObjects(window.map.getObjects())
     this.setState((state, props) => ({ 
       options: {
         ...state.options,
