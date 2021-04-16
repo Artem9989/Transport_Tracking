@@ -55,6 +55,7 @@ setdisabled(false)
 setselectId(a)
 
 }
+
 const onClear = () => {
     setdisabled(true)
     // setselectId()
@@ -83,25 +84,23 @@ const onClear = () => {
         footer = {null}
         onCancel={()=>  handleCancel()}
         style={{ top: 80}}
-        width= {'40%'}
+        width= {'50%'}
+      
         footer={[
-            <Button
+          
+          <Button
               type="primary"
               htmlType="submit"
               loading={enterLoading}
-              disabled= {disabled}
-  
-              // disabled={
-              //   !form.isFieldsTouched(true) ||
-              //   !!form.getFieldsError().filter(({ errors }) => errors.length).length
-              // }
-            >
+              disabled= {disabled} 
+              onClick={() => handleOk()}
+              >
               Готово
             </Button>
              ]}
         >
       
-    <Form onFinish={() => handleOk()} form={form} name="horizontal_login" layout="inline" >
+    {/* <Form onFinish={() => handleOk()} form={form} name="horizontal_login" layout="inline" > */}
         <Select
         showSearch
         style={{ width: "100%" }}
@@ -179,12 +178,24 @@ const onClear = () => {
         </div>
         </div>
         : null}
-        {/* <Form.Item shouldUpdate={true} style={{ marginTop: 10, marginLeft: '82%'}} >
-        {() => (
-            
-        )}
-      </Form.Item> */}
-      </Form>
+        {/* <Form.Item shouldUpdate={true} style={{ position: 'absolute', bottom: 10 ,top: 50,right: 0, margin: 0,padding: 0 }} > */}
+        {/* {() => ( */}
+              {/* <Button
+              type="primary"
+              htmlType="submit"
+              loading={enterLoading}
+              disabled= {disabled}
+  
+              // disabled={
+              //   !form.isFieldsTouched(true) ||
+              //   !!form.getFieldsError().filter(({ errors }) => errors.length).length
+              // }
+            >
+              Готово
+            </Button> */}
+        {/* )} */}
+      {/* </Form.Item> */}
+      {/* </Form> */}
         </Modal>
 
     )

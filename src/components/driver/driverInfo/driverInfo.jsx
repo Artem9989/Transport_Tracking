@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import DriverCSS from '../driver.module.css'
+import Chart from 'chart.js/auto';
 
 import { Drawer, List, Avatar, Divider, Col, Row } from 'antd';
 
@@ -15,7 +16,7 @@ console.log(driver)
         {content} 
       </div> </>
     }
-
+    const chart = Chart.getChart("canvas-id");
 
     return (      
         <>
@@ -55,7 +56,7 @@ console.log(driver)
             {showInformation(driver.login,"Логин")}
             </Col>
             <Col span={8}>
-           
+     
             </Col>
             </Row>
             </Row>
@@ -92,7 +93,7 @@ console.log(driver)
           <Row>
             <Col span={24}>
              
-             
+            <canvas id="myChart" width="400" height="400"> {chart}</canvas>
             </Col>
            
           </Row>

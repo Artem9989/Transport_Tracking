@@ -4,6 +4,7 @@ body {
     top: 0px;
     right: 0px;
     font-size: 16px;
+   
 }
 .formSummaryError{
     color: red;
@@ -17,6 +18,7 @@ body {
     width: 100%;	
     padding: 18px 6% 30px 6%;
     background: rgb(247, 247, 247);
+      
     border: 1px solid rgba(147, 184, 189,0.8);
     box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
     border-radius: 10px;
@@ -34,6 +36,7 @@ body {
     margin: 0px auto;
     width: 500px;
     position: relative;
+    
 }
 
 .wrapper h1 {

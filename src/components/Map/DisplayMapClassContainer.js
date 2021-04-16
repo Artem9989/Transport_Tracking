@@ -153,6 +153,7 @@ export default class DisplayMapClassContainer extends Component {
   }
 
   clearWaypoints () {
+
     this.setState((state, props) => ({ 
       options: {
         ...state.options,

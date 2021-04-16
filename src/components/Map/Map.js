@@ -719,7 +719,8 @@ Map.propTypes = {
   calculateIsoline: PropTypes.func, 
   clearIsoline: PropTypes.func,
   updateWaypoints: PropTypes.func,
-  clearWaypoints: PropTypes.func
+  clearWaypoints: PropTypes.func,
+  saveRoute: PropTypes.func
 }
 
 
