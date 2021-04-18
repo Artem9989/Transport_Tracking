@@ -4,6 +4,73 @@
     padding: 2px;
  }
 
+/* .Collapse .ant-collapse-item > div:last-child  {
+  background-color: #fff;
+} */
+
+.Collapse {
+  border: 1px solid #001b38 !important;
+  margin-top: 5px;
+}
+
+.Collapse > div{
+  background: #f7f7f7;
+
+}
+/* .Collapse > div > div > div{
+  background: #fff;
+} */
+
+.Collapse > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+  background: #fff;
+
+}
+
+ .ant-collapse .ant-collapse-icon-position-left {
+  background-color: #fff; 
+
+}
+
+.ant-collapse{
+  border: 1px solid #d9d9d9;
+  background-color: #fafafa;
+}
+.ant-collapse > .ant-collapse-item.ant-collapse-no-arrow > .ant-collapse-header {
+  background-color: #fff;
+  color: #fff;
+
+}
+
+.ant-collapse-item .ant-collapse-item-active .ant-collapse-no-arrow {
+  background-color: #fff;
+
+}
+.ant-collapse-content .ant-collapse-content-active {
+  background-color: #fff;
+
+}
+
+
+
+.ant-collapse-content-box {
+  background-color: #fff;
+  color: #9cadb4;
+
+}
+
+.ant-collapse-content {
+  border-top: 1px solid #d9d9d9;
+}
+.Collapse > .ant-collapse-item {
+  border-bottom: 0px solid #d9d9d9 !important;
+  width: 100%;
+}
+
+.ctrl-panel {
+  /* background-color: #001529; */
+  /* color: white; */
+}
+
  /* handleLongClickInMap(currentEvent) {
 
     let { Map, H,M,CORV,getCORV } = this.state

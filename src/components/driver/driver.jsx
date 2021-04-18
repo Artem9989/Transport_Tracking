@@ -2,8 +2,11 @@ import React, {useState} from 'react';
 import DriverCSS from './driver.module.css';
 import DriverInfo from './driverInfo/driverInfo.jsx';
 import { Collapse } from 'antd';
-import { Modal, Button } from 'antd';
-
+// import { Modal, Button } from 'antd';
+import Icon from '@ant-design/icons';
+import {
+    SearchOutlined
+  } from "@ant-design/icons";
 const { Panel } = Collapse;
 
 const Driver = ({ driver, index, FollowingInProgress }) => {
@@ -19,7 +22,9 @@ const Driver = ({ driver, index, FollowingInProgress }) => {
         <>
     <Collapse  >
 
-        <Panel showArrow={false} header={       <>        <div className={DriverCSS.viewingInformationDriver} onClick={()=> {setVisible(true)}} > 🔎 </div> 
+        <Panel showArrow={false} header={       <>        <div className={DriverCSS.viewingInformationDriver} onClick={()=> {setVisible(true)}} > 
+        <Icon className={DriverCSS.viewCard}  component={SearchOutlined} /> 
+        </div> 
             <div id="hider" className="driver-data"  >
         <div id="drivers" className={DriverCSS.drivers}>
             <img className={DriverCSS.avatar} src='https://f1.upet.com/h_5JB36T9mqa_q.jpg' alt='Фото не загрузилось' />

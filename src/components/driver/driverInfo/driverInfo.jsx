@@ -1,8 +1,10 @@
 import React,{useState} from 'react';
 import DriverCSS from '../driver.module.css'
-import Chart from 'chart.js/auto';
+// import Chart from 'chart.js/auto';
+import { Line } from "react-chartjs-2";
 
 import { Drawer, List, Avatar, Divider, Col, Row } from 'antd';
+
 
 
 const DriverInfo = ({ driver, index, FollowingInProgress,visible,setVisible }) => {
@@ -16,8 +18,53 @@ console.log(driver)
         {content} 
       </div> </>
     }
-    const chart = Chart.getChart("canvas-id");
-
+    
+ 
+    const [fuel, setfuel] = useState([10,9,8,7,5,2,74,72,70,6])
+    const [time, settime] = useState([1,2,3,4,5,6,7,8])
+    const data = {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      datasets: [
+        {
+          label: "Бензин",
+          data: fuel,
+          fill: true,
+          backgroundColor: "rgba(75,192,192,0.2)",
+          borderColor: "rgba(75,192,192,1)"
+        },
+        {
+          label: "Время",
+          data: time,
+          fill: false,
+          borderColor: "#742774"
+        }
+      ]
+    };
+    const legend = {
+      display: true,
+      position: "bottom",
+      labels: {
+        fontColor: "#323130",
+        fontSize: 14
+      }
+    };
+    
+    const options = {
+      title: {
+        display: true,
+        text: "Расход бензина"
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 20
+            }
+          }
+        ]
+      }
+    };
     return (      
         <>
         
@@ -45,6 +92,7 @@ console.log(driver)
             </Col>
             <Col span={20}>
             {showInformation(driver.lastName,"Фамилия")}
+            
             </Col>
             <Col span={20}>
             {showInformation(driver.middleName,"Отчество")}
@@ -92,8 +140,8 @@ console.log(driver)
           <p className="site-description-item-profile-p">График расхода бензина</p>
           <Row>
             <Col span={24}>
-             
-            <canvas id="myChart" width="400" height="400"> {chart}</canvas>
+            <Line data={data} legend={legend} options={options} ></Line>
+            {/* <canvas id="myChart" width="400" height="400"> </canvas> */}
             </Col>
            
           </Row>

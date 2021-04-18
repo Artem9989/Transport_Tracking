@@ -5,7 +5,7 @@ import { config } from "../../../assets/config";
 import svgMarkerImage_Line from "../InfoControl/LUI-icon-pd-information-solid-24.svg";
 import axios from "axios";
 import { DatePicker, Space } from 'antd';
-import CORS from './CORS.css';
+import  './CORS.css';
 
 
 
@@ -576,7 +576,7 @@ const [HTMLTag, setHTMLTag] = useState([])
   			// ***********************************************/
 
         HTML = [...HTML, <p style={{  fontWeight: 'bold',fontSize: '16px',
-        padding: '2px'}} className={CORS.title}>Затраты на основной маршрут</p>];
+        padding: '2px'}} className={'title'}>Затраты на основной маршрут</p>];
 		    if (!costs) {
   				createMarkup('None.');
   			} else {
@@ -595,7 +595,7 @@ const [HTMLTag, setHTMLTag] = useState([])
 
   // 			***********************************************/
   HTML = [...HTML, <p style={{  fontWeight: 'bold',fontSize: '16px',
-    padding: '2px'}} className={CORS.title}>Стоимость проезда по основному маршруту </p>];
+    padding: '2px'}} className={'title'}>Стоимость проезда по основному маршруту </p>];
     
   			if (costs.details.tollCost == 0.0) {
           HTML = [...HTML, <p>None.</p>];
@@ -608,7 +608,7 @@ const [HTMLTag, setHTMLTag] = useState([])
   				var feedback = [];
   				// feedback += "<br/>";
   				for (var j = 0; j < costByCountryAndTollSystem.length; j++) {
-            feedback = [...feedback, <p className={CORS.title}> {costByCountryAndTollSystem[j].country} </p>];
+            feedback = [...feedback, <p className={'title'}> {costByCountryAndTollSystem[j].country} </p>];
   					// feedback += <p className={CORS.title}> {costByCountryAndTollSystem[j].country} </p>;
   					// feedback += "<ul><li>";
   					if (costByCountryAndTollSystem[j].name != null && costByCountryAndTollSystem[j].name.trim().length > 0) {
@@ -1139,8 +1139,8 @@ const [HTMLTag, setHTMLTag] = useState([])
             </div>
           </div>
 
-          <Collapse onChange={() => {setisDTFilteringEnabled(!trisDTFilteringEnabled)}}>
-            <Panel header="Включить фильтрацию даты и времени" key="1">
+          <Collapse className={'Collapse'} ghost={true}  onChange={() => {setisDTFilteringEnabled(!trisDTFilteringEnabled)}}>
+            <Panel  collapsible={true} header="Включить фильтрацию даты и времени" key="1">
    
             <label
                     className="control-label col-sm-4"
@@ -1148,8 +1148,9 @@ const [HTMLTag, setHTMLTag] = useState([])
                   >
                     Дата начала маршрута:
                   </label>
-                  <Space direction="vertical" size={12}>
+                  <Space  direction="vertical" size={12}>
                   <DatePicker
+                  
                   allowClear={true}
                   showToday= {true}
                   showTime={true}
