@@ -14,8 +14,9 @@ import { ecmo_theme } from './theme/ecmo_theme'
 import overlay from '../../data/overlay.geojson'
 
 import isoline_icon from "./icons/isoline-icon.svg"
+import tracking from "./icons/tracking.png"
 
-
+let locationDriver;
 export default class Map extends Component {
 
   constructor(props) {
@@ -27,6 +28,7 @@ export default class Map extends Component {
       M: null,
       H: null,
       CORV: props.costOptimRouteValue,
+  
     }
 
     this.createClusterLayer = this.createClusterLayer.bind(this)
@@ -58,7 +60,9 @@ export default class Map extends Component {
       TileSer: {},
       TileLay: {},
       Behavior: {},
+      
       UI: {},
+ 
       Settings: {
         center: { lat:54.00684227163969, lng: 56.00684227163969  },
         zoom: 6,
@@ -84,9 +88,11 @@ export default class Map extends Component {
       groupMarker:null,
       groupLine: null,
       groupPolygon: null,
+      markerGroupRouting: null,
   
     
     }
+    
           // toll image
         //   tollImg : document.createElement("img"),
        
@@ -115,6 +121,7 @@ export default class Map extends Component {
         M.groupMarker = new H.map.Group();
         M.groupLine = new H.map.Group();
         M.groupPolygon = new H.map.Group();
+        M.markerGroupRouting = new H.map.Group();
         // }
       }
 
@@ -299,6 +306,7 @@ export default class Map extends Component {
     // reader.parse()
     // M.Map.addLayer(reader.getLayer())
     getcostOptimRouteValue('map',M.Map);
+ 
   }
  
   
@@ -393,8 +401,17 @@ export default class Map extends Component {
   //   }
   // }
 
+ 
+componentWillUpdate (prevProps,nextProps) {
 
-
+    if ( this.props.locationTracking != prevProps.locationTracking)
+    {
+      locationDriver = true;
+    }
+    else {
+      locationDriver = false;
+    }
+}
   
 
   componentWillUnmount() {
@@ -417,7 +434,8 @@ export default class Map extends Component {
       clearIsoline,
       updateWaypoints,
       clearWaypoints,
-      saveRoute
+      saveRoute,
+
     } = this.props
 
     let coord  = Map.screenToGeo(evt.viewportX, evt.viewportY)
@@ -482,7 +500,7 @@ export default class Map extends Component {
     styleRoute (linestring) {
 
       let { H } = this.state
-        
+      
       let routeOutline = new H.map.Polyline(linestring, {
           style: {
             lineWidth: 6,
@@ -495,6 +513,34 @@ export default class Map extends Component {
             lineWidth: 2,
             fillColor: 'white',
             strokeColor: 'rgba(255, 255, 255, 1)',
+            // lineDash: [0, 2],
+            // lineTailCap: 'arrow-tail',
+            // lineHeadCap: 'arrow-head' 
+            }
+          }
+        )
+
+        let routeLine = new H.map.Group();
+        routeLine.addObjects([routeOutline, routeArrows])
+
+        return routeLine
+    }
+    styleRoutingLocation (linestring) {
+
+      let { H } = this.state
+      
+      let routeOutline = new H.map.Polyline(linestring, {
+          style: {
+            lineWidth: 6,
+            strokeColor: 'rgba(102, 164, 234, 0.9)',
+          }
+        })
+        
+        let routeArrows = new H.map.Polyline(linestring, {
+          style: {
+            lineWidth: 4,
+            fillColor: 'white',
+            strokeColor: 'rgba(0, 255, 90, 0.8)',
             // lineDash: [0, 2],
             // lineTailCap: 'arrow-tail',
             // lineHeadCap: 'arrow-head' 
@@ -666,11 +712,126 @@ export default class Map extends Component {
     }
     render() {
 
-      const { options, analytics, costOptimRouteValue } = this.props
-      const { Map, H, UI, CORV, groupMarker, groupLine, groupPolygon } = this.state
+      const {
+        options,
+        analytics,
+        costOptimRouteValue,
+        locationTracking,
+        Routing,
+        RoutingArray,
+      } = this.props;
+      const {
+        Map,
+        H,
+        UI,
+        CORV,
+        groupMarker,
+        groupLine,
+        groupPolygon,
+        markerGroupRouting,
+      } = this.state;
       
       
       if (Map != null) {
+
+          if (locationTracking != null) {
+           try{ groupLine.removeObjects(groupLine.getObjects())}
+           catch{}
+            let marker = new H.map.Marker({lat: locationTracking.lat, lng: locationTracking.lng}, {
+              icon: new H.map.Icon(tracking,  {
+                size: { w: 32, h: 32 },
+              })
+            })
+            
+            Map.addObject(groupLine)
+            groupLine.addObject(marker)
+     
+
+            let polygon = new H.map.Circle(
+              {lat: locationTracking.lat, lng: locationTracking.lng}, 
+              15,
+              { 
+                style: { 
+                  lineWidth: 1,
+                  fillColor: 'rgba(13, 5, 147, 0.1)',
+                  strokeColor: '#673A93',
+                }
+              })  
+              
+            Map.addObject(groupLine)
+            groupLine.addObject(polygon)
+            // locationDriver = [locationTracking];
+              if (
+                groupLine.getObjects().length > 0 &&
+                locationDriver
+              ) {
+                Map.getViewModel().setLookAtData({
+                  bounds: groupLine.getBoundingBox(),
+                });
+              } else {
+                
+              }
+          }
+          else {
+            try{
+            groupLine.removeObjects(groupLine.getObjects())
+            }
+            catch{}
+          }
+          
+ 
+          if ( RoutingArray != null) {
+
+            try {
+              markerGroupRouting.removeObjects(groupMarker.getObjects())
+              }
+              catch {}
+            let lineString = new H.geo.LineString()
+            
+            RoutingArray.forEach(feature => {
+                lineString.pushPoint({lat: feature[0], lng: feature[1]})
+            })
+            
+            let routeLine = this.styleRoutingLocation(lineString)
+
+            Map.addObject(markerGroupRouting)
+            markerGroupRouting.addObject(routeLine)
+            
+            // console.log(Routing.start)
+            // let RoutingEnd = Routing.end;
+            // let RoutingStart = Routing.start;
+            // let lineString = new H.geo.LineString()
+            // 
+            // if( RoutingStart != null || locationTracking.lat != null)
+            // {
+            //   lineString.pushPoint({lat: locationTracking.lat, lng: locationTracking.lat})
+            // }
+            // else if (RoutingStart != null){
+            //   lineString.pushPoint({lat: RoutingStart.lat, lng: RoutingStart.lng})
+            // }
+            // if (RoutingEnd != null) 
+            // {
+            //   lineString.pushPoint({lat: RoutingEnd.lat, lng: RoutingEnd.lng}) 
+            // }
+          
+            // let routeLine = this.styleRoute(lineString)
+            // Routing.end( 
+              // let lineString = new H.geo.LineString()
+            
+              // options.waypoints.geometry.forEach(feature => {
+              //     lineString.pushPoint({lat: feature[0], lng: feature[1]})
+              // })
+              
+              // let routeLine = this.styleRoute(lineString)
+  
+              // Map.addObject(routeLine)
+              // groupMarker.addObject(routeLine)
+            // )
+            
+
+          }
+          
+          
 
         if (options.waypoints.markers.length == 0) {
           try {
@@ -689,7 +850,7 @@ export default class Map extends Component {
         }
 
         // if (options.waypoints.markers.length == 0) {
-        //   debugger
+        //   
 
         //   groupMarker = new H.map.Group();
         //   groupLine = new H.map.Group();
@@ -720,7 +881,7 @@ export default class Map extends Component {
             { 
               style: { 
                 lineWidth: 1,
-                fillColor: 'rgba(103, 58, 147, 0.3)',
+                fillColor: 'rgba(13, 5, 47, 0.2)',
                 strokeColor: '#673A93',
                 lineDash: [0, 2],
               }

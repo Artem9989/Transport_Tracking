@@ -38,6 +38,7 @@ const AdminPanel = ({ currentPage, onPageChanged, addDrivers, totalItemsCount, p
     if (token === null) {
         return <Redirect to={'/admin'} />
     }
+    console.log(users)
     let foundUser = [];
     const onSearch = (value) => {
         users.filter((user, index) => {

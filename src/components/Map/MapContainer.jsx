@@ -62,8 +62,12 @@ class MapContainer extends React.Component {
             getcostOptimRouteValue={this.props.getcostOptimRouteValue}
             visible={this.props.visible}
             setvisible={this.props.setvisible}
-
-
+            isolineType = {this.props.isolineType}
+            isolineValue ={this.props.isolineValue}
+            considerTraffic ={ this.props.considerTraffic}
+            locationTracking={this.props.locationTracking}
+            Routing={this.props.Routing}
+            RoutingArray={this.props.RoutingArray}
             />
         </>
     }

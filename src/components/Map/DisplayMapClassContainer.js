@@ -37,17 +37,17 @@ export default class DisplayMapClassContainer extends Component {
           waypoints: true
         },
         isoline: {
-          range: 300,
-          type: "time",
+          range:  this.props.isolineValue * (this.props.isolineType == "time" ? 60 : 1000),
+          type: this.props.isolineType,
           transport: this.props.transportType,
-          traffic: "enabled",
+          traffic: this.props.considerTraffic? 'enabled' : 'disabled',
           geometry: [],
           marker: {lat: null, lng: null}
         },
         waypoints: {
           url: "",
           transport: this.props.transportType,
-          traffic: "enabled",
+          traffic: this.props.considerTraffic? 'enabled' : 'disabled',
           markers: [],
           geometry: [],
         },
@@ -59,7 +59,8 @@ export default class DisplayMapClassContainer extends Component {
       // }
     }
 
-
+    // isolineType = {this.props.isolineType}
+    // calculationIsoline ={this.props.calculationIsoline}
 
     this.calculateIsoline = this.calculateIsoline.bind(this)
     this.clearIsoline = this.clearIsoline.bind(this)
@@ -78,10 +79,33 @@ export default class DisplayMapClassContainer extends Component {
     
 
   }
-  componentDidUpdate () {
-    let transportType = this.props.transportType
+  componentDidUpdate (prevProps) {
 
+    if( prevProps !== this.props) {
+      this.setState((state, props) => ({
+        options: {
+          ...state.options,
+          isoline: {
+            ...state.options.isoline,
+            range:  props.isolineValue * (props.isolineType == "time" ? 60 : 1000),
+            type: props.isolineType,
+            transport: props.transportType,},
+            waypoints: {
+              ...state.options.waypoints,
+              transport: props.transportType,
+              traffic: props.considerTraffic? 'enabled' : 'disabled',
+            }
+        }
+     
+          }
+        ))
+    }
+
+
+    // console.log(isoline.type)
+  
   }
+
 
   calculateIsoline (coords) {
     let { isoline } = this.state.options
@@ -209,6 +233,8 @@ export default class DisplayMapClassContainer extends Component {
     return `${navigationBaseUrl}${navigationShape}?m=${mode}`
   }
 
+
+  
   async calculateRoute () {
     const { waypoints } = this.state.options
     const routeBaseUrl = "https://route.ls.hereapi.com/routing/7.2/calculateroute.json?"
@@ -251,6 +277,8 @@ export default class DisplayMapClassContainer extends Component {
 
   }
 
+  
+
   saveRoute () {
 
     // const { markers } = this.state.options.waypoints;
@@ -258,7 +286,7 @@ export default class DisplayMapClassContainer extends Component {
     try{ 
 
       // console.log('saveRoute',markers)
-    this.props.setvisible(true)
+      this.props.setvisible(true)
     }
     catch {
       console.log('FALSE ERROR A')
@@ -266,6 +294,7 @@ export default class DisplayMapClassContainer extends Component {
   }
   render () {
 
+    const { markers } = this.state.options.waypoints
     let {
       apikey,
       analytics,
@@ -296,7 +325,7 @@ export default class DisplayMapClassContainer extends Component {
           ShowModal={this.props.ShowModal}
           
           />
-          { this.props.visible ?  <AddRouteDriverContainer visible={this.props.visible} setvisible= {this.props.setvisible}/> : null}
+          { this.props.visible ?  <AddRouteDriverContainer markers={markers} visible={this.props.visible} setvisible= {this.props.setvisible}/> : null}
         
         <Map 
           apikey={apikey}
@@ -312,6 +341,10 @@ export default class DisplayMapClassContainer extends Component {
           saveRoute={this.saveRoute}
           getcostOptimRouteValue={this.props.getcostOptimRouteValue}
           getcostOptimRoute={this.props.getcostOptimRoute}
+          locationTracking={this.props.locationTracking}
+          Routing={this.props.Routing}
+          RoutingArray={this.props.RoutingArray}
+          
           />
         {/* <iframe src="hh2.html" height="500px" width="10%"></iframe> */}
         

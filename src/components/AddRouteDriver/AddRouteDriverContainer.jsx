@@ -1,12 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { SetCurrentPage, requestDrivers } from '../../redux/Driver-reducer';
-import Preloader from '../Common/Preloader/Preloader';
-import { withAuthRedirect } from '../HOC/withAuthRedirect'
-import { compose } from 'redux';
-import { getDrivers, getPageSize, getTotalDriversCount, getCurrentPage, getIsFetching, getFollowingInProgress, getIsAuth } from '../../redux/Driver-selector';
-import {AddRouteDriver } from './AddRouteDriver';
-import { logout } from '../../redux/Auth-reducer';
+import { connect } from "react-redux";
+import { SetCurrentPage, requestDrivers,getRoute,
+    insertendpoint,
+    insertstartpoint,
+    insertpoint,
+    insertRoute, } from "../../redux/Driver-reducer";
+import Preloader from "../Common/Preloader/Preloader";
+import { withAuthRedirect } from "../HOC/withAuthRedirect";
+import { compose } from "redux";
+import {
+  getDrivers,
+  getPageSize,
+  getTotalDriversCount,
+  getCurrentPage,
+  getIsFetching,
+  getFollowingInProgress,
+  getIsAuth,
+  getRoutes,
+
+} from "../../redux/Driver-selector";
+import { AddRouteDriver } from "./AddRouteDriver";
+import { logout } from "../../redux/Auth-reducer";
 
 class AddRouteDriverContainer extends React.Component {
   
@@ -36,6 +50,13 @@ class AddRouteDriverContainer extends React.Component {
             FollowingInProgress={this.props.FollowingInProgress}
             setvisible= {this.props.setvisible}
             visible={this.props.visible}
+            getRoute={this.props.getRoute}
+            Route={this.props.Route}
+            insertRoute={this.props.insertRoute}
+            insertpoint={this.props.insertpoint}
+            insertstartpoint={this.props.insertstartpoint}
+            insertendpoint={this.props.insertendpoint}
+            markers={this.props.markers}
             />
         </>
     }
@@ -53,6 +74,12 @@ const mapStateToProps = (state) => {
         isFetching: getIsFetching(state),
         FollowingInProgress: getFollowingInProgress(state),
         isAuth: getIsAuth(state),
+        Route: getRoutes(state),
+        
+        // newEndPoint: insertRoute(state),
+        // newstartPoint: insertpoint(state),
+        // newinsertpoint: insertstartpoint(state),
+        // newInsertPoint: insertendpoint(state),
         
     }
 }
@@ -67,7 +94,14 @@ const mapStateToProps = (state) => {
         {
             logout,
             SetCurrentPage,
-            requestDrivers
+            requestDrivers,
+            getRoute,
+            insertendpoint,
+            insertstartpoint,
+            insertpoint,
+            insertRoute,
+
+
         }), withAuthRedirect)(AddRouteDriverContainer);
     
  

@@ -70,6 +70,7 @@ let initialState = {
     bErrorHappened: false,
     bLongClickUseForStartPoint: true, // for long click in map we toggle start/destination
     BLCUSP: null, // for long click in map we toggle start/destination
+    
     routeColor: [
       "rgba(18, 65, 145, 0.8)",
       "rgba(0, 145, 255, 0.7)",

@@ -9,8 +9,6 @@ import { Drawer, List, Avatar, Divider, Col, Row } from 'antd';
 
 const DriverInfo = ({ driver, index, FollowingInProgress,visible,setVisible }) => {
 
-console.log(driver)
-
     const showInformation = (content,title) => {
 
         return <> <div className={DriverCSS.siteDescriptionItemProfileWrapper}>
@@ -20,10 +18,10 @@ console.log(driver)
     }
     
  
-    const [fuel, setfuel] = useState([10,9,8,7,5,2,74,72,70,6])
-    const [time, settime] = useState([1,2,3,4,5,6,7,8])
+    const [fuel, setfuel] = useState([10,11,7,12,9,1,6,18,16,28,33,100,85,75,46,38,20,15,100,41])
+    const [time, settime] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20])
     const data = {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
       datasets: [
         {
           label: "Бензин",
@@ -59,7 +57,7 @@ console.log(driver)
           {
             ticks: {
               suggestedMin: 0,
-              suggestedMax: 20
+              suggestedMax: 31
             }
           }
         ]
@@ -103,10 +101,9 @@ console.log(driver)
             <Col span={8}>
             {showInformation(driver.login,"Логин")}
             </Col>
-            <Col span={8}>
-     
-            </Col>
+   
             </Row>
+            
             </Row>
             </Col>
           </Row>
@@ -124,7 +121,21 @@ console.log(driver)
             {/* <Col span={5}>
             {showInformation(driver.email,"Почта")}
             </Col> */}
+            
             </Row>
+            <Col span={4}>
+                Нарушения водителя: 
+            </Col>
+            <Col span={8}>
+                Сход с маршрута: 11
+            </Col>
+            <Col span={8}>
+                 Превышение скорости: 6
+            </Col>
+            <Col span={8}>
+                 Нарушение режима труда/отдыха: 7
+            </Col>
+       
             <Row>
             
             </Row>
@@ -139,18 +150,18 @@ console.log(driver)
           <Divider />
           <p className="site-description-item-profile-p">График расхода бензина</p>
           <Row>
-            <Col span={24}>
-            <Line data={data} legend={legend} options={options} ></Line>
+            <Col span={20}>
+            <Line height={400}  data={data} legend={legend} options={options, {maintainAspectRatio: false }}  ></Line>
             {/* <canvas id="myChart" width="400" height="400"> </canvas> */}
+            </Col>
+            <Col span={4}>
+           
             </Col>
            
           </Row>
           <Row>
-            <Col span={12}>
-            
-            </Col>
-            <Col span={12}>
-            
+            <Col  span={24}>
+            <iframe src="./User_Deviation/User_Deviation.html" ></iframe>
             </Col>
           </Row>
           <Row>

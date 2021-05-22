@@ -3,6 +3,9 @@ import 'antd/lib/button/style/index.css';
 import { Form, Input, Button, Modal,Select } from 'antd';
 import {  CarOutlined } from '@ant-design/icons';
 import AddRouteDriverCSS from './AddRouteDriverCSS.module.css'
+import { addDrivers, insertendpoint } from "../../redux/Driver-reducer";
+import * as axios from 'axios';
+import { insertstartpoint } from "../../redux/Driver-selector";
 
 const { Option } = Select;
 export const AddRouteDriver = ({ visible, setvisible , totalItemsCount,
@@ -11,9 +14,15 @@ export const AddRouteDriver = ({ visible, setvisible , totalItemsCount,
     onPageChanged,
     drivers,
     FollowingInProgress,
+    getRoute,
+    Route,
+    insertendpoint,
+    insertstartpoint,
+    insertpoint,
+    insertRoute,
+    markers,
 }) => {
     const driverList = [...drivers];
-    console.log('driverList',driverList)
 
 
 
@@ -24,15 +33,57 @@ export const AddRouteDriver = ({ visible, setvisible , totalItemsCount,
   useEffect(() => {
     forceUpdate({});
   }, []);
-
+  
+// let token = localStorage.getItem('accessToken');
+// const configAxios = {
+//     headers: {'X-Requested-With': 'XMLHttpRequest',
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json',
+//     "replacecredentials": "same-origin",
+//     'Authorization':'Bearer ' + token
+//   }
+// }
 const [modalText, setModalText] = useState('Выберите автомобиль для присваивания маршрута')
 const [selectId, setselectId] = useState(false)
 
   const [enterLoading, setenterLoading] = useState(false)
   const [disabled, setdisabled] = useState(true)
+  const [RouteId, setRouteId] = useState()
+
+  const newRoute = () => {
+    const idDriver = driverList[selectId].id
+    insertRoute(idDriver)
+    getRoute(driverList[selectId].id)
+    setRouteId(Route.id)
+    // console.log(Route.id)
+    // setModalText('id route: ' + Route.id);
+  }
+  
   const handleOk = (value) => {
     //   Здесь функция для добавления маршрутов 
-    // addDrivers(driverId, value.vehicleNumber, value.vehicleType )
+    const idDriver = driverList[selectId].id
+    console.log(markers)
+    
+    console.log(Route, 'routeID')
+    
+    if (markers.length > 1) {
+    // console.log(selectId, 'selectID')
+   
+ 
+    insertstartpoint(idDriver,Route.id,markers[0].lat,markers[0].lng)
+    if (markers.langth > 2) {
+      insertendpoint(idDriver,Route.id,markers[markers.length - 1].lat,markers[markers.length - 1].lng)
+    }
+    else{
+      insertendpoint(idDriver,Route.id, markers[1].lat,markers[1].lng)
+    }
+    
+    
+    
+    console.log(Route,'Route')
+
+
+    
 
     setenterLoading(true)
     // console.log(e);
@@ -47,11 +98,29 @@ const [selectId, setselectId] = useState(false)
       setModalText('Выберите автомобиль для присваивания маршрута')
       form.resetFields();
     }, 2000);
+  }
+  else {
+    insertRoute(idDriver)
+    setModalText('Ошибка, выберите точки маршрута');
+  }
 };
+
+// const getRoute = async (id) => {
+//   debugger
+//   await axios.get('http://www.webapiroads.somee.com/api/routes/getroute?driverId='+ `${id}`,{
+//     configAxios
+// }).then(resp => {
+  
+// })
+// .catch(error => {
+//   console.log(error)
+// })
+// }
+
 
 const onSelect = (a,b) => {
 setdisabled(false)
-
+getRoute(driverList[a].id)
 setselectId(a)
 
 }
@@ -87,7 +156,15 @@ const onClear = () => {
         width= {'50%'}
       
         footer={[
-          
+          <Button
+              type="primary"
+              htmlType="submit"
+              loading={enterLoading}
+              disabled= {disabled} 
+              onClick={() => newRoute()}
+              >
+              Создать новый маршрут
+            </Button>,
           <Button
               type="primary"
               htmlType="submit"
@@ -119,7 +196,6 @@ const onClear = () => {
     >
 
         {drivers.map((items,idx)=> {
-            console.log(idx)
             return <Option value={idx}>{items.vehicleNumber}</Option>
         })}
         

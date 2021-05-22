@@ -13,6 +13,19 @@ const instance = axios.create({
     }
 
 });
+// const instanceTimeout = axios.create({
+//     baseURL: 'http://www.webapiroads.somee.com/',
+//     timeout: 1500,
+//     headers: {
+       
+//         'X-Requested-With': 'XMLHttpRequest',
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json',
+//         "replacecredentials": "same-origin",
+        
+//     }
+
+// });
 instance.interceptors.response.use(function (response) {
     // if( localStorage.getItem('accessToken'))
     return response;
@@ -46,7 +59,64 @@ export const driversAPI = {
             headers: {'Authorization':'Bearer ' + token}
         
         })        
-        )}
+        )},
+    // addRoute(id,routeCoord) {
+    //     let token = localStorage.getItem('accessToken')
+
+    //     return (instance.post(`/api/routes/insertroute`, {id,routeCoord }, {
+    //         headers: {'Authorization':'Bearer ' + token}
+        
+    //     })        
+    //     )},
+    getRoute(id) {
+        let token = localStorage.getItem('accessToken')
+
+        return (instance.get(`/api/routes/getroute?driverId=`+ `${id}`,  {
+            headers: {'Authorization':'Bearer ' + token}
+        
+        })        
+        )},
+    isOnline(id) {
+        let token = localStorage.getItem('accessToken')
+
+        return (instance.get(`/api/account/IsOnline` + `/${id}` , {
+            headers: {'Authorization':'Bearer ' + token}
+        
+        })        
+        )},
+    insertRoute(id) {
+        let token = localStorage.getItem('accessToken')
+
+        return (instance.post(`/api/routes/insertroute` + `/${id}` , {
+            headers: {'Authorization':'Bearer ' + token}
+        
+        })        
+        )},
+    insertpoint(idDriver,RouteId,lat,lng) {
+        let token = localStorage.getItem('accessToken')
+
+        return (instance.post(`/api/routes/insertpoint`+ `/${idDriver}`, {RouteId,lat,lng,speed: 0 }, {
+            headers: {'Authorization':'Bearer ' + token}
+        
+        })        
+        )},
+    insertstartpoint(idDriver,RouteId,lat,lng) {
+        let token = localStorage.getItem('accessToken')
+
+        return (instance.post(`/api/routes/insertstartpoint`+ `/${idDriver}`, {RouteId,lat,lng,speed: 0 }, {
+            headers: {'Authorization':'Bearer ' + token}
+        
+        })        
+        )},
+    insertendpoint(idDriver,RouteId,lat,lng) {
+        let token = localStorage.getItem('accessToken')
+
+        return (instance.post(`/api/routes/insertendpoint`+ `/${idDriver}`, {RouteId,lat,lng,speed: 0 }, {
+            headers: {'Authorization':'Bearer ' + token}
+        
+        })        
+        )},
+   
 
 }
 
