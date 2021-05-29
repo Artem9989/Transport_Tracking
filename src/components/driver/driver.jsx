@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
+import React, {memo,useState,useEffect} from 'react';
 import DriverCSS from './driver.module.css';
 import DriverInfo from './driverInfo/driverInfo.jsx';
-import { Collapse,Button,Popover } from 'antd';
+import { Collapse,Button,Popover, Space,Modal } from 'antd';
 // import { Modal, Button } from 'antd';
 import Icon from '@ant-design/icons';
 import {
     SearchOutlined,
-    EnvironmentOutlined 
+    EnvironmentOutlined ,
+    PhoneOutlined,
+    AlertOutlined,
+    FieldTimeOutlined
   } from "@ant-design/icons";
   import online from '../../icon/check.png'
   import notOnline from '../../icon/record.png'
@@ -31,15 +34,56 @@ const Driver = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const [tracking, settracking] = useState(false);
+const [StatusTime, setstatusTime] = useState(true)
+  useEffect(() => {
+    // if(driver.timeSeconds > 7200){
+    //     info();
+    // }
+
+    if(driver.status === 'call me'){
+        success();
+    }
+    if(driver.status === 'sos'){
+        error();
+    }
+    if(driver.status === 'unexpected'){
+        warning();
+    }
+
+  }, [driver.status]);
+
+  useEffect(() => {
+      console.log(StatusTime)
+    if(driver.timeSeconds > 30 && driver.status == 'On the way' && StatusTime){
+        
+        workAndRestTest();
+    }
+    if(driver.timeSeconds > 7200){
+        workAndRest2();
+    }
+    if(driver.timeSeconds > 28800){
+        workAndRest8();
+    }
+    
+  }, [driver.status,driver.timeSeconds ]);
+
   // const showInformation = () => {
   //     console.log(visible)
   //     return
   // }
- 
+//  console.log(driver)
   const [timer, setTimer] = useState();
-
-
-
+  const driverStatusArr = { Break:'Перерыв', 'On the way': 'В пути', sos:'Происшествие', unexpected:'Непредвиденный случай', 'call me': 'Запрашивает звонок'};
+  let driverStatus;
+  for (var key in driverStatusArr) {
+      if(key == driver.status){
+        driverStatus = driverStatusArr[key]
+       break; 
+      }
+    // console.log(key, ':', driverStatusArr[key]);
+  }
+  
+  
   const setLocationTracking = (Route) => {
     getTrackingLocation(Route);
     settracking(!tracking);
@@ -51,12 +95,124 @@ const Driver = ({
     }
   };
 
+  
+  
+  function success() {
+    Modal.success({
+        icon: <PhoneOutlined />,
+    title: `Водитель транспорта: ${driver.id} запрашивает звонок диспетчера`,
+      content: (
+        <div>
+        <p>Данные водителя: </p>
+        <p>{`Номер машины: ${driver.id} `}</p>
+        <p>{`ФИО: ${driver.lastName}  ${driver.firstName}`}</p>
+        Телефон:  <a href="tel:+79874975296" className="">+79874975296</a>
+      </div>
+      ),
+
+    });
+  }
+  
+  function error() {
+    Modal.error({
+        bodyStyle: {width: 500, height: 100},
+        icon: <AlertOutlined />,
+        className: 'sos',
+        title: `У водителя транспорта: ${driver.id}, происшествие!!!`,
+      content: (
+        <div>
+        <p>Данные водителя: </p>
+        <p>{`Номер машины: ${driver.id} `}</p>
+        <p>{`ФИО: ${driver.lastName}  ${driver.firstName}`}</p>
+        Телефон:  <a href="tel:+79874975296" className="">+79874975296</a>
+      </div>
+      ),
+    });
+  }
+  
+  function warning() {
+    Modal.warning({
+        title: `У водителя транспорта: ${driver.id} непредвиденные обстоятельства`,
+        content: (
+          <div>
+          <p>Данные водителя: </p>
+          <p>{`Номер машины: ${driver.id} `}</p>
+          <p>{`ФИО: ${driver.lastName}  ${driver.firstName}`}</p>
+          Телефон:  <a href="tel:+79874975296" className="">+79874975296</a>
+        </div>
+        ),
+    });
+  }
+
+// const now = driver.timeSeconds;
+
+const distance = driver.timeSeconds;
+const OneDay = 60*60*24;
+const OneHour =  60 * 60;
+const OneMinute = 60;
+const OneSecond = 1;
+
+const Day = Math.floor( distance / OneDay);
+const Hour = Math.floor( (distance % OneDay) / OneHour);
+const Minute = Math.floor( (distance % OneHour) / OneMinute);
+const Second = Math.floor( (distance % OneMinute) / OneSecond);
+
+// let values = [Day, Hour, Minute, Second]
+const setStatusTimeout = () => {
+    debugger
+    setstatusTime(true)
+}
+function workAndRestTest() {
+    Modal.info({
+        icon: <FieldTimeOutlined />,
+      title: `Водитель транспорта: ${driver.id} находится за рулем больше чем 30 секунд (${distance})`,
+      content: (
+        <div>
+          <p>Данные водителя: </p>
+          <p>{`Номер транспорта: ${driver.id} `}</p>
+          <p>{`ФИО: ${driver.lastName}  ${driver.firstName}`}</p>
+          Телефон:  <a href="tel:+79874975296" className="">+79874975296</a>
+        </div>
+      ),
+      onOk() {setstatusTime(false); setTimeout(setStatusTimeout,60000)},
+    });
+  }
+  function workAndRest2() {
+    Modal.info({
+        icon: <FieldTimeOutlined />,
+      title: `Водитель транспорта: ${driver.id} находится за рулем больше 2-х часов`,
+      content: (
+        <div>
+          <p>Данные водителя: </p>
+          <p>{`Номер транспорта: ${driver.id} `}</p>
+          <p>{`ФИО: ${driver.lastName}  ${driver.firstName}`}</p>
+          Телефон:  <a href="tel:+79874975296" className="">+79874975296</a>
+        </div>
+      ),
+      onOk() {StatusTime = false},
+    });
+  }
+  function workAndRest8() {
+    Modal.info({
+        icon: <FieldTimeOutlined />,
+      title: `Водитель транспорта: ${driver.id} находится за рулем более 8-х часов`,
+      content: (
+        <div>
+          <p>Данные водителя: </p>
+          <p>{`Номер транспорта: ${driver.id} `}</p>
+          <p>{`ФИО: ${driver.lastName}  ${driver.firstName}`}</p>
+          Телефон:  <a href="tel:+79874975296" className="">+79874975296</a>
+        </div>
+      ),
+      onOk() {},
+    });
+  }
   return (
     <>
       {/* <Button type="primary" icon={<EnvironmentOutlined />}>
         Search
         </Button> */}
-
+        {/* {driver.status?   info() : null} */}
       <Collapse>
         <Panel
           showArrow={false}
@@ -106,8 +262,18 @@ const Driver = ({
                 {/* <Icon className={DriverCSS.locationCard}  component={EnvironmentOutlined } />  */}
               </div>
               <div id="hider" className="driver-data">
+                    <div className={DriverCSS.statusDriver}>
                     <DriverStatus driverList={driverList} Arr={Arr} isOnline={isOnline} setstatusTimer={setstatusTimer} statusTimer={statusTimer} driverId = {driver.id} statusOnline={statusOnline} />
-                <div id="drivers" className={DriverCSS.drivers}>
+                    <span className={DriverCSS.drivingTime}>  {`${Day}:${Hour}:${Minute}:${Second}`}</span>
+                    <span className={DriverCSS.drivingTime}>  {driver.status? driverStatus: null}</span>
+                    <span className={DriverCSS.drivingTime}>  {driver.status == 'On the way'? '0км/ч': null}</span>
+                    {/* <span className={DriverCSS.drivingTime}>  {driver.status == 'On the way'? 'В пути' : null}</span>
+                    <span className={DriverCSS.drivingTime}>  {driver.status == 'sos'? 'Происшествие': null}</span>
+                    <span className={DriverCSS.drivingTime}>  {driver.status == 'unexpected'? 'Непредвиденные случай': null}</span>
+                    <span className={DriverCSS.drivingTime}>  {driver.status == 'call me'? 'Запрашивает звонок': null}</span> */}
+                    
+                    </div>
+            <div id="drivers" className={DriverCSS.drivers}>
                   <img
                     className={DriverCSS.avatar}
                     src="https://f1.upet.com/h_5JB36T9mqa_q.jpg"
@@ -184,4 +350,4 @@ const Driver = ({
     </>
   );
 };
-export default Driver;
+export default memo(Driver);

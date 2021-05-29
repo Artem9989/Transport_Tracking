@@ -8,7 +8,9 @@
     height: 50px;
 
 }
-
+.sos > .ant-modal-content > .ant-modal-body > .ant-modal-confirm-body-wrapper > .ant-modal-confirm-body > .ant-modal-confirm-title{
+    color: red;
+  }
 
 .avatar {
     border-radius: 50%;
@@ -47,10 +49,21 @@
     /* box-shadow:  0 0 10px rgba(112, 186, 255, 0.6); */
 }
 .onlineStatus {
+ 
     height: 16px;
     width: 16px;
 }
+.statusDriver{
+    display: flex;
+    align-items: center;
+    width: 235px;
+}
+.drivingTime{
+    margin: 3px;
+}
 .notOnlineStatus {
+
+
     height: 16px;
     width: 16px;
 }

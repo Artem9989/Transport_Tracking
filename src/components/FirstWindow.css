@@ -92,7 +92,9 @@
   color: #9cadb4;
 
 }
-
+.sos .ant-modal-confirm-body .ant-modal-confirm-title{
+  color: rgb(209, 7, 0);
+}
 .ant-collapse-content {
   border-top: 1px solid #0b477f;
 }

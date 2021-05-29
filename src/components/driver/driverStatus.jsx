@@ -17,6 +17,7 @@ const DriverStatus = ({
 
 
 let statusOnlineValue;
+
 try{
     Arr.map((item,index)=>{
     
@@ -28,7 +29,7 @@ try{
 }
 catch{}
 
- console.log(Arr)
+
 
   return (
     <>

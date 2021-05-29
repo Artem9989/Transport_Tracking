@@ -18,7 +18,7 @@ const Drivers = ({
   setstatusTimer,
   statusTimer,
   Arr,
-
+  requestDrivers,
   ...props
 }) => {
   const [Visible, setVisible] = useState(false);
@@ -28,6 +28,7 @@ const Drivers = ({
   };
 
     let timerOnline;
+    let timerStatus;
     let token = localStorage.getItem('accessToken')
     let driverList;
     
@@ -35,12 +36,14 @@ const Drivers = ({
       if (statusTimer && drivers.length > 0)
       {
           drivers.map((item,i)=>{
-            timerOnline = setInterval(() => isOnline(item.id), 10000);
+            timerOnline = setInterval(() => isOnline(item.id), 20000);
+            timerStatus = setInterval(() => requestDrivers(), 11000);
           })
           setstatusTimer( false)
       }
       else if (token === "false" || token === null || token === 'null') {
           clearInterval(timerOnline);
+          clearInterval(timerStatus);
       }
       else {
 

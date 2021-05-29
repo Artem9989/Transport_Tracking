@@ -558,6 +558,7 @@ useEffect(() => {
   			// /***********************************************
   			// Highlight Links
   			// ***********************************************/
+        console.log(resp.response.route)
   			for (var i = 0; i < resp.response.route.length; i++) {
   				highlightRoute(resp.response.route[i].tollCost.routeTollItems, i);
   			}

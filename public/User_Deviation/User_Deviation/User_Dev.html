@@ -169,7 +169,7 @@
 		settings = {
         center:  { lat:54.00684227163969, lng: 56.00684227163969  } ,
         zoom: 12,
-        pixelRatio: window.devicePixelRatio || 1,
+        pixelRatio: devicePixelRatio || 1,
         engineType: H.map.render.p2d,
         Localization: 'ru-RU',
         languages: 'RUS'
@@ -187,7 +187,6 @@
 		releaseGeocoderShown = false,
 		bLongClickUseForStartPoint = true,
 		simulationWalker = null,
-		speedIcon = new H.map.Icon('./assets/icons/downloadSpeed.png'),
 		truckIcon = new H.map.Icon('./assets/icons/markerTruck.png'),
 		truckMarker = new H.map.Marker({ lat: 52.53805, lng: 13.4205 }, { icon: truckIcon, volatile: true });
 		truckMarker.$id = "truckMarker";
@@ -234,23 +233,48 @@
 
 	ui.addControl('mapsettings', MapSettingsControl)
 
-	window.addEventListener('resize', function() { map.getViewPort().resize(); },false);
+	addEventListener('resize', function() { map.getViewPort().resize(); },false);
 	
 
 	
-	function calculateRouteWithOffset(wPoints, offset)
-	{
-		if(wPoints.length == 2 && (!wPoints[0] || !wPoints[1])) return;
+	// function calculateRouteWithOffset(wPoints, offset)
+	// {
+	// 	if(wPoints.length == 2 && (!wPoints[0] || !wPoints[1])) return;
 		
-		var start,
-			dest;
+	// 	var start,
+	// 		dest;
 			
-		start = getOffsetPosition(wPoints[0].Latitude, wPoints[0].Longitude, offset);
-		dest = getOffsetPosition(wPoints[1].Latitude, wPoints[1].Longitude, offset);
+	// 	start = getOffsetPosition(wPoints[0].Latitude, wPoints[0].Longitude, offset);
+	// 	dest = getOffsetPosition(wPoints[1].Latitude, wPoints[1].Longitude, offset);
 		
-		calculateRoute([start, dest], offset);
-	}
-	
+	// 	calculateRoute([start, dest], offset);
+	// }
+	// function createTollMarker(oneTollStructure) {
+  	// 		var pos = new H.geo.Point(oneTollStructure.latitude, oneTollStructure.longitude);
+  	// 		var tollMarker = new H.map.Marker(pos, { icon: tollIcon });
+  	// 		tollMarker.addEventListener("tap", function () { displayTollStructureName(pos, oneTollStructure.name); });
+  	// 		group.addObject(tollMarker);
+
+  	// 	}
+
+  	// 	function displayTollStructureName(position, name) {
+  	// 		let infoBubble = new H.ui.InfoBubble(position, { content: name });
+  	// 		UI.addBubble(infoBubble);
+  	// 	}
+	// function highlightRoute(routeTollItems, routeAlternative) {
+  	// 		if (routeTollItems != null) {
+  	// 			for (var i = 0; i < routeTollItems.length; i++) {
+  	// 				//toll structures
+  	// 				if (routeTollItems[i].tollStructures != null) {
+  	// 					for (var j = 0; j < routeTollItems[i].tollStructures.length; j++) {
+  	// 						createTollMarker(routeTollItems[i].tollStructures[j]);
+  	// 					}
+  	// 				}
+  	// 			}
+  	// 		}
+
+  	// 	}
+	//   let routeLinkHashMap = new Object();
 	function calculateRoute(wPoints, offset)
 	{
 		if(wPoints.length == 2 && (!wPoints[0] || !wPoints[1])) return;
@@ -272,6 +296,11 @@
 				l = shape.length,
 				pathGeo = [],
 				offset = result.response.requestId != "0" ? true : false;
+			// 	console.log(result.response.route[0].shape)
+			// for (var i = 0; i < result.response.route.length; i++) {
+  			// 	highlightRoute(result.response.route[0].shape, i);
+  			// }
+	
 		
 			for(i = 0; i < l; i++)
 			{
@@ -287,93 +316,32 @@
 					strokeColor: offset ? "rgba(255, 0, 0 , 0.5)" : "rgba(0, 255, 0, 1)"
 				}	
 			});
-			let currentOpenBubble = true;
-			let travelTimeValue = -1;
-			console.log(result.response)
-			for (var r = 0; r < result.response.route[0].shape.length - 1; r = r + 35) {
+	// 		debugger
+	// 		let currentOpenBubble = true;
+			
+	// 		console.log(result.response.route)
+	// 		for (var r = 0; r < result.response.route[0].shape.length; r++) {
+				
+	// 				var marker = new H.map.Marker(result.response.route[0].shape[r][0],result.response.route[0].shape[r][1]);
+	// 				// add custom data to the marker
+	// 				marker.setData('<div><a href="https://www.liverpoolfc.tv">Liverpool</a></div>' +
+    // '<div>Anfield<br />Capacity: 54,074</div>');
+	// 				map.addObject(marker);
 					
-					if (r > 300) {
-					travelTimeValue = travelTimeValue + Math.floor(Math.random() *  Math.floor(1000));
-					}
-					else if (r > 200){
-						travelTimeValue = travelTimeValue + Math.floor(Math.random() *  Math.floor(750));
-					}
-					else {
-						travelTimeValue = travelTimeValue + Math.floor(Math.random() *  Math.floor(500));
-					}
+	// 			map.addEventListener('tap', function (evt) {
+	// 				// event target is the marker itself, group is a parent event target
+	// 				// for all objects that it contains
+	// 				var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+	// 				// read custom data
+	// 				content: evt.target.getData()
+	// 				});
+	// 				// show info bubble
+	// 				ui.addBubble(bubble);
+	// 			}, false);
 
-					let split = result.response.route[0].shape[r].split(',')
-					let splitTwo = result.response.route[0].shape[r+1].split(',')
-					let lat = parseFloat(split[0]);
-					let lng = parseFloat(split[1]);
-					var polylineBuble = new H.map.Marker({lat: lat,lng: lng},{ icon: speedIcon }); // polyline
-					const distance = travelTimeValue;
-					const OneDay = 60*60*24;
-					const OneHour =  60 * 60;
-					const OneMinute = 60;
-					const OneSecond = 1;
-					const speed = Math.floor(Math.random() *  Math.floor(100));
-					let text;
-					if ( speed > 80) {
-						console.log(speed) 
-						text = `<div style=" font-weight: 500; font-size: 18px; color: red";>Cкорость превышена</div>`;
-						console.log(text)
-					}
-					const Day = Math.floor( distance / OneDay);
-					const Hour = Math.floor( (distance % OneDay) / OneHour);
-					const Minute = Math.floor( (distance % OneHour) / OneMinute);
-					const Second = Math.floor( (distance % OneMinute) / OneSecond);
-					// let travelTime = result.response.route[0].leg[0].maneuver[travelTimeValue].travelTime;
-					if (text == undefined) {
-					polylineBuble.setData(`<div>В пути:  </div>` 
-					+	`<div> Дней: ${Day} </div>` 
-					+	`<div> ${Hour}ч: ${Minute}м: ${Second}с</div>`
-    				+	`<div>Скорость:  ${speed} км/ч</div>`);
-					}
-					else {
-					polylineBuble.setData(`<div>В пути:  </div>` 
-					+	`<div> Дней: ${Day} </div>` 
-					+	`<div> ${Hour}ч: ${Minute}м: ${Second}с</div>`
-    				+	`<div>Скорость:  ${speed}</div>`
-    				+	text);
-					}
-					map.addObject(polylineBuble);
-					// let latTwo = parseFloat(splitTwo[0]);
-					// let lngTwo = parseFloat(splitTwo[1]);
-					// var lineS = new H.geo.LineString(); 
-					// lineS.pushPoint({lat: lat,lng: lng});
-					// lineS.pushPoint({lat: latTwo,lng: lngTwo});
-					// var polylineBuble = new H.map.Polyline(
-					// 	lineS, { style: { lineWidth: 4 }}
-					// );
-					
-					
-					// add custom data to the marker
-					
-					
-				map.addEventListener('tap', function (evt) {
-					ui.getBubbles().forEach(bub => ui.removeBubble(bub));
-
-					if(!evt.target.getData) return;
-					// for all objects that it contains
-					var bubble =  new H.ui.InfoBubble(evt.target.getGeometry(), {
-						// read custom data
-						content: evt.target.getData()
-					});
-					// show info bubble
-					ui.addBubble(bubble);
-					// // event target is the marker itself, group is a parent event target
-					// // for all objects that it contains
-					// var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-					// // read custom data
-					// content: evt.target.getData()
-					// });
-					// // show info bubble
-					// ui.addBubble(bubble);
-				}, false);
-
-  			}
+  	// 		}
 			map.addObject(polyline);
+					
 			if(offset)
 			{
 				walkerStrip = strip;
@@ -501,30 +469,32 @@
 	}
 	
 	// add long click in map event listener
-	// map.addEventListener('longpress', handleLongClickInMap);
+	map.addEventListener('longpress', handleLongClickInMap);
 	
 	/********************************************************
 	Start/Destination selectin via LongClick in map
 	********************************************************/
-	// function handleLongClickInMap(currentEvent)
-	// {
-	// 	var lastClickedPos = map.screenToGeo(currentEvent.currentPointer.viewportX, currentEvent.currentPointer.viewportY);
+	function handleLongClickInMap(currentEvent)
+	{
+		var lastClickedPos = map.screenToGeo(currentEvent.currentPointer.viewportX, currentEvent.currentPointer.viewportY);
 
-	// 	if(bLongClickUseForStartPoint)
-	// 	{
-	// 		clearPreviousResults();
-	// 		var line = lastClickedPos.lat + "," + lastClickedPos.lng;
-	// 		document.getElementById("input-from").value = line;
-	// 		bLongClickUseForStartPoint = false;
-	// 	}
-	// 	else
-	// 	{
-	// 		var line = lastClickedPos.lat + "," + lastClickedPos.lng;
-	// 		document.getElementById("input-to").value = line;
-	// 		bLongClickUseForStartPoint = true;
-	// 		startRouting();
-	// 	}
-	// }
+		if(bLongClickUseForStartPoint)
+		{
+			clearPreviousResults();
+			var line = lastClickedPos.lat + "," + lastClickedPos.lng;
+			document.getElementById("input-from").value = line;
+			bLongClickUseForStartPoint = false;
+		}
+		else
+		{
+			var line = lastClickedPos.lat + "," + lastClickedPos.lng;
+			document.getElementById("input-to").value = line;
+			bLongClickUseForStartPoint = true;
+			startRouting();
+		}
+	}
+
+
 	
 	function startRouting()
 	{
@@ -611,6 +581,7 @@
 				{
 					offsetNumber = routeNumber[2]
 				}
+	
 				calculateRoute([gFrom, gTo]);
 				calculateRouteWithOffset([gFrom, gTo], offsetNumber);
 			}, function(){});
@@ -647,7 +618,7 @@
 		checkPolygonAvailibility()
 	}
 
-	
+
 	var AvailableChecker = function (layerId, insidePoint)
 	{
 		this.layerId = layerId;
