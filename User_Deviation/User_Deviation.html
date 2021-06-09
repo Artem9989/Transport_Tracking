@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://tcs.ext.here.com/examples/v3.1/gfe_upload_created_route_fence -->
+<!-- https://tcs.ext.here.com/examples/v3.1/geofencing -->
+<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>История маршрутов водителя</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
+				
+		<script src="./User_Deviation/sso.min.js"></script>
+		<script>
+	var app_id = "qUAK1IjzS6IHv9SnnvMo",
+				api_key = "sAR34-R5unCz4RhUywXkiVOV5QTf_B0OMhyhYhUnFJ8",
+				app_code = "9Vyk_MElhgPCytA7z3iuPA",
+				app_id_cors = "BTp1kLd1IpptcQe2Ir3h",
+				app_code_cors = "zMDPaKTAFR2g3wF3h4ok7w",
+				app_id_jp = "dPNJ6XzVATngXoWhlqx7",
+				app_code_jp = "qUYWNNt0HKi8B9JhTGKNIA",
+				
+				api_key_jp = "_U80GrbnQYHbU_QeWhGY70qeAKNE5mzInsZM6w4Tq2U",
+				perfect = false;
+		</script>
+		
+
+		<script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.1/mapsjs-clustering.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.1/mapsjs-data.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+		<link rel="shortcut icon" type="image/x-icon" href="https://tcs.ext.here.com/assets/favicon.ico">
+		<link rel="stylesheet" media="screen" href="./User_Deviation/application.css" data-turbolinks-track="true">
+		<script src="./User_Deviation/application.js" data-turbolinks-track="true"></script>
+		<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="7Y/hCo1x6VVsgli/FWFyXaHn70sRAZquB+v0vexg1TBktlgVvky113RTs4S6GfB5Hn0D0syq1unvYNCw1kFbfQ==">
+	  
+	<style type="text/css">.fancybox-margin{margin-right:0px;}</style></head>
+	<body>
+		
+
+		<div id="content-padder"></div>
+		<div id="content-real">
+			<script src="./User_Deviation/jsts.min.js"></script>
+<script src="./User_Deviation/geofence-extension.js"></script>
+<!-- <script src="https://tcs.ext.here.com/assets/jszip.min.js"></script> -->
+<script src="./User_Deviation/Stuk-jszip-b7f472d/dist/jszip.js"></script>
+<script src="./User_Deviation/Stuk-jszip-b7f472d/dist/jszip.min.js"></script>
+
+
+<div class="ctrl-panel">
+	<span id="toggle-ctrl-panel" class="glyphicon glyphicon-menu-left"></span>
+	<p>История маршрутов водителя</p>
+		<div class="form-horizontal">
+		<div class="form-group">
+			<label class="control-label col-sm-4 " for="start">Место старта:</label>
+			<div class="col-sm-8">
+				<input id="input-from" name='input-from' class="form-control" size="100" value="Уфа" type="text">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4" for="unit">Место прибытия:</label>
+			<div class="col-sm-8">
+				<input id="input-to" name='input-to' class="form-control" size="100" value="Ишимбай" type="text">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4" for="unit">Номер маршрута:</label>
+			<div class="col-sm-8">
+				<select name="offset" id="offset" class="form-control">
+						<option value="Уфа, Ишимбай,1500">1</option>
+						<option value="54.73798573190522,55.971529575022245,54.596003603796994,55.389199973200064,2000">2</option>
+						<option value="Уфа,Стерлитамак,2500">3</option>
+						<option value="Уфа,54.02449312929749,56.102629319979535,3000">4</option>
+						<option value="Ишимбай, Стерлитамак,3500">5</option>
+						<option value="53.987770933342155,56.11464561636625,54.596003603796994,55.389199973200064,4000">6</option>
+						<option value="54.73798573190522,55.971529575022245,Бишкаин,4500">7</option>
+						<option value="Стерлитамак, Ишимбай,5000">8</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="layerId">ID слоя геозоны:</label>
+			<div class="col-sm-8">
+				<input type="number" id="layerId" class="form-control" value="1">
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-group-btn">
+		<input type="button" id="isorouting" class="btn btn-default btn-sm" value="Построить маршрут" onclick="startRouting()">
+		<input type="submit" id="simulateRouteButton" class="btn btn-default btn-sm" value="Выполнить иммитацию" onclick="startStopRouteSimulation();" disabled="">
+	</div>
+
+	<div class="form-group">
+		<div>Информация о выполнении:</div>
+		<div id="feedbackTxt"></div>
+		<div class="deviation">
+			<textarea class="deviation_text" name="deviation_text" id="deviation_text" disabled='true' rows="16">Замеченные нарушения</textarea>
+		</div>
+		
+
+	</div>	
+</div>
+
+
+<div id="mapContainer">
+		
+<script type="text/javascript">
+	/* 
+		author domschuette
+		(C) HERE 2016
+		author asadovoy
+        (C) HERE 2019 -> migrate to 3.1
+	*/
+
+	var routeNumber; 
+	$("#offset").change(function(e) {
+		routeNumber = e.target.value.split(',');  
+		if (routeNumber.length == 5){
+			$("input[name='input-from']").val(routeNumber[0] + ',' + routeNumber[1]);
+			$("input[name='input-to']").val(routeNumber[2] + ',' + routeNumber[3]);
+		}
+		else if (routeNumber.length == 4) {
+			if(parseFloat(routeNumber[0])){
+				
+				$("input[name='input-from']").val(parseFloat(routeNumber[0]) + ',' + parseFloat(routeNumber[1]));
+				$("input[name='input-to']").val(routeNumber[2]);
+			}
+			else{
+
+				$("input[name='input-from']").val(routeNumber[0]);
+				$("input[name='input-to']").val(routeNumber[1] + ',' + routeNumber[2]);
+			}
+		}
+		else  if (routeNumber.length == 3) {
+			$("input[name='input-from']").val(routeNumber[0]);
+			$("input[name='input-to']").val(routeNumber[1]);
+		}
+		else {
+			alert('Маршрут не найден')
+		}
+	});
+	var secure = (location.protocol === 'https:') ? true : false;
+	var mapContainer = document.getElementById('mapContainer');
+
+	var platform = new H.service.Platform({
+			apikey: api_key,
+			useHTTPS: secure
+		});
+
+	// check if the site was loaded via secure connection
+	var config =  { 
+				locale: 'ru-RU',
+				lg: 'RUS',
+				lg2: 'RUS',
+				priew: 'RUS',
+			};
+
+	var tileService = platform.getMapTileService({type: 'base'});
+	
+	var	maptypes = platform.createDefaultLayers( config);
+	var	tileLayer = tileService.createTileLayer('maptile', 'reduced.day', 256, 'png8', config),
+		settings = {
+        center:  { lat:54.00684227163969, lng: 56.00684227163969  } ,
+        zoom: 12,
+        pixelRatio: window.devicePixelRatio || 1,
+        engineType: H.map.render.p2d,
+        Localization: 'ru-RU',
+        languages: 'RUS'
+     	},
+		router = platform.getRoutingService(),
+		geocoder = platform.getGeocodingService(),
+		walkerStrip,
+		bSimulationRunning = false,
+		gfe = platform.ext.getGeoFencingService(),
+		gfeStopCheckingAvailable = false,
+		gfeLayerAvailable = false,
+		redColor = "rgba(255, 20, 0, 1)",
+		greenColor = "rgba(20, 184, 255, 1)",
+		releaseRoutingShown = false,
+		releaseGeocoderShown = false,
+		bLongClickUseForStartPoint = true,
+		simulationWalker = null,
+		speedIcon = new H.map.Icon('./assets/icons/downloadSpeed.png'),
+		truckIcon = new H.map.Icon('./assets/icons/markerTruck.png'),
+		truckMarker = new H.map.Marker({ lat: 52.53805, lng: 13.4205 }, { icon: truckIcon, volatile: true });
+		truckMarker.$id = "truckMarker";
+	
+	
+	var map = new H.Map(mapContainer, tileLayer, settings );
+	// map();
+	// console.log(settings)
+	
+	// add behavior control
+	new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+	
+	// Enable the default UI
+	// var ui = H.ui.UI.createDefault(map, maptypes);
+	var ui = new H.ui.UI(map, {locale: 'ru-RU'})
+	ui.addControl('scalebar', new H.ui.ScaleBar({alignment: "bottom-right"}));
+	ui.addControl('zoom', new H.ui.ZoomControl({ alignment: "right-middle"}));
+	var zoomrectange = new H.ui.ZoomRectangle({alignment: "right-middle"},true)
+	ui.addControl('zoomrectange', zoomrectange);
+
+	var MapSettingsControl = new H.ui.MapSettingsControl({
+      baseLayers: [{
+        label: 'Базовая карта',
+        layer: tileLayer,
+      },
+      {
+        label: 'Обычная (день)',
+        layer: platform.createDefaultLayers(config).raster.normal.map
+      },  
+    ],
+    layers: [
+    {
+        label: 'Загруженность',
+        layer: platform.createDefaultLayers(config).vector.normal.traffic
+      },
+      {
+        label: 'Происшествия',
+        layer: platform.createDefaultLayers(config).vector.normal.trafficincidents
+      },
+    ],
+      alignment: "right-bottom",
+      configObj: config
+    })
+
+	ui.addControl('mapsettings', MapSettingsControl)
+
+	window.addEventListener('resize', function() { map.getViewPort().resize(); },false);
+	
+
+	
+	function calculateRouteWithOffset(wPoints, offset)
+	{
+		if(wPoints.length == 2 && (!wPoints[0] || !wPoints[1])) return;
+		
+		var start,
+			dest;
+			
+		start = getOffsetPosition(wPoints[0].Latitude, wPoints[0].Longitude, offset);
+		dest = getOffsetPosition(wPoints[1].Latitude, wPoints[1].Longitude, offset);
+		
+		calculateRoute([start, dest], offset);
+	}
+	
+	function calculateRoute(wPoints, offset)
+	{
+		if(wPoints.length == 2 && (!wPoints[0] || !wPoints[1])) return;
+		
+		var calculateRouteParams = {
+			'waypoint0' : offset != null ? (wPoints[0].Latitude + offset) + ',' + (wPoints[0].Longitude + offset) : wPoints[0].Latitude + ',' + wPoints[0].Longitude,
+			'waypoint1' : offset != null ? (wPoints[1].Latitude + offset) + ',' + (wPoints[1].Longitude + offset) : wPoints[1].Latitude + ',' + wPoints[1].Longitude,
+			'mode': 'fastest;car;traffic:disabled',
+			'representation': 'display',
+			'requestId': offset != null ? offset : "0"
+		},
+		onResult = function(result) {
+			
+		
+			
+			var strip = new H.geo.LineString(),
+				shape = result.response.route[0].shape, 
+				i,
+				l = shape.length,
+				pathGeo = [],
+				offset = result.response.requestId != "0" ? true : false;
+		
+			for(i = 0; i < l; i++)
+			{
+				strip.pushLatLngAlt.apply(strip, shape[i].split(',').map(function(item) { return parseFloat(item); }));
+				pathGeo.push([shape[i].split(',').map(function(item) { return parseFloat(item); })[0], shape[i].split(',').map(function(item) { return parseFloat(item); })[1]]);
+			}
+			
+			var polyline = new H.map.Polyline(strip, 
+			{
+				style: 
+				{
+					lineWidth: 10,
+					strokeColor: offset ? "rgba(255, 0, 0 , 0.5)" : "rgba(0, 255, 0, 1)"
+				}	
+			});
+			let currentOpenBubble = true;
+			let travelTimeValue = -1;
+			console.log(result.response)
+			for (var r = 0; r < result.response.route[0].shape.length - 1; r = r + 35) {
+					
+					if (r > 300) {
+					travelTimeValue = travelTimeValue + Math.floor(Math.random() *  Math.floor(1000));
+					}
+					else if (r > 200){
+						travelTimeValue = travelTimeValue + Math.floor(Math.random() *  Math.floor(750));
+					}
+					else {
+						travelTimeValue = travelTimeValue + Math.floor(Math.random() *  Math.floor(500));
+					}
+
+					let split = result.response.route[0].shape[r].split(',')
+					let splitTwo = result.response.route[0].shape[r+1].split(',')
+					let lat = parseFloat(split[0]);
+					let lng = parseFloat(split[1]);
+					var polylineBuble = new H.map.Marker({lat: lat,lng: lng},{ icon: speedIcon }); // polyline
+					const distance = travelTimeValue;
+					const OneDay = 60*60*24;
+					const OneHour =  60 * 60;
+					const OneMinute = 60;
+					const OneSecond = 1;
+					const speed = Math.floor(Math.random() *  Math.floor(100));
+					let text;
+					if ( speed > 80) {
+						console.log(speed) 
+						text = `<div style=" font-weight: 500; font-size: 18px; color: red";>Cкорость превышена</div>`;
+						console.log(text)
+					}
+					const Day = Math.floor( distance / OneDay);
+					const Hour = Math.floor( (distance % OneDay) / OneHour);
+					const Minute = Math.floor( (distance % OneHour) / OneMinute);
+					const Second = Math.floor( (distance % OneMinute) / OneSecond);
+					// let travelTime = result.response.route[0].leg[0].maneuver[travelTimeValue].travelTime;
+					if (text == undefined) {
+					polylineBuble.setData(`<div>В пути:  </div>` 
+					+	`<div> Дней: ${Day} </div>` 
+					+	`<div> ${Hour}ч: ${Minute}м: ${Second}с</div>`
+    				+	`<div>Скорость:  ${speed} км/ч</div>`);
+					}
+					else {
+					polylineBuble.setData(`<div>В пути:  </div>` 
+					+	`<div> Дней: ${Day} </div>` 
+					+	`<div> ${Hour}ч: ${Minute}м: ${Second}с</div>`
+    				+	`<div>Скорость:  ${speed}</div>`
+    				+	text);
+					}
+					map.addObject(polylineBuble);
+					// let latTwo = parseFloat(splitTwo[0]);
+					// let lngTwo = parseFloat(splitTwo[1]);
+					// var lineS = new H.geo.LineString(); 
+					// lineS.pushPoint({lat: lat,lng: lng});
+					// lineS.pushPoint({lat: latTwo,lng: lngTwo});
+					// var polylineBuble = new H.map.Polyline(
+					// 	lineS, { style: { lineWidth: 4 }}
+					// );
+					
+					
+					// add custom data to the marker
+					
+					
+				map.addEventListener('tap', function (evt) {
+					ui.getBubbles().forEach(bub => ui.removeBubble(bub));
+
+					if(!evt.target.getData) return;
+					// for all objects that it contains
+					var bubble =  new H.ui.InfoBubble(evt.target.getGeometry(), {
+						// read custom data
+						content: evt.target.getData()
+					});
+					// show info bubble
+					ui.addBubble(bubble);
+					// // event target is the marker itself, group is a parent event target
+					// // for all objects that it contains
+					// var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+					// // read custom data
+					// content: evt.target.getData()
+					// });
+					// // show info bubble
+					// ui.addBubble(bubble);
+				}, false);
+
+  			}
+			map.addObject(polyline);
+			if(offset)
+			{
+				walkerStrip = strip;
+			}
+			else 
+			{
+				var distance =  0.01,
+					geoInput = {
+						type: "LineString",
+						coordinates: pathGeo
+				};
+				
+				var geoReader = new jsts.io.GeoJSONReader(),
+					geometry = geoReader.read(geoInput).buffer(distance),
+					geoWriter = new jsts.io.WKTWriter(),
+					polygon = geoWriter.write(geometry),
+					shapes = polygon.replace("POLYGON", "").trim().split("),(");
+
+					var strip = new H.geo.LineString(),
+						newCoords = shapes[0].replace("(((", "").replace(")))", "").replace("((", "").replace("))", "").replace("(", "").replace(")", "").trim().split(",");
+						
+					for (var i = 0; i < newCoords.length; i++)
+					{
+						var split = newCoords[i].trim().split(" ");
+						if(split.length === 2){
+							var lat = parseFloat(split[0]);
+							var lon = parseFloat(split[1]);
+							strip.pushLatLngAlt( lat, lon, 0);
+						}
+					}
+			
+					poly = new H.map.Polygon(strip, 
+					{
+						style:
+						{
+							lineWidth: 5,
+							strokeColor: "rgba(128, 128, 128, 0.5)",
+							fillColor: "rgba(128, 128, 128, 0.5)"
+						}
+					});
+					map.addObject(poly);
+					map.getViewModel().setLookAtData({
+						bounds: poly.getBoundingBox()
+					},false);
+					
+					var wkt = generateWkt(poly);
+					feedbackTxt.innerHTML = "Загрузка полигона, ожидайте...";
+					var content;
+					var zip = new JSZip();
+					zip.file("wktUpload.wkt", wkt);
+					content = zip.generateAsync({type : "base64" , compression: "DEFLATE", compressionOptions : {level:6} });
+					// var content = zip.generate({type: 'bolb'})
+					var contentZIP;
+					zipRequest(zip.generateAsync({type: 'blob'}))
+				
+				
+				
+			}
+		},
+		onError = function(error) {
+			console.log(error);
+		}
+		router.calculateRoute(calculateRouteParams, onResult, onError);
+	}
+	
+
+
+	async function zipRequest  (file)  {
+		var formData = new FormData();
+		  		file.then( contentZIP  =>  {
+						
+						formData.append("zipfile", contentZIP);
+
+					});
+
+	
+				let result = await axios.get("https://fleet.ls.hereapi.com/2"  + "/layers/upload.json?" +
+						"layer_id=" + document.getElementById("layerId").value 
+						+ "&file=" + encodeURIComponent(formData) + "&apikey=" + api_key + "&callback=_jsonp_" + 1);
+					if (result.status == 200 || result.status == 201)
+						{
+						
+						urlRequest(formData)
+						}
+					
+						// urlRequest(formData)
+					
+	
+		
+	}
+	
+	async function urlRequest (file) {
+
+		let result = await axios.post("https://fleet.ls.hereapi.com/2/layers/upload.json", file, {
+							headers: {
+								"content-type": "multipart/form-data"
+							},
+							params: {
+								"apikey": api_key,
+								"layer_id": document.getElementById("layerId").value
+							}
+						});
+						if (result.status == 201 || result.status == 200) 
+						{
+						
+							return  gfe.uploadLayerCLE(document.getElementById("layerId").value, file, uploadLayerCallback);
+						}
+						else {
+						
+							console.log('error urlRequest')
+						}
+					
+	}
+
+	function getOffsetPosition(lat, lng, offset)
+	{
+		//Earth’s radius, sphere
+		var r = 6378137,
+			dn = offset,
+			de = offset,
+			dLat = dn/r,
+			dLng = de/(r*Math.cos(Math.PI*lat/180));
+
+			return {Latitude : lat + dLat * 180/Math.PI, Longitude: lng + dLng * 180/Math.PI};
+	}
+	
+	// add long click in map event listener
+	// map.addEventListener('longpress', handleLongClickInMap);
+	
+	/********************************************************
+	Start/Destination selectin via LongClick in map
+	********************************************************/
+	// function handleLongClickInMap(currentEvent)
+	// {
+	// 	var lastClickedPos = map.screenToGeo(currentEvent.currentPointer.viewportX, currentEvent.currentPointer.viewportY);
+
+	// 	if(bLongClickUseForStartPoint)
+	// 	{
+	// 		clearPreviousResults();
+	// 		var line = lastClickedPos.lat + "," + lastClickedPos.lng;
+	// 		document.getElementById("input-from").value = line;
+	// 		bLongClickUseForStartPoint = false;
+	// 	}
+	// 	else
+	// 	{
+	// 		var line = lastClickedPos.lat + "," + lastClickedPos.lng;
+	// 		document.getElementById("input-to").value = line;
+	// 		bLongClickUseForStartPoint = true;
+	// 		startRouting();
+	// 	}
+	// }
+	
+	function startRouting()
+	{
+	
+		document.querySelector("textarea[name=deviation_text]").value=``
+		clearPreviousResults();
+		
+		var from = document.getElementById('input-from').value,
+			to = document.getElementById('input-to').value,
+			gFrom, gTo;
+		if(from && to) {
+			gFrom = null;
+			gTo = null;
+
+			geocoder.search({searchText: from}, function(result) {
+			
+				if (result.Response.View.length == 0) {
+					feedbackTxt.innerHTML = "Ошибка загрузки: место старта не найдено";
+				}
+				else {
+				if(result.Response.View[0].Result[0].Location != null)
+				{
+					
+					gFrom = result.Response.View[0].Result[0].Location.DisplayPosition;
+				}
+				else
+				{
+					
+					gFrom = result.Response.View[0].Result[0].Place.Locations[0].DisplayPosition;
+				}
+			}
+				gFrom.lat = gFrom.Latitude;
+				gFrom.lng = gFrom.Longitude;
+				// var offsetArr = document.getElementById("offset").value.split(',');
+				// console.log(document.getElementById("offset"))
+				var offsetNumber;
+				if(routeNumber.length == undefined)
+				{
+					alert('Маршрут не выбран')
+				}
+				if(routeNumber.length == 5)
+				{
+					offsetNumber = routeNumber[4]
+				}
+				else if(routeNumber.length == 4)
+				{
+					offsetNumber = routeNumber[3]
+				}
+				else if(routeNumber.length == 3)
+				{
+					offsetNumber = routeNumber[2]
+				}
+				
+				calculateRoute([gFrom, gTo]);
+				calculateRouteWithOffset([gFrom, gTo], offsetNumber);
+			}, function(){});
+
+			geocoder.search({searchText: to}, function(result) {
+				if (result.Response.View.length == 0) {
+					feedbackTxt.innerHTML = "Ошибка загрузки: место прибытия не найдено";
+				}
+				else {
+				if(result.Response.View[0].Result[0].Location != null)
+				{
+					gTo = result.Response.View[0].Result[0].Location.DisplayPosition;
+				}
+				else
+				{
+					gTo = result.Response.View[0].Result[0].Place.Locations[0].DisplayPosition;
+				}
+				}
+				gTo.lat = gTo.Latitude;
+				gTo.lng = gTo.Longitude;
+				var offsetNumber;
+				if(routeNumber.length == 5)
+				{
+					offsetNumber = routeNumber[4]
+				}
+				else if(routeNumber.length == 4)
+				{
+					offsetNumber = routeNumber[3]
+				}
+				else if(routeNumber.length == 3)
+				{
+					offsetNumber = routeNumber[2]
+				}
+				calculateRoute([gFrom, gTo]);
+				calculateRouteWithOffset([gFrom, gTo], offsetNumber);
+			}, function(){});
+		}
+	}
+	
+	function generateWkt(shp)
+	{
+		var header = "WKT\n";
+		var wkt = "MULTIPOLYGON(((";
+		console.log("shp: ", shp);
+			var shapeArray = shp.getGeometry().getExterior().getLatLngAltArray();
+			for(var i = 0; i < shapeArray.length; i += 3)
+			{
+				if(i > 0)
+				{
+					wkt += ",";
+				}
+				wkt += shapeArray[i + 1] + " " + shapeArray[i];
+			}
+
+
+		wkt += ")))";
+		return header + wkt;
+	}
+	
+	function uploadLayerCallback(resp, err)
+	{
+		if (err) {
+			feedbackTxt.innerHTML = "Ошибка загрузки: " + resp.error_id + ': ' + resp.issues[0].message;
+			return;
+		}
+		feedbackTxt.innerHTML = "Полигон, найден, отрисовывается... ожидайте обработки...";
+		checkPolygonAvailibility()
+	}
+
+	
+	var AvailableChecker = function (layerId, insidePoint)
+	{
+		this.layerId = layerId;
+		this.insidePoint = insidePoint;
+		this.isChecking = false;
+		this.MAX_CHECK = 30;
+		this.checkCount = 0;
+		this.options = {
+			search_radius: 1,
+			keyattribute: 'ID'
+		};
+		var that = this;
+		this.check = function ()
+		{
+
+			/* Recursively call this function with timeout
+			*/
+			that.timeout = setTimeout(that.check, 1000);
+			that.isChecking = true;
+
+			if(!gfeStopCheckingAvailable && !gfeLayerAvailable)
+			{
+				if(that.checkCount < that.MAX_CHECK)
+				{
+					gfe.checkProximity(document.getElementById('layerId').value, that.insidePoint, that.options, onCheckPositionChanged);
+					that.checkCount++;
+				}
+				else
+				{
+					that.stop();
+					feedbackTxt.innerHTML= "<span style=\"font-weight: bolder;color:" + rgb2hex(redColor) + ";\">Полигон занял слишком много времени, чтобы быть доступным.<span>";
+				}
+			}
+			else
+			{
+				that.stop();
+			}
+		};
+
+		this.stop = function ()
+		{
+			clearTimeout(that.timeout);
+			this.isChecking = false;
+		};
+	};
+	
+	function checkPolygonAvailibility()
+	{
+		var insidePoint = new H.geo.Point(0, 0);
+		layerAvailableChecker = new AvailableChecker(document.getElementById('layerId').value, insidePoint);
+		layerAvailableChecker.check();
+		
+	}
+	
+	function onCheckPositionChanged(resp, assetPosition, err)
+	{
+		if (err) {
+			if(resp.issues[0].message.indexOf("The requested layer for the provided AppID does not exist") === -1 )
+			{
+
+				feedbackTxt.innerHTML = "Ошибка при проверке доступности слоя (слой не найден): " + resp.requestId + ': ' + resp.errors[0].type + ", " + resp.errors[0].message;
+				gfeStopCheckingAvailable = true;
+				return;
+			}
+		}
+
+		gfeLayerAvailable = true;
+		feedbackTxt.innerHTML= "<span style=\"font-size: 20px; font-weight: bolder;color:" + rgb2hex(greenColor) + ";\">Полигон доступен.<span>";
+			
+		if(poly != null)
+		{
+			poly.setStyle({ lineWidth: 5, strokeColor: "rgba(66, 141, 255, 0.5)", fillColor: "rgba(66, 141, 255, 0.5)"});
+			
+		}
+		checkRouteSimulationButtonEnabledState();
+	}
+	
+	// Helper to set correct state to route simulation button
+	function checkRouteSimulationButtonEnabledState()
+	{
+		if(walkerStrip == null || walkerStrip.getLatLngAltArray().length == 0)
+		{
+			
+			document.getElementById("simulateRouteButton").disabled = true;
+		}
+		else
+		{
+			document.getElementById("simulateRouteButton").disabled = false;
+		}
+	}
+
+		// Helper for route simulation start
+	function startRouteSimulation()
+	{
+		// start simulation
+
+		// check if truck or simulation group is already part of the map - otherwise add them
+		var arrayMapObjects = map.getObjects();
+		var bTruckMarkerFound = false;
+		var bSimulationGroupFound = false;
+		for(var k = 0; k < arrayMapObjects.length; k++)
+		{
+			if(arrayMapObjects[k] == truckMarker)
+			{
+				bTruckMarkerFound = true;
+				break;
+			}
+		}
+		if(!bTruckMarkerFound)
+		{
+			
+			// set route start
+			var startCoord = walkerStrip.extractPoint(0);
+			truckMarker.setGeometry(startCoord);
+			iSimulationIsAtPosition = 0;
+			map.addObject(truckMarker);
+		}
+		// if ( document.getElementById("textarea[name=deviation_text]").value == "Остановить имитацию";) {
+			
+		// }
+		document.getElementById("simulateRouteButton").value = "Остановить имитацию";
+		 
+		bSimulationRunning = true;
+
+		//start walker
+		simulationWalker = new Walker(truckMarker, walkerStrip);
+		simulationWalker.walk();
+	}
+
+	// Helper for route simulation stop
+	function stopRouteSimulation()
+	{
+		// stop simulation
+		bSimulationRunning = false;
+		document.getElementById("simulateRouteButton").value = "Запустить имитацию";
+		if(simulationWalker)
+		{
+			simulationWalker.stop();
+		}
+	}
+	
+	var Walker = function (marker, path)
+	{
+		this.path = path;
+		this.marker = marker;
+		this.dir = -1;
+		this.isWalking = false;
+		this.options = {
+			search_radius: 1,
+			keyattribute: 'ID'
+		};
+		var that = this;
+		this.walk = function ()
+		{
+			// Get the next coordinate from the route and set the marker to this coordinate
+			var coord = path.extractPoint(iSimulationIsAtPosition);
+
+			marker.setGeometry(coord);
+
+			// If we get to the end of the route reverse direction
+			if (!iSimulationIsAtPosition || iSimulationIsAtPosition === path.getPointCount() - 1) {
+				iSimulationIsAtPosition = 0;
+			}
+
+			iSimulationIsAtPosition += 1;
+
+			/* Recursively call this function with time that depends on the distance to the next point
+			* which makes the marker move in similar random fashion
+			*/
+			that.timeout = setTimeout(that.walk, 100);
+			that.isWalking = true;
+
+			gfe.checkProximity(document.getElementById('layerId').value, coord, that.options, onSimulationActivePositionChanged);
+
+		};
+
+		this.stop = function ()
+		{
+			clearTimeout(that.timeout);
+			this.isWalking = false;
+		};
+	};
+	
+	//Function to convert hex format to a rgb color from http://jsfiddle.net/Mottie/xcqpF/1/light/
+	function rgb2hex(rgb){
+		rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+		return (rgb && rgb.length === 4) ? "#" +
+			("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+			("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+			("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+	}	
+	
+	function clearPreviousResults()
+	{
+		gfeLayerAvailable = false;
+		map.removeObjects(map.getObjects());
+		walkerStrip = null;
+		checkRouteSimulationButtonEnabledState();
+		stopRouteSimulation();
+	}
+	
+		// start route simulation
+	function startStopRouteSimulation()
+	{
+		if(!bSimulationRunning)
+		{
+			startRouteSimulation();
+		}
+		else
+		{
+			stopRouteSimulation();
+		}
+	}
+	
+	function onSimulationActivePositionChanged(resp, assetPosition, err)
+	{
+		if (err) {
+			return;
+		}
+
+		var insidePolygon = false;
+		var dist = 0;
+		var geometryResponse = null;
+		// console.log(resp , 'resp')
+		// console.log(assetPosition , 'asset')
+		if(resp.polygons != null) {
+			geometryResponse = resp.polygons
+		}
+		else {
+			geometryResponse = resp.geometries;
+		}
+		if(geometryResponse[0] != null)
+		{
+			dist = geometryResponse[0].distance;
+
+			if (dist === -99999999)
+			{
+				insidePolygon = true;
+			} else if (dist < 0) {
+				insidePolygon = true;
+			} else {
+				
+				insidePolygon = false;
+			}
+		}
+
+		if(poly != null)
+		{
+			if(insidePolygon)
+			{
+			
+				// document.querySelector("textarea[name=deviation_text]").value+="Текст, "
+				poly.setStyle({ lineWidth: 5, strokeColor: "rgba(34, 204, 34, 0.5)", fillColor: "rgba(34, 204, 34, 0.5)"} );
+			}
+			else
+			{
+				// if (document.getElementById('textarea[name=deviation_text]').value("").value )
+				// if (insidePolygon && assetPosition)
+				// {
+				// 	poly.setStyle({ lineWidth: 5, strokeColor: "rgba(66, 141, 255, 0.5)", fillColor: "rgba(66, 141, 255, 0.5)"});
+				// }
+				// else {
+				document.querySelector("textarea[name=deviation_text]").value+=`\r\n Вне зоны ${assetPosition}` 
+				poly.setStyle({ lineWidth: 5, strokeColor: "rgba(66, 141, 255, 0.5)", fillColor: "rgba(66, 141, 255, 0.5)"});
+				// }
+			}
+		}
+	}
+	
+</script>
+
+
+</div>
+<footer>
+	<div id="footer" class="footer" style="display: none;">
+	</div>
+</footer>
+
+
+
+
+
+</div>
+</body></html>
