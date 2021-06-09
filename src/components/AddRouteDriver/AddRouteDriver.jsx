@@ -62,9 +62,9 @@ const [selectId, setselectId] = useState(false)
   const handleOk = (value) => {
     //   Здесь функция для добавления маршрутов 
     const idDriver = driverList[selectId].id
-    console.log(markers)
+    // console.log(markers)
     
-    console.log(Route, 'routeID')
+    // console.log(Route, 'routeID')
     
     if (markers.length > 1) {
     // console.log(selectId, 'selectID')
@@ -77,7 +77,7 @@ const [selectId, setselectId] = useState(false)
     else{
       insertendpoint(idDriver,Route.id, markers[1].lat,markers[1].lng)
     }
-    
+
     
     
     console.log(Route,'Route')
@@ -248,8 +248,8 @@ const onClear = () => {
            ${driverList[selectId].firstName }
            ${driverList[selectId].middleName}`}
          </div>
-        <div> Тип ТС: {driverList[selectId].login} </div>
-        <div> Логин: {driverList[selectId].vehicleType} </div>
+        <div> Логин: {driverList[selectId].login} </div>
+        <div> Тип ТС: {driverList[selectId].vehicleType} </div>
         </div>
         </div>
         </div>
