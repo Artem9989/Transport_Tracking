@@ -1,30 +1,30 @@
 {
   "files": {
-    "main.css": "/Artem9989/Transport_Tracking/static/css/main.51420f0e.chunk.css",
-    "main.js": "/Artem9989/Transport_Tracking/static/js/main.06994dd3.chunk.js",
-    "main.js.map": "/Artem9989/Transport_Tracking/static/js/main.06994dd3.chunk.js.map",
-    "runtime-main.js": "/Artem9989/Transport_Tracking/static/js/runtime-main.aee10c83.js",
-    "runtime-main.js.map": "/Artem9989/Transport_Tracking/static/js/runtime-main.aee10c83.js.map",
-    "static/css/2.d0e0ed82.chunk.css": "/Artem9989/Transport_Tracking/static/css/2.d0e0ed82.chunk.css",
-    "static/js/2.8e02ad39.chunk.js": "/Artem9989/Transport_Tracking/static/js/2.8e02ad39.chunk.js",
-    "static/js/2.8e02ad39.chunk.js.map": "/Artem9989/Transport_Tracking/static/js/2.8e02ad39.chunk.js.map",
-    "index.html": "/Artem9989/Transport_Tracking/index.html",
-    "static/css/2.d0e0ed82.chunk.css.map": "/Artem9989/Transport_Tracking/static/css/2.d0e0ed82.chunk.css.map",
-    "static/css/main.51420f0e.chunk.css.map": "/Artem9989/Transport_Tracking/static/css/main.51420f0e.chunk.css.map",
-    "static/js/2.8e02ad39.chunk.js.LICENSE.txt": "/Artem9989/Transport_Tracking/static/js/2.8e02ad39.chunk.js.LICENSE.txt",
-    "static/media/LUI-icon-pd-information-solid-24.4dfba792.svg": "/Artem9989/Transport_Tracking/static/media/LUI-icon-pd-information-solid-24.4dfba792.svg",
-    "static/media/Preloader.f4c76084.gif": "/Artem9989/Transport_Tracking/static/media/Preloader.f4c76084.gif",
-    "static/media/check.b9811a74.png": "/Artem9989/Transport_Tracking/static/media/check.b9811a74.png",
-    "static/media/isoline-icon.38e31887.svg": "/Artem9989/Transport_Tracking/static/media/isoline-icon.38e31887.svg",
-    "static/media/overlay.f7b5870c.geojson": "/Artem9989/Transport_Tracking/static/media/overlay.f7b5870c.geojson",
-    "static/media/record.efc866fc.png": "/Artem9989/Transport_Tracking/static/media/record.efc866fc.png",
-    "static/media/tracking.86713d4b.png": "/Artem9989/Transport_Tracking/static/media/tracking.86713d4b.png"
+    "main.css": "/Transport_Tracking/static/css/main.51420f0e.chunk.css",
+    "main.js": "/Transport_Tracking/static/js/main.03698146.chunk.js",
+    "main.js.map": "/Transport_Tracking/static/js/main.03698146.chunk.js.map",
+    "runtime-main.js": "/Transport_Tracking/static/js/runtime-main.a79fa636.js",
+    "runtime-main.js.map": "/Transport_Tracking/static/js/runtime-main.a79fa636.js.map",
+    "static/css/2.d0e0ed82.chunk.css": "/Transport_Tracking/static/css/2.d0e0ed82.chunk.css",
+    "static/js/2.2fe679f3.chunk.js": "/Transport_Tracking/static/js/2.2fe679f3.chunk.js",
+    "static/js/2.2fe679f3.chunk.js.map": "/Transport_Tracking/static/js/2.2fe679f3.chunk.js.map",
+    "index.html": "/Transport_Tracking/index.html",
+    "static/css/2.d0e0ed82.chunk.css.map": "/Transport_Tracking/static/css/2.d0e0ed82.chunk.css.map",
+    "static/css/main.51420f0e.chunk.css.map": "/Transport_Tracking/static/css/main.51420f0e.chunk.css.map",
+    "static/js/2.2fe679f3.chunk.js.LICENSE.txt": "/Transport_Tracking/static/js/2.2fe679f3.chunk.js.LICENSE.txt",
+    "static/media/LUI-icon-pd-information-solid-24.4dfba792.svg": "/Transport_Tracking/static/media/LUI-icon-pd-information-solid-24.4dfba792.svg",
+    "static/media/Preloader.f4c76084.gif": "/Transport_Tracking/static/media/Preloader.f4c76084.gif",
+    "static/media/check.b9811a74.png": "/Transport_Tracking/static/media/check.b9811a74.png",
+    "static/media/isoline-icon.38e31887.svg": "/Transport_Tracking/static/media/isoline-icon.38e31887.svg",
+    "static/media/overlay.f7b5870c.geojson": "/Transport_Tracking/static/media/overlay.f7b5870c.geojson",
+    "static/media/record.efc866fc.png": "/Transport_Tracking/static/media/record.efc866fc.png",
+    "static/media/tracking.86713d4b.png": "/Transport_Tracking/static/media/tracking.86713d4b.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.aee10c83.js",
+    "static/js/runtime-main.a79fa636.js",
     "static/css/2.d0e0ed82.chunk.css",
-    "static/js/2.8e02ad39.chunk.js",
+    "static/js/2.2fe679f3.chunk.js",
     "static/css/main.51420f0e.chunk.css",
-    "static/js/main.06994dd3.chunk.js"
+    "static/js/main.03698146.chunk.js"
   ]
 }
