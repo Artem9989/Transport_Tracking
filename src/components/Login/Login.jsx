@@ -5,8 +5,9 @@ import { Input } from '../Common/FormsControls/FormsControls'
 import { required } from '../../redux/utils/validators/Validators'
 import { connect } from 'react-redux';
 import { login } from '../../redux/Auth-reducer'
-import { Redirect } from 'react-router-dom';
 import LoginCSS from './Login.module.css';
+import { Switch, HashRouter as Router,  withRouter, Route, Redirect } from 'react-router-dom';
+import FirstWindow from '../FirstWindow.jsx';
 // import PropTypes from 'prop-types';
 
 const LoginForm = ({ handleSubmit, error, changingPage }) => {
@@ -61,6 +62,9 @@ const Login = (props) => {
     if (token === 'true') {
         return <Redirect to={'/main'} />
     }
+    // if (token === 'true') {
+    //     return <Route exact path='/main' component={FirstWindow}/>
+    // }
 
     return <div>
 

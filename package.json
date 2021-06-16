@@ -1,5 +1,6 @@
 {
   "name": "transport_tracking",
+  "homepage": "https://artem9989.github.io/Transport_Tracking",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,18 +8,23 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@trendmicro/react-iframe": "^1.0.1",
     "antd": "^4.11.2",
     "axios": "^0.21.0",
     "babel-loader": "8.1.0",
     "chart.js": "2.9",
     "classnames": "^2.2.6",
     "dependency": "^0.0.1",
+    "gh-pages": "^3.2.0",
+    "jsts": "^2.6.2",
     "pure-react-carousel": "^1.27.3",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.11.1",
+    "react-csv": "^2.0.3",
     "react-dom": "^17.0.1",
     "react-here-map": "^4.0.0-0",
     "react-redux": "^7.2.2",
+    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
     "redux": "^4.0.5",
@@ -31,7 +37,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

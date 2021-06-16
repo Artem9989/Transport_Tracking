@@ -7,11 +7,13 @@ import { logout } from "../redux/Auth-reducer";
 import { withAuthRedirect } from "./HOC/withAuthRedirect";
 import "./FirstWindow.css";
 import Search from "./Map/Search/Search";
-import { Layout, Menu, Breadcrumb,Input,Switch,Button, Popover,Drawer, Alert } from "antd";
+import { Layout, Menu, Breadcrumb,
+  Input,Switch,Button, Popover,
+  Drawer, Alert,Form,InputNumber,Modal,Space } from "antd";
 import { DesktopOutlined, PieChartOutlined, FileOutlined,TeamOutlined,
   UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined, RadiusSettingOutlined,
    ForkOutlined, RadarChartOutlined,GatewayOutlined, CheckOutlined,
-  CloseOutlined
+  CloseOutlined,PlusCircleOutlined,CloseCircleOutlined 
 
 } from "@ant-design/icons";
 import CostOptimRoute from "./Map/CostOptimRoute/CostOptimRoute.jsx";
@@ -45,6 +47,20 @@ const FirstWindow = () => {
   // ];
   //show Modal memo
   const [showCostOptimRoute, setshowCostOptimRoute] = useState(false);
+  const [showModalBuffer, setshowModalBuffer] = useState(false);
+  const [buffer, setBuffer] = useState(500);
+  const [valueBuffer, setValueBuffer] = useState(buffer)
+  const [showBuffer, setshowBuffer] = useState(false)
+  const [deviation, setDeviation] = useState(false)
+  const handleOk = () => {
+    setshowModalBuffer(false);
+    setValueBuffer(buffer);
+  };
+
+  const handleCancel = () => {
+    setshowModalBuffer(false);
+  };
+ 
 
   const [ShowModal, setShowModal] = useState(false);
   // Выбор построения маршрута
@@ -75,8 +91,19 @@ const FirstWindow = () => {
   const [locationTracking, setLocationTracking] = useState()
   const getTrackingLocation = async (Route) => {
     
+    // if (Route != null) {
+    //   const LocationDriver = Route.points[Route.points.length - 1]
+    //   setLocationTracking(LocationDriver)
+    //   setRouting(Route)
+      
+    //   await calculateRoute(Route,LocationDriver)
+      
+     
+    // }
     if (Route != null) {
       const LocationDriver = Route.points[Route.points.length - 1]
+      // const LocationDriver = Route.end
+      console.log(Route)
       setLocationTracking(LocationDriver)
       setRouting(Route)
       
@@ -105,11 +132,15 @@ async function calculateRoute (Route,LocationDriver) {
   if (RoutingArray == null){
     optimalMarkersOrder = await waypointElementGet(Route,LocationDriver)
     // Form url to calculate route based on waypoint sequence
-  
-  let routeToString = optimalMarkersOrder.map( (point, i) => {
+    let routeToString;
+  try {
+   routeToString = optimalMarkersOrder.map( (point, i) => {
     return `waypoint${i}=geo!${point.lat},${point.lng}`
   }).join("&")
-
+  }
+  catch{
+    alert ('маршрут/пользователь не найден')
+  }
   let routeRequest = `${routeBaseUrl}apikey=${config.apikey}&mode=fastest;${transportType};traffic:enabled&routeattributes=sh&${routeToString}`
   
   let res_route = await axios.get(routeRequest)
@@ -147,16 +178,23 @@ async function waypointElementGet (Route,LocationDriver){
     if ( Route != null) {
 
       
-    if( RoutingStart != null || LocationDriver.lat != null)
-    {
-      one = `start=${0};${LocationDriver.lat},${LocationDriver.lng}&`
-    }
-    else if (RoutingStart != null){
+    // if( RoutingStart != null || LocationDriver.lat != null)
+    // {
+    //   one = `start=${0};${LocationDriver.lat},${LocationDriver.lng}&`
+    // }
+    // else 
+    if (RoutingStart != null){
       one = `start=${0};${RoutingStart.lat},${RoutingStart.lng}&`
+    }
+    else {
+      alert("маршрут не задан")
     }
     if (RoutingEnd != null) 
     {
       two = `end=${1};${RoutingEnd.lat},${RoutingEnd.lng}&`
+    }
+    else {
+      alert("маршрут не задан")
     }
     let waypointsRequest = `${waypointBaseUrl}apikey=${config.apikey}&mode=fastest;${transportType}&${one}${two}`
 
@@ -253,7 +291,8 @@ let Arr = [];
           onCollapse={() => setSider(!SiderVisible)}
         >
           <div className="logo">
-            <img src="../../favicon.ico" alt="" className="logo" />{" "}
+            {/* <img src="../../favicon.ico" alt="" className="logo" />{" "} */}
+            <img src="./favicon.ico" alt="" className="logo" />{" "}
           </div>
           <Menu
             trigger={null}
@@ -273,7 +312,7 @@ let Arr = [];
             {/* </Menu.Item> */}
             <SubMenu key="sub1" icon={<UserOutlined />} title="Водители">
             
-              <DriversContainer   Arr={Arr} setstatusTimer={setstatusTimer} statusTimer={statusTimer} getTrackingLocation={getTrackingLocation}/>
+              <DriversContainer setDeviation= {setDeviation} valueBuffer={valueBuffer}  deviation={deviation} Arr={Arr} setstatusTimer={setstatusTimer} statusTimer={statusTimer} getTrackingLocation={getTrackingLocation}/>
               
             </SubMenu>
             <SubMenu
@@ -323,10 +362,11 @@ let Arr = [];
                     />
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="8" icon={<FileOutlined />}>
-              Files
+            <Menu.Item  key="8" icon={<PlusCircleOutlined />}>
+               {"Отображение буфера "}<Switch 
+               onChange={(value) => setshowBuffer(value)} />
             </Menu.Item>
-            <Menu.Item key="9" onClick={out} icon={<FileOutlined />}>
+            <Menu.Item key="9" onClick={out} icon={<CloseCircleOutlined />}>
               Выход
             </Menu.Item>
           </Menu>
@@ -366,8 +406,8 @@ let Arr = [];
               ></Button>
             </Popover>
             <Popover
-              content={"Расчитать затраты от пункта А до Б"}
-              title="Расчитать стоимость"
+              content={"Задать зону максимального отклонения"}
+              title="Буфер отклонения"
               trigger="hover"
             >
               <Button
@@ -375,8 +415,9 @@ let Arr = [];
                 style={{ margin: "0 5px", border: "none" }}
                 size={"large"}
                 icon={<ForkOutlined />}
-                onClick={() => showCostOptimRoute()}
+                onClick={() => setshowModalBuffer(true)}
               ></Button>
+
             </Popover>
             <Popover
               content={"Расчитать затраты от пункта А до Б"}
@@ -412,10 +453,30 @@ let Arr = [];
               locationTracking = {locationTracking}
               Routing= {Routing}
               RoutingArray={RoutingArray}
+              valueBuffer={valueBuffer}
+              showBuffer={showBuffer}
+              setDeviation={setDeviation}
             />
           </Content>
         </Layout>
       </Layout>
+
+      {showModalBuffer ?       <Modal     okText="Применить"
+          cancelText="Отмена" title="Установить буфер" visible={showModalBuffer} onOk={handleOk} onCancel={handleCancel}>
+      <Space>
+      Радиус в метрах:
+      <InputNumber min={0} max={10000} step = { 25 } value={buffer} onChange={setBuffer} />
+      <Button
+        type="primary"
+        shape="round"
+        onClick={() => {
+          setBuffer(500);
+        }}
+      >
+        По умолчанию
+      </Button>
+    </Space>
+      </Modal> : null}
       {/* <div className='header'>
         
         

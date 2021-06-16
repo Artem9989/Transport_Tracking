@@ -344,7 +344,9 @@ export default class DisplayMapClassContainer extends Component {
           locationTracking={this.props.locationTracking}
           Routing={this.props.Routing}
           RoutingArray={this.props.RoutingArray}
-          
+          valueBuffer={this.props.valueBuffer}
+          showBuffer={this.props.showBuffer}
+          setDeviation={this.props.setDeviation}
           />
         {/* <iframe src="hh2.html" height="500px" width="10%"></iframe> */}
         

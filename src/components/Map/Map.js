@@ -13,6 +13,10 @@ import { ecmo_theme } from './theme/ecmo_theme'
 
 import overlay from '../../data/overlay.geojson'
 
+import jsts from 'jsts'
+import GeoJSONReader from 'jsts/org/locationtech/jts/io/GeoJSONReader';
+import WKTWriter from 'jsts/org/locationtech/jts/io/GeoJSONWriter';
+import {BufferOp} from 'jsts/org/locationtech/jts/operation/buffer';
 import isoline_icon from "./icons/isoline-icon.svg"
 import tracking from "./icons/tracking.png"
 
@@ -89,6 +93,7 @@ export default class Map extends Component {
       groupLine: null,
       groupPolygon: null,
       markerGroupRouting: null,
+      markerGroupRoutingTwo: null,
   
     
     }
@@ -122,6 +127,7 @@ export default class Map extends Component {
         M.groupLine = new H.map.Group();
         M.groupPolygon = new H.map.Group();
         M.markerGroupRouting = new H.map.Group();
+        M.markerGroupRoutingTwo = new H.map.Group();
         // }
       }
 
@@ -279,7 +285,29 @@ export default class Map extends Component {
     })
       		// add long click in map event listener
     M.Map.addEventListener('longpress', evt => this.handleLongClickInMap(evt));
-    M.Map.addEventListener('contextmenu', evt => this.contextMenu(evt))
+    M.Map.addEventListener('contextmenu', evt => this.contextMenu(evt));
+    // grabbing
+    window.addEventListener('pointerdown',
+    event => {
+     
+        M.Map.getViewPort().element.style.cursor = 'grabbing';
+
+    });
+    window.addEventListener('pointerup',
+    event => {
+     
+        M.Map.getViewPort().element.style.cursor = 'default';
+
+    });
+ 
+ 
+    M.Map.addEventListener('pointermove', function (event) {
+      if (event.target instanceof H.map.Polyline) {
+        M.Map.getViewPort().element.style.cursor = 'pointer';
+      } else {
+        M.Map.getViewPort().element.style.cursor = 'auto';
+      }
+    }, false);
 
     M.Map.addEventListener('tap', evt => {
       if (evt.target === M.Map) {
@@ -553,7 +581,34 @@ componentWillUpdate (prevProps,nextProps) {
 
         return routeLine
     }
+    styleRoutingLocationTwo (linestring) {
 
+      let { H } = this.state
+      
+      let routeOutline = new H.map.Polyline(linestring, {
+          style: {
+            lineWidth: 100,
+            strokeColor: 'rgba(102, 164, 234, 0.9)',
+          }
+        })
+        
+        let routeArrows = new H.map.Polyline(linestring, {
+          style: {
+            lineWidth: 6,
+            fillColor: 'white',
+            strokeColor: 'rgba(0, 255, 90, 0.8)',
+            // lineDash: [0, 2],
+            // lineTailCap: 'arrow-tail',
+            // lineHeadCap: 'arrow-head' 
+            }
+          }
+        )
+
+        let routeLine = new H.map.Group();
+        routeLine.addObjects([routeOutline, routeArrows])
+
+        return routeLine
+    }
     createClusterLayer (features, theme) {
       let { Map, H, UI } = this.state
 
@@ -710,6 +765,293 @@ componentWillUpdate (prevProps,nextProps) {
 
       }
     }
+    splitTo( arr, n) {
+      var plen = Math.ceil(arr.length / n);
+    
+      return arr.reduce( function( p, c, i, a) {
+        if(i%plen === 0) p.push({});
+        p[p.length-1][i] = c;
+        return p;
+      }, []);
+    }
+//     bufferPoly (pathGeo) {
+//       const {
+//         options,
+//         analytics,
+//         costOptimRouteValue,
+//         locationTracking,
+//         Routing,
+//         RoutingArray,
+//       } = this.props;
+//       const {
+//         Map,
+//         H,
+//       } = this.state;
+
+//     let arr_3 = pathGeo.W.reduce((result, item) => {
+//       if(item == 2) {
+//         return
+//       }
+
+//       return result.includes(item) ? result : [... result, item];
+//   }, []);
+//     let string_arr = arr_3.join(',');
+//     string_arr = string_arr.split(',');
+//     let pars = string_arr.map ((item,index) => {
+//       return parseFloat(item)
+//     })
+//     let column = pars.length/2;
+//     let parser = this.splitTo(pars,column);
+//     // let Result =    Object.values( parser[0]).map(i => Object.values(i) );
+//     // console.log(Result)
+//     let Result = [];
+//     const ResultArr = Object.keys(parser).map((value, index) => {
+//       let arr = Object.values(parser[value]);
+//       Result.push(arr)
+//       return Object.values(parser[value]);
+//     });
+//     console.log(Result)
+//       // expected output: 10
+
+//     // const reducer = arr_3.reduce((accumulator, currentValue,index) => {
+//     //   if(accumulator[currentValue]){
+//     //     accumulator[currentValue].push(currentValue)
+//     //   }
+//     //   else {
+//     //     accumulator[index] = [currentValue]
+//     //   }
+//     //   return accumulator
+//     // },{});
+
+//     // let arr_2 = Object.keys(reducer).map(function (key, index) {
+//     //   let res;
+//     //   if (key > 0 && key % 2) {
+//     //     res = [reducer[key - 1], reducer[key]];
+//     //   }
+//     //   if (res !== undefined) {
+//     //     return res;
+//     //   } else {
+//     //     return 0;
+//     //   }
+//     // });
+//     // console.log(arr_2);
+//   //   let arr_1 = arr_2.reduce((result, item) => {
+    
+//   //     return result.includes(item) ? result : [... result, item];
+//   // }, []);
+//   // let arr = [];
+//   // let arrRezerv =  arr_1.map(function(elem,index){
+//   //   let res;
+//   //   let res1;
+//   //   let res2;
+
+//   //   if (index>0) {
+   
+//   //     res = [elem.join(',').split(',')];
+//   //     if (
+//   //       res[0].length > 2 ||
+//   //       res[0].length < 2 ||
+//   //       res[0][0] == "" ||
+//   //       res[0][0] == " " ||
+//   //       res[0][0] == "0" ||
+//   //       res[0][1] == "" ||
+//   //       res[0][1] == " " ||
+//   //       res[0][1] == "0"
+//   //     ) {
+        
+//   //     } else {
+//   //       res1 = parseFloat(res[0][0]);
+//   //       res2 = parseFloat(res[0][1]);
+//   //       res = [res1, res2];
+//   //       arr.push(res)
+//   //     }
+//   //     // res = res.join(",");
+//   //   }
+//   //     return res
+//   // });
+
+// // console.log(arr)
+
+
+
+
+// //     console.log(arr_1)
+   
+//       var distance =  0.01;
+//      let geoInput = {
+//         type: "LineString",
+//         coordinates: [
+//           [-122.40447521209718,
+//             37.79367718768535
+//           ],
+//           [-122.40803718566895,
+//             37.79171022624846
+//           ],
+//           [-122.40769386291502,
+//             37.79096412372944
+//           ],
+//           [-122.40662097930908,
+//             37.789641468930114
+//           ],
+//         ]
+//     };
+    
+//     debugger
+//     console.log(jsts)
+//     let geoReader = new GeoJSONReader();
+//     let geoWriter = new WKTWriter();
+//     // let geometry = geoInput.coordinates.map((item,index)=> {
+
+//     //    return geoReader.read({type: "LineString", "coordinates":[item]});
+//     // })
+
+//     let geometry =  geoReader.read(geoInput);
+//     // let spBuffer = geometry.buffer(40)
+//     let spBuffer = BufferOp.bufferOp(geometry, 0.2);
+//     // let polyGeoJSON = geoWriter.write(spBuffer);
+//     // console.log(polyGeoJSON)
+//     let polygon = geoWriter.write(spBuffer);
+//     console.log(polygon)
+//     let shapes = polygon.replace("POLYGON", "");
+//     let shapesTwo = shapes.trim();
+//     let shapesThree = shapesTwo.split("),(");
+    
+
+//       var strip = new H.geo.LineString(),
+//         newCoords = shapesThree[0].replace("(((", "").replace(")))", "").replace("((", "").replace("))", "").replace("(", "").replace(")", "").trim().split(",");
+        
+//       for (var i = 0; i < newCoords.length; i++)
+//       {
+//         var split = newCoords[i].trim().split(" ");
+//         if(split.length === 2){
+//           var lat = parseFloat(split[0]);
+//           var lon = parseFloat(split[1]);
+//           strip.pushLatLngAlt( lat, lon, 0);
+//         }
+//       }
+  
+//       var poly = new H.map.Polygon(strip, 
+//       {
+//         style:
+//         {
+//           lineWidth: 5,
+//           strokeColor: "rgba(50, 128, 128, 0.5)"
+//         }
+//       });
+//       Map.addObject(poly);
+//       Map.getViewModel().setLookAtData({
+//         bounds: poly.getBoundingBox()
+//       });
+//     }
+    deviationBuffer (pathGeo,valueBuffer) {
+      const {
+        locationTracking,
+      } = this.props;
+
+      let locationMarkerLat =  locationTracking.lat;
+      let locationMarkerLng =  locationTracking.lng;
+      let bufferArr = [];
+      let bufferArrTwo = [];
+      let i = 0;
+      let interval;
+      let latEnd;
+      let lngEnd;
+      let latStart;
+      let lngStart;
+      let res = pathGeo.W.map((item,index) => {
+      
+        if (item == 0)  
+          return
+        
+        if (!(index%3))   
+          return
+        let oneLat = item + (valueBuffer/3168*0.001);
+        let twoLng = pathGeo.W[index-1] + (valueBuffer/3168*0.001);
+        let threeLat = item - (valueBuffer/3168*0.001);
+        let fourLng = pathGeo.W[index-1] - (valueBuffer/3168*0.001);
+        latEnd = threeLat;
+        lngEnd = twoLng;
+        lngStart = fourLng;
+        latStart = oneLat;
+        let lat;
+        let lng;
+        if (i == 0) {
+        //   i = i + 1;
+        //   for (i= 1; i< 11; i++)
+        //   {
+
+        //     if ( i < 6) {
+        //       interval = 0.0001* i;
+        //       lat = latStart + interval;
+        //       lng = lngStart - interval+0.003
+        //      }
+        //      else {
+        //       interval = 0.0001*(-5+i);
+        //       lat = lat + interval;
+        //       lng = lng - interval -0.00003
+        //      }
+        //      try {
+        //        console.log(bufferArr)
+        //   bufferArr = [
+        //     ...bufferArr,
+        //     lat,
+        //     lng,
+        //   ];}
+        //   catch{}
+    
+        // }
+        }
+        else {
+          try{
+            i = i + 1;
+            bufferArr = [...bufferArr, oneLat, fourLng]
+            bufferArrTwo = [...bufferArrTwo, threeLat,twoLng]
+          }
+          catch {
+
+          }
+        }
+        if (
+          locationMarkerLat > fourLng &&
+          twoLng > locationMarkerLat ||
+          oneLat > locationMarkerLng &&
+          locationMarkerLng > threeLat
+        )    
+          return true
+        else  
+          return false
+
+      })
+      // let latTwo;
+      // let lngTwo;
+      // for (i= 1; i< 11; i++) {
+        
+    
+      //   if ( i < 6) {
+      //     interval = 0.0001*i;
+      //    latTwo = latEnd + interval -0.0006;
+      //    lngTwo = lngEnd - interval
+      //   }
+      //   else {
+      //     interval = 0.0001* (11-i);
+      //      latTwo = latTwo + interval ;
+      //      lngTwo = lngTwo - interval-0.00003
+      //   }
+      //   try {
+      //   bufferArrTwo = [
+      //     ...bufferArrTwo,
+      //     latTwo,
+      //     lngTwo,
+      //   ];
+      // }
+      // catch{}
+      // }
+    
+        if (res.indexOf(true) != -1)
+          return {dev: true, buf: bufferArr, buffTwo: bufferArrTwo}
+        else 
+          return {dev: false, buf: bufferArr,buffTwo: bufferArrTwo}
+    }
     render() {
 
       const {
@@ -719,6 +1061,9 @@ componentWillUpdate (prevProps,nextProps) {
         locationTracking,
         Routing,
         RoutingArray,
+        valueBuffer,
+        showBuffer,
+        setDeviation
       } = this.props;
       const {
         Map,
@@ -729,6 +1074,7 @@ componentWillUpdate (prevProps,nextProps) {
         groupLine,
         groupPolygon,
         markerGroupRouting,
+        markerGroupRoutingTwo,
       } = this.state;
       
       
@@ -745,7 +1091,11 @@ componentWillUpdate (prevProps,nextProps) {
             
             Map.addObject(groupLine)
             groupLine.addObject(marker)
-     
+            // var lineString = new H.geo.LineString(
+            //   [52, 13, 100, 48, 2, 100, 48, 16, 100, 52, 13, 100],
+            //   'values lat lng alt'
+            // );
+      
 
             let polygon = new H.map.Circle(
               {lat: locationTracking.lat, lng: locationTracking.lng}, 
@@ -784,19 +1134,99 @@ componentWillUpdate (prevProps,nextProps) {
 
             try {
               markerGroupRouting.removeObjects(groupMarker.getObjects())
+              markerGroupRoutingTwo.removeObjects(markerGroupRoutingTwo.getObjects())
               }
               catch {}
             let lineString = new H.geo.LineString()
-            
+            let buffer = new H.geo.LineString()
             RoutingArray.forEach(feature => {
                 lineString.pushPoint({lat: feature[0], lng: feature[1]})
             })
-            
-            let routeLine = this.styleRoutingLocation(lineString)
+ 
+          //   RoutingArray.forEach(feature => {
+          //     buffer.pushPoint({lat: feature[0], lng: feature[1]-0.01})
+          // })
+            // console.log(RoutingArray)
+            // console.log(lineString)
+            // this.bufferPoly(buffer)
+            let deviation = this.deviationBuffer(lineString,valueBuffer);
+ 
+          deviation.buffTwo.forEach((feature,index )=> {
 
-            Map.addObject(markerGroupRouting)
-            markerGroupRouting.addObject(routeLine)
+            if (index%2) {
+              
+              buffer.pushPoint({lat: deviation.buf[index], lng: deviation.buf[index-1]})
+           
+            }
+          })
+          deviation.buf.forEach((feature,index )=> {
+
+            if (index%2) {
+              buffer.pushPoint({
+                lat: deviation.buffTwo[deviation.buffTwo.length - index],
+                lng: deviation.buffTwo[deviation.buffTwo.length - index-1],
+              });
+            }
+          })
+          // console.log(buffer)
+            // console.log(deviation)
+            if (!deviation.dev) {
+              
+              setDeviation(true);
+            }
+            else {
+              console.log(deviation.dev)
+              setDeviation(false);
+            }
+            lineString.W.map((feature,index )=> {
+
+              if (index%2) {
+                markerGroupRoutingTwo.addObject(
+                  new H.map.Circle(
+                    { lat: lineString.W[index - 1], lng: lineString.W[index] },
+                    valueBuffer,
+                    {
+                      style: {
+                        fillColor: "rgba(130, 212, 247, 0.9)",
+                        strokeColor: "#829",
+                        lineWidth: 0,
+                      },
+                    }
+                  )
+                );
+                
+              }
+            })
+         
             
+            if (showBuffer) {
+              Map.addObject(markerGroupRoutingTwo)
+            }
+            else {
+              try{
+                markerGroupRoutingTwo.removeObjects(markerGroupRoutingTwo.getObjects())
+              }
+              catch{}
+            }
+            let routeLine = this.styleRoutingLocation(lineString);
+
+            Map.addObject(markerGroupRouting);
+            markerGroupRouting.addObject(routeLine);
+            
+           
+            // let buffer = new H.geo.LineString()
+
+            // Большая вторая линия
+            // let lineStringtwo = new H.geo.LineString()
+            // RoutingArray.forEach(feature => {
+            //   lineStringtwo.pushPoint({lat: feature[0], lng: feature[1]})
+            // })
+            // let routeLineTwo = this.styleRoutingLocationTwo(lineString);
+            // Map.addObject(markerGroupRoutingTwo);
+            // markerGroupRoutingTwo.addObject(routeLineTwo);
+
+
+
             // console.log(Routing.start)
             // let RoutingEnd = Routing.end;
             // let RoutingStart = Routing.start;

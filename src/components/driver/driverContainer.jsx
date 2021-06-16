@@ -76,6 +76,9 @@ class DriversContainer extends React.Component {
          statusTimer = {this.props.statusTimer}
          Arr = {this.props.Arr}
          requestDrivers= {this.props.requestDrivers}
+         deviation= {this.props.deviation}
+         valueBuffer={this.props.valueBuffer}
+         setDeviation={this.props.setDeviation}
         />
       </>
     );

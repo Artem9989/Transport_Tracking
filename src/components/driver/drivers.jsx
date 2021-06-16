@@ -101,6 +101,9 @@ const Drivers = ({
           statusTimer={statusTimer}
           Arr={Arr}
           driverList={driverList}
+          deviation={props.deviation}
+          valueBuffer={props.valueBuffer}
+          setDeviation={props.setDeviation}
           // ArrStatus={ArrStatus}
         />
         

@@ -2,7 +2,7 @@ import React from 'react';
 import FirstWindow from './components/FirstWindow';
 import AuthenticationWindow from './components/AuthenticationWindow';
 import AllUsersContainer from './components/AdminPanel/AllUsersContainer'
-import { Switch, BrowserRouter as Router,  withRouter, Route, Redirect } from 'react-router-dom';
+import { Switch, HashRouter as Router,  withRouter, Route, Redirect } from 'react-router-dom';
 import NotFound from './components/NotFound/NotFound'
 import { createBrowserHistory } from 'history';
 import { connect,Provider } from 'react-redux';
@@ -16,7 +16,9 @@ import AdminAuthContainer from './components/AdminPanel/AdminAuthContainer';
 // import 'antd/dist/antd.css';
 // import 'antd/dist/antd.dark.css';
 
-export const history = createBrowserHistory();
+
+
+
 
 
 const App = (props) => {
@@ -25,7 +27,7 @@ const App = (props) => {
 		return <Preloader />
 	  }
 	  
-
+	
 	return (
 		<>
 
@@ -40,6 +42,15 @@ const App = (props) => {
 					<Route exact path='/login' component={AuthenticationWindow}/>
 					<Redirect from="*" to='/login' component={NotFound} />
 				</Switch>
+				{/* <Switch>
+		
+					 <Route exact path='/main' component={FirstWindow}/>
+					<Route exact path='/admin' component={AdminAuthContainer} />
+					<Route exact path='/adminPanel' component={AllUsersContainer} />
+					
+					<Route exact path='/login' component={AuthenticationWindow}/>
+					<Redirect from="*" to='/login' component={NotFound} />
+				</Switch> */}
 				
 		</>
 	);
@@ -54,7 +65,8 @@ const mapStateToProps = (state) => ({
   let AppContainer = compose(withRouter, connect(mapStateToProps, { initializeApp }))(App);
   
   const TransportTracking = (props) => {
-	return <Router>
+	const history = createBrowserHistory();
+	return <Router basemname={`/${process.env.PUBLIC_URL}`}>
 	  <Provider store={store}>
 		<AppContainer />
 	  </Provider>

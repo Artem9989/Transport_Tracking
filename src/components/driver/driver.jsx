@@ -28,6 +28,9 @@ const Driver = ({
   statusTimer,
   Arr,
   driverList,
+  valueBuffer,
+  deviation,
+  setDeviation,
 //   statusOnlineValue,
   isOnline,
 //   ArrStatus
@@ -51,6 +54,16 @@ const [StatusTime, setstatusTime] = useState(true)
     }
 
   }, [driver.status]);
+  useEffect(() => {
+    // if(driver.timeSeconds > 7200){
+    //     info();
+    // }
+    console.log(deviation)
+    if(driver.status === 'On the way' && deviation) {
+      warningDeviation();
+    }
+
+  }, [deviation]);
 
   useEffect(() => {
       console.log(StatusTime)
@@ -143,6 +156,22 @@ const [StatusTime, setstatusTime] = useState(true)
         ),
     });
   }
+  function warningDeviation() {
+    setTimeout (()=> {
+      setDeviation(false);
+    },60000) 
+    Modal.warning({
+        title: `Водителя транспорта: ${driver.id} отклонился от маршрута больше чем на ${valueBuffer} метров`,
+        content: (
+          <div>
+          <p>Данные водителя: </p>
+          <p>{`Номер машины: ${driver.id} `}</p>
+          <p>{`ФИО: ${driver.lastName}  ${driver.firstName}`}</p>
+          Телефон:  <a href="tel:+79874975296" className="">+79874975296</a>
+        </div>
+        ),
+    });
+  }
 
 // const now = driver.timeSeconds;
 
@@ -159,7 +188,7 @@ const Second = Math.floor( (distance % OneMinute) / OneSecond);
 
 // let values = [Day, Hour, Minute, Second]
 const setStatusTimeout = () => {
-    debugger
+
     setstatusTime(true)
 }
 function workAndRestTest() {

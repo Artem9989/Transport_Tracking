@@ -1,0 +1,30 @@
+.btn_submit{
+    color: #fff;
+    background: #1890ff;
+    border-color: #1890ff;
+    text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+    -webkit-box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+    box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+}
+.btn_submit:hover{
+    transition: all 0.2s ease-out;
+    color: #1890ff;
+    background-color: #fff;
+    border-color: #1890ff;
+}
+.Chart_Col{
+    height: 500px;
+
+}
+.select_value{
+    margin-left: 10px;
+}
+
+.Chart_Row {
+    display: flex;
+    align-items: baseline;
+    margin: 10px;
+    justify-content: space-evenly
+}

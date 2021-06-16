@@ -68,6 +68,9 @@ class MapContainer extends React.Component {
             locationTracking={this.props.locationTracking}
             Routing={this.props.Routing}
             RoutingArray={this.props.RoutingArray}
+            valueBuffer={this.props.valueBuffer}
+            showBuffer={this.props.showBuffer}
+            setDeviation={this.props.setDeviation}
             />
         </>
     }
